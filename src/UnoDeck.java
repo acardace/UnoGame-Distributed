@@ -4,7 +4,9 @@ import java.util.*;
  * Class representing a Uno Deck
  */
 public class UnoDeck {
-    private static final int UNOCARDS_NUM = 108;
+    public static final int UNOCARDS_NUM = 108;
+    private static final int INITIAL_HAND = 7;
+    private static final int INITAL_HAND_CAPACITY = 10;
 
     //The unoCard object and how many of it there are in the deck
     private HashMap<String, UnoCardInDeck> cards;
@@ -48,7 +50,7 @@ public class UnoDeck {
         lastDiscardedCard = null;
     }
 
-    public UnoCard getNextCard(){
+    public UnoCard drawCard(){
         //randomly draw a card
         Random generator = new Random();
         List<String> keys = new ArrayList<>(cards.keySet());
@@ -58,6 +60,13 @@ public class UnoDeck {
         randomCard.setHowMany(randomCard.getHowMany()-1);
         cards.put(randomCard.getCardID(), randomCard);
         return randomCard;
+    }
+
+    public ArrayList<UnoCard> drawHand(){
+        ArrayList<UnoCard> hand = new ArrayList<>(INITAL_HAND_CAPACITY);
+        for(int i=0; i<INITIAL_HAND; i++)
+            hand.add(drawCard());
+        return hand;
     }
 
     //For debugging purposes
