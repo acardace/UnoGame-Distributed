@@ -47,7 +47,7 @@ public class UnoDeck {
         UnoCardInDeck plusFourCard = new UnoCardInDeck(Color.BLACK, SpecialType.PLUS4, 4);
         cards.put(changeColourCard.getCardID(), changeColourCard);
         cards.put(plusFourCard.getCardID(), plusFourCard);
-        lastDiscardedCard = null;
+        lastDiscardedCard = drawCard();
     }
 
     public UnoCard drawCard(){
