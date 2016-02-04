@@ -8,6 +8,10 @@ public class UnoCard {
     private boolean special;
     private SpecialType type;
 
+    public UnoCard(){
+
+    }
+
     public UnoCard(Color color, Number number){
         this.color = color;
         this.number = number;
@@ -36,5 +40,9 @@ public class UnoCard {
 
     public SpecialType getType() {
         return type;
+    }
+
+    public String getCardID(){
+        return color.toString()+number.toString()+type.toString();
     }
 }
