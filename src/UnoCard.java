@@ -43,6 +43,14 @@ public class UnoCard {
     }
 
     public String getCardID(){
-        return color.toString()+number.toString()+type.toString();
+        return color.toString()+"_"+number.toString()+"_"+type.toString();
+    }
+
+    public static String cardID(Color color, Number number){
+        return color.toString()+"_"+number.toString()+"_"+SpecialType.NONE.toString();
+    }
+
+    public static String cardID(Color color, SpecialType type){
+        return color.toString()+"_"+Number.NONE.toString()+"_"+type.toString();
     }
 }
