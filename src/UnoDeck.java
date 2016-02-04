@@ -1,7 +1,4 @@
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Class representing a Uno Deck
@@ -54,8 +51,9 @@ public class UnoDeck {
     public UnoCard getNextCard(){
         //randomly draw a card
         Random generator = new Random();
-        UnoCardInDeck[] values = (UnoCardInDeck[]) cards.values().toArray();
-        UnoCardInDeck randomCard = values[generator.nextInt(values.length)];
+        List<String> keys = new ArrayList<>(cards.keySet());
+        String randomKey = keys.get(generator.nextInt(keys.size()));
+        UnoCardInDeck randomCard = cards.get(randomKey);
         //update howMany value in the deck
         randomCard.setHowMany(randomCard.getHowMany()-1);
         cards.put(randomCard.getCardID(), randomCard);
