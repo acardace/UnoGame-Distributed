@@ -53,6 +53,7 @@ public class GamePeer implements RemotePeer {
 
     public void getGameToken(){
         hasGameToken = true;
+        System.out.println("ID: "+this.ID+" Game token received!");
     }
 
     public void getFTToken(FaultToleranceToken ftToken){
