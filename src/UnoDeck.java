@@ -50,6 +50,14 @@ public class UnoDeck {
         lastDiscardedCard = drawCard();
     }
 
+    public UnoCard getLastDiscardedCard(){
+        return lastDiscardedCard;
+    }
+
+    public void setLastDiscardedCard(UnoCard lastDiscardedCard) {
+        this.lastDiscardedCard = lastDiscardedCard;
+    }
+
     public UnoCard drawCard(){
         //randomly draw a card
         Random generator = new Random();
