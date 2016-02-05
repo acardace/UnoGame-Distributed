@@ -2,27 +2,30 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-public class GamePeer implements RemotePeer {
+public class GamePeer implements RemotePeer{
     private boolean hasGameToken;
     private boolean hasFTToken;
     private int ID;
-    public ArrayList<RemotePeer> remotePeers = null;
+    public HashMap<Integer, RemotePeer> remotePeerHashMap;
     private static final String RMI_OBJ_NAME = "RemotePeer";
 
     public GamePeer(int id){
         this.ID = id;
         hasGameToken = false;
-        remotePeers = new ArrayList<>();
+        remotePeerHashMap = new HashMap<>();
         initRMIServer();
+        //init fault tolerance thread
+
     }
 
     public GamePeer(int id, boolean hasGameToken, boolean hasFTToken){
         this.ID = id;
         this.hasGameToken = hasGameToken;
         this.hasFTToken = hasFTToken;
-        remotePeers = new ArrayList<>();
+        remotePeerHashMap = new HashMap<>();
         initRMIServer();
     }
 
@@ -45,7 +48,7 @@ public class GamePeer implements RemotePeer {
         try {
             Registry registry = LocateRegistry.getRegistry(addr);
             RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
-            remotePeers.add(remotePeer);
+            remotePeerHashMap.put(remotePeer.getID(), remotePeer);
         } catch (Exception e) {
             System.err.println("addRemotePeer exception:");
             e.printStackTrace();
@@ -55,12 +58,27 @@ public class GamePeer implements RemotePeer {
     public void sendGameToken(int peerID) throws RemoteException{
         if(hasGameToken){
             hasGameToken = false;
-            remotePeers.get(peerID).getGameToken();
+            remotePeerHashMap.get(peerID).getGameToken();
+        }
+    }
+
+    public void passFTToken(){
+        if(hasFTToken){
+            hasFTToken = false;
+            int nextPeer = getNextInRing();
+            if(nextPeer != -1) {
+                try {
+                    remotePeerHashMap.get(nextPeer).getFTToken();
+                }catch (RemoteException e){
+                    System.out.println("No other processes present in the ring");
+                }
+            }
+            else
+                System.out.println("No other processes present in the ring");
         }
     }
 
     //RemotePeer Interface implementation
-
     public int getID(){
         return this.ID;
     }
@@ -70,8 +88,25 @@ public class GamePeer implements RemotePeer {
         System.out.println("ID: "+this.ID+" Game token received!");
     }
 
-    public void getFTToken(FaultToleranceToken ftToken){
+    public void getFTToken(){
         hasFTToken = true;
+        try{
+            //Simulating processing of token
+            Thread.sleep(500);
+            passFTToken();
+            System.out.println("Token received");
+        }catch (InterruptedException e){System.out.println("Sleep interrupted");};
+    }
+
+    //get the next peerID
+    //if it return -1 it means there are no neighbours
+    public int getNextInRing(){
+        int peersNumber = remotePeerHashMap.size();
+        for(int i = getID()+UnoRules.getDirection(); i != getID(); i = (i+UnoRules.getDirection()) % peersNumber ){
+            if(remotePeerHashMap.containsKey(i))
+                return i;
+        }
+        return -1;
     }
 
 

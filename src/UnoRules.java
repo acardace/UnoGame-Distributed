@@ -9,9 +9,7 @@ public class UnoRules {
     private static Color currentColor;
     private static Number currentNumber;
     private static SpecialType currentType;
-    private static String direction; //can be FORWARD or BACKWARDS
-    private static final String FORWARD = "FORWARD";
-    private static final String BACKWARDS = "BACKWARDS";
+    private static int direction = 1; //1 = FORWARD or  -1 = BACKWARDS
 
     public static Color getCurrentColor() {
         return currentColor;
@@ -21,11 +19,11 @@ public class UnoRules {
         UnoRules.currentColor = currentColor;
     }
 
-    public static String getDirection() {
+    public static int getDirection() {
         return direction;
     }
 
-    public static void setDirection(String direction) {
+    public static void setDirection(int direction) {
         UnoRules.direction = direction;
     }
 
