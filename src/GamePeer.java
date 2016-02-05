@@ -1,3 +1,4 @@
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -7,13 +8,13 @@ public class GamePeer implements RemotePeer {
     private boolean hasGameToken;
     private boolean hasFTToken;
     private int ID;
-    private ArrayList<GamePeer> gamePeers = null;
+    public ArrayList<RemotePeer> remotePeers = null;
     private static final String RMI_OBJ_NAME = "RemotePeer";
 
     public GamePeer(int id){
         this.ID = id;
         hasGameToken = false;
-        gamePeers = new ArrayList<>();
+        remotePeers = new ArrayList<>();
         initRMIServer();
     }
 
@@ -21,7 +22,7 @@ public class GamePeer implements RemotePeer {
         this.ID = id;
         this.hasGameToken = hasGameToken;
         this.hasFTToken = hasFTToken;
-        gamePeers = new ArrayList<>();
+        remotePeers = new ArrayList<>();
         initRMIServer();
     }
 
@@ -44,11 +45,24 @@ public class GamePeer implements RemotePeer {
         try {
             Registry registry = LocateRegistry.getRegistry(addr);
             RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
-            gamePeers.add( (GamePeer) remotePeer);
+            remotePeers.add(remotePeer);
         } catch (Exception e) {
             System.err.println("addRemotePeer exception:");
             e.printStackTrace();
         }
+    }
+
+    public void sendGameToken(int peerID) throws RemoteException{
+        if(hasGameToken){
+            hasGameToken = false;
+            remotePeers.get(peerID).getGameToken();
+        }
+    }
+
+    //RemotePeer Interface implementation
+
+    public int getID(){
+        return this.ID;
     }
 
     public void getGameToken(){
