@@ -137,6 +137,13 @@ public class GamePeer implements RemotePeer{
         }
     }
 
+    private void scheduleFTTimer(int timeout){
+        ftTimer.cancel();
+        ftTimer = null;
+        ftTimer = new Timer();
+        ftTimer.schedule(new FaultToleranceThread(), timeout);
+    }
+
     //isAlive procedure in a challenge&response way
     //the process to be considered alive and correct must answer
     //with the correct size of the ring
@@ -146,8 +153,7 @@ public class GamePeer implements RemotePeer{
     public int isAlive(int ringSize){
         //cancel scheduled local failure detector
         System.out.println("isAlive(): stopping local failure detector");
-        ftTimer.cancel();
-        ftTimer = null;
+        scheduleFTTimer(ftTimeout+(ftTimeout*ID));
         return remotePeerHashMap.size();
     }
 
@@ -280,9 +286,7 @@ public class GamePeer implements RemotePeer{
                     remotePeerHashMap.get(nextPeer).getFTToken();
                     System.out.println("FTToken passed");
                     //Launch Fault tolerance timeout
-                    if(ftTimer == null)
-                        ftTimer = new Timer();
-                    ftTimer.schedule(new FaultToleranceThread(), ftTimeout);
+                    scheduleFTTimer(ftTimeout);
                     return true;
                 }catch (RemoteException e){
                     System.out.println("passFTToken(): Communication failed the next peer in the ring is down");
@@ -295,7 +299,6 @@ public class GamePeer implements RemotePeer{
             }
             return false;
         }
-
     }
 
 }
