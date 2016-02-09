@@ -22,8 +22,11 @@ public class GamePeer implements RemotePeer{
     private FTTokenPasserThread ftTokenPasserThread;
 
     private static final String RMI_OBJ_NAME = "RemotePeer";
-    private static final int FT_TIMEOUT = 3000; //in ms
     private static final int FT_RING_DIRECTION = 1;
+
+    private int ftTimeout; //in ms
+    private int tokenHoldTime = 1000; //in ms
+    private int expectedTransmissionTime = 100; //in ms
 
     public GamePeer(int id){
         this.ID = id;
@@ -42,11 +45,31 @@ public class GamePeer implements RemotePeer{
         initFT();
     }
 
+
+
     private void initFT(){
         ftTimer = new Timer();
         ftTokenPasserThread = new FTTokenPasserThread();
         ftTokenRecvLock = new ReentrantLock();
         ftTokenRecv = false;
+        tokenHoldTime = 1000;
+        expectedTransmissionTime = 100;
+        ftTimeout = tokenHoldTime*expectedTransmissionTime;
+
+    }
+
+    public void setTokenHoldTime(int tokenHoldTime) {
+        this.tokenHoldTime = tokenHoldTime;
+        updateFTTimeout();
+    }
+
+    public void setExpectedTransmissionTime(int expectedTransmissionTime) {
+        this.expectedTransmissionTime = expectedTransmissionTime;
+        updateFTTimeout();
+    }
+
+    private void updateFTTimeout(){
+        ftTimeout = (tokenHoldTime*remotePeerHashMap.size())+(expectedTransmissionTime*remotePeerHashMap.size());
     }
 
     private void initRMIServer(){
@@ -72,6 +95,7 @@ public class GamePeer implements RemotePeer{
         Registry registry = LocateRegistry.getRegistry(addr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
         remotePeerHashMap.put(remotePeer.getID(), remotePeer);
+        updateFTTimeout();
     }
 
     public void sendGameToken(int peerID) throws RemoteException{
@@ -107,6 +131,7 @@ public class GamePeer implements RemotePeer{
 
     public void reconfigureRing(ArrayList<Integer> crashedPeers){
         //reconfigure the logical ring
+        System.out.println("reconfigureRing(): reconfiguring the ring");
         for(Integer peerID: crashedPeers){
             remotePeerHashMap.remove(peerID);
         }
@@ -115,8 +140,12 @@ public class GamePeer implements RemotePeer{
     //isAlive procedure in a challenge&response way
     //the process to be considered alive and correct must answer
     //with the correct size of the ring
+    //in addition to what described above, it has the role
+    //of cancelling any pending timer and setting a new one in case
+    //the process doing the recovery procedure fails as well
     public int isAlive(int ringSize){
         //cancel scheduled local failure detector
+        System.out.println("isAlive(): stopping local failure detector");
         ftTimer.cancel();
         ftTimer = null;
         return remotePeerHashMap.size();
@@ -164,19 +193,24 @@ public class GamePeer implements RemotePeer{
             }
         }
         //reconfigure the logical ring
-        for(Integer peerID: crashedPeers){
-            remotePeerHashMap.remove(peerID);
+        if(crashedPeers.size() > 0) {
+            for (Integer peerID : crashedPeers) {
+                System.out.println("recoveryProcedure(): reconfiguring the logical ring");
+                remotePeerHashMap.remove(peerID);
+            }
         }
         if(remotePeerHashMap.size() == 0){
             System.out.println("recoveryProcedure(): The ring is empty");
             return false;
         }
         //communicate the other peers to reconfigure as well
-        for(Integer peerID: remotePeerHashMap.keySet()){
-            try{
-                remotePeerHashMap.get(peerID).reconfigureRing(crashedPeers);
-            }catch (RemoteException e){
-                System.out.println("recoveryProcedure(): Peer "+peerID+" is down, the ring will be eventually reconfigured");
+        if(crashedPeers.size() > 0) {
+            for (Integer peerID : remotePeerHashMap.keySet()) {
+                try {
+                    remotePeerHashMap.get(peerID).reconfigureRing(crashedPeers);
+                } catch (RemoteException e) {
+                    System.out.println("recoveryProcedure(): Peer " + peerID + " is down, the ring will be eventually reconfigured");
+                }
             }
         }
         //TODO recreate GameToken and infer who's next based on the peers vector clocks
@@ -191,10 +225,11 @@ public class GamePeer implements RemotePeer{
                  //internal ACK
                  ftTokenRecv = false;
                  ftTokenRecvLock.unlock();
+                 System.out.println("FT_Thread: Token received");
              }
              else {
                  ftTokenRecvLock.unlock();
-                 System.out.println("FT_Thread: Failure detected, token not received in "+FT_TIMEOUT+"ms");
+                 System.out.println("FT_Thread: Failure detected, token not received in "+ftTimeout+"ms");
                  System.out.println("FT_Thread: starting recovery procedure");
                  if( !recoveryProcedure() ){
                      ftTokenPasserThread.interrupt();
@@ -223,7 +258,7 @@ public class GamePeer implements RemotePeer{
                     //DO PASSING
                     try{
                         //Simulating processing of token
-                        Thread.sleep(1000);
+                        Thread.sleep(tokenHoldTime);
                     }catch (InterruptedException e){System.out.println("Sleep interrupted");}
                     if( !passFTToken() ){
                         System.out.println("FTTokenPasserThread: Thread terminated");
@@ -247,7 +282,7 @@ public class GamePeer implements RemotePeer{
                     //Launch Fault tolerance timeout
                     if(ftTimer == null)
                         ftTimer = new Timer();
-                    ftTimer.schedule(new FaultToleranceThread(), FT_TIMEOUT);
+                    ftTimer.schedule(new FaultToleranceThread(), ftTimeout);
                     return true;
                 }catch (RemoteException e){
                     System.out.println("passFTToken(): Communication failed the next peer in the ring is down");
