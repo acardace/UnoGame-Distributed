@@ -3,6 +3,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -101,34 +102,97 @@ public class GamePeer implements RemotePeer{
         }finally {
             ftTokenPasserThread.lock.unlock();
         }
-        System.out.println("Token received");
+    }
+
+    public void reconfigureRing(ArrayList<Integer> crashedPeers){
+        //reconfigure the logical ring
+        for(Integer peerID: crashedPeers){
+            remotePeerHashMap.remove(peerID);
+        }
+    }
+
+    //isAlive procedure in a challenge&response way
+    //the process to be considered alive and correct must answer
+    //with the correct size of the ring
+    public int isAlive(int ringSize){
+        //cancel scheduled local failure detector
+        ftTimer.cancel();
+        ftTimer = null;
+        return remotePeerHashMap.size();
+    }
+
+    public boolean hasGToken(){
+        return hasGameToken;
+    }
+
+    public void restartFaultToleranceThread(){
+        ftTimer = new Timer();
     }
 
     //get the next peerID the ring
     //if it return -1 it means there are no neighbours
     public int getNextInRing(int direction){
         int peersNumber = remotePeerHashMap.size();
-        for(int i = getID()+direction; i != getID(); i = (i+direction) % peersNumber ){
-            if(remotePeerHashMap.containsKey(i))
-                return i;
+        try {
+            for (int i = getID() + direction; i != getID(); i = (i + direction) % peersNumber) {
+                if (remotePeerHashMap.containsKey(i))
+                    return i;
+            }
+        }catch (ArithmeticException e){
+            System.out.println("getNextInRing(): no other peers in the ring");
+            return -1;
         }
         return -1;
+    }
+
+    //used when either the FTToken is lost
+    //or when in passing the token onwards
+    //we detect a crashed peer
+    private void recoveryProcedure(){
+        ArrayList<Integer> crashedPeers = new ArrayList<>();
+        boolean gameTokenLost = false;
+        //discover who has crashed
+        for(Integer peerID: remotePeerHashMap.keySet()){
+            try{
+                int ringSize = remotePeerHashMap.size();
+                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize )
+                    crashedPeers.add(peerID);
+                //check if the GameToken got lost
+                if( remotePeerHashMap.get(peerID).hasGToken() )
+                    gameTokenLost = true;
+            }catch (RemoteException e){
+                crashedPeers.add(peerID);
+            }
+        }
+        //reconfigure the logical ring
+        for(Integer peerID: crashedPeers){
+            remotePeerHashMap.remove(peerID);
+        }
+        //communicate the other peers to reconfigure as well
+        for(Integer peerID: remotePeerHashMap.keySet()){
+            try{
+                remotePeerHashMap.get(peerID).reconfigureRing(crashedPeers);
+            }catch (RemoteException e){
+                System.out.println("Peer "+peerID+" is down, the ring will be eventually reconfigured");
+            }
+        }
+        //TODO recreate GameToken and infer who's next based on the peers vector clocks
     }
 
     public class FaultToleranceThread extends TimerTask{
 
          public void run(){
              ftTokenRecvLock.lock();
-             System.out.println("Timeout Elapsed");
              if(ftTokenRecv) {
                  //internal ACK
                  ftTokenRecv = false;
                  ftTokenRecvLock.unlock();
-                 System.out.println("FT TOKEN OK");
              }
              else {
                  ftTokenRecvLock.unlock();
                  System.out.println("FT_Thread: Failure detected, token not received in "+FT_TIMEOUT+"ms");
+                 System.out.println("passFTToken(): starting recovery procedure");
+                 recoveryProcedure();
              }
          }
     }
@@ -169,17 +233,20 @@ public class GamePeer implements RemotePeer{
                 try {
                     //Pass token
                     remotePeerHashMap.get(nextPeer).getFTToken();
-                    System.out.println("Token Sent");
                     //Launch Fault tolerance timeout
+                    if(ftTimer == null)
+                        ftTimer = new Timer();
                     ftTimer.schedule(new FaultToleranceThread(), FT_TIMEOUT);
                     break;
                 }catch (RemoteException e){
-                    System.out.println("Communication failed, removing host from hashMap");
-                    remotePeerHashMap.remove(nextPeer);
+                    System.out.println("passFTToken(): Communication failed the next peer in the ring is down");
+                    System.out.println("passFTToken(): starting recovery procedure");
+                    recoveryProcedure();
                 }
                 nextPeer = getNextInRing(FT_RING_DIRECTION);
             }
         }
+
     }
 
 }
