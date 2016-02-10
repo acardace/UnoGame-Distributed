@@ -153,6 +153,7 @@ public class GamePeer implements RemotePeer{
     public int isAlive(int ringSize){
         //cancel scheduled local failure detector
         System.out.println("isAlive(): stopping local failure detector");
+        System.out.println("isAlive(): starting recovery timeout");
         scheduleFTTimer(ftTimeout+(ftTimeout*ID));
         return remotePeerHashMap.size();
     }
@@ -239,9 +240,10 @@ public class GamePeer implements RemotePeer{
                  System.out.println("FT_Thread: starting recovery procedure");
                  if( !recoveryProcedure() ){
                      ftTokenPasserThread.interrupt();
-                     System.out.println("FaultToleranceThread: Terminating tokenPasser thread");
-                 }
-
+                     System.out.println("FT_Thread: Recovery did not complete");
+                     System.out.println("FT_Thread: Terminating tokenPasser thread");
+                 }else
+                     System.out.println("FT_Thread: Recovery completed");
              }
          }
     }
