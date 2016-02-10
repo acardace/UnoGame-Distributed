@@ -116,17 +116,14 @@ public class GamePeer implements RemotePeer{
     }
 
     public void getFTToken(){
-        System.out.println("FTToken received");
         ftTokenRecvLock.lock();
         ftTokenRecv = true;
         ftTokenRecvLock.unlock();
-        try {
-            ftTokenPasserThread.lock.lock();
-            hasFTToken = true;
-            ftTokenPasserThread.recvdFTToken.signal();
-        }finally {
-            ftTokenPasserThread.lock.unlock();
-        }
+        ftTokenPasserThread.lock.lock();
+        hasFTToken = true;
+        ftTokenPasserThread.recvdFTToken.signal();
+        ftTokenPasserThread.lock.unlock();
+        System.out.println("FTToken received");
     }
 
     public void reconfigureRing(ArrayList<Integer> crashedPeers){
@@ -166,9 +163,13 @@ public class GamePeer implements RemotePeer{
     //get the next peerID the ring
     //if it return -1 it means there are no neighbours
     public int getNextInRing(int direction){
-        int peersNumber = remotePeerHashMap.size();
+        int peers = remotePeerHashMap.size()+1;
         try {
-            for (int i = getID() + direction; i != getID(); i = (i + direction) % peersNumber) {
+            for (int i = getID()+direction; i != getID(); i = i+direction) {
+                if(i>peers)
+                    i = 1;
+                else if(i==0)
+                    i = peers;
                 if (remotePeerHashMap.containsKey(i))
                     return i;
             }
@@ -280,13 +281,15 @@ public class GamePeer implements RemotePeer{
         }
 
         private boolean passFTToken(){
-            hasFTToken = false;
             int nextPeer = getNextInRing(FT_RING_DIRECTION);
             while(nextPeer != -1 ){
                 try {
                     //Pass token
                     remotePeerHashMap.get(nextPeer).getFTToken();
                     System.out.println("FTToken passed");
+                    lock.lock();
+                    hasFTToken = false;
+                    lock.unlock();
                     //Launch Fault tolerance timeout
                     scheduleFTTimer(ftTimeout);
                     return true;
@@ -299,6 +302,7 @@ public class GamePeer implements RemotePeer{
                 }
                 nextPeer = getNextInRing(FT_RING_DIRECTION);
             }
+            System.out.println("passFTToken(): Empty ring");
             return false;
         }
     }

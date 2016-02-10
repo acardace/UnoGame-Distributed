@@ -6,8 +6,6 @@ public class Main {
         //Main peerID remotePeer
         GamePeer p1 = new GamePeer(Integer.parseInt(args[0]),
                 Integer.parseInt(args[0]) == 1 , ( Integer.parseInt(args[0]) == 1 ));
-        p1.setExpectedTransmissionTime(1000);
-        p1.setTokenHoldTime(500);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input something to go on");
         scanner.next();
