@@ -56,8 +56,6 @@ public class GamePeer implements RemotePeer{
         initFT();
     }
 
-
-
     private void initFT(){
         ftTimer = new Timer();
         ftTokenPasserThread = new FTTokenPasserThread();
