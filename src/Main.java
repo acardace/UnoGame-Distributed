@@ -3,6 +3,7 @@ import java.util.Scanner;
 //TESTING
 public class Main {
     public static void main(String[] args){
+
         //Main peerID remotePeer
         GamePeer p1 = new GamePeer(Integer.parseInt(args[0]),
                 Integer.parseInt(args[0]) == 1 , ( Integer.parseInt(args[0]) == 1 ));
