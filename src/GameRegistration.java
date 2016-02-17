@@ -72,24 +72,25 @@ public class GameRegistration implements RemoteRegistration {
         syncPlayersLock.unlock();
     }
 
-    private int[] registerPlayer(int id, String addr) throws  RemoteException, NotBoundException {
+    private PlayerReady[] registerPlayer(int id, String addr) throws  RemoteException, NotBoundException {
         // insert player in "play room"
         Registry registry = LocateRegistry.getRegistry(addr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
 
         if(id > 0) {
-            playersHashMap.put(id, new PlayerReady(remotePeer, false));
+            playersHashMap.put(id, new PlayerReady(addr, remotePeer, false));
         }
 
         Integer[] playersId = (Integer[]) playersHashMap.keySet().toArray();
-        int[] playersIntID = new int[playersId.length];
+        PlayerReady[] playersAll = new PlayerReady[playersId.length];
 
         for(int i=0;i<playersId.length;i++) {
-            if (playersId != null)
-                playersIntID[i] = playersId[i].intValue();
+            if (playersId[i] != null) {
+                playersAll[i] = playersHashMap.get(playersId[i]);
+            }
         }
 
-        return playersIntID;
+        return playersAll;
     }
 
     @Override
@@ -111,7 +112,7 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     @Override
-    public int[] playerRegistration(int id, String addr) throws RemoteException, NotBoundException {
+    public PlayerReady[] playerRegistration(int id, String addr) throws RemoteException, NotBoundException {
         return registerPlayer(id, addr);
     }
 
