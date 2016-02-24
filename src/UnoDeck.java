@@ -1,12 +1,15 @@
+import java.io.Serializable;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 /**
  * Class representing a Uno Deck
  */
-public class UnoDeck {
+public class UnoDeck implements Serializable{
     public static final int UNOCARDS_NUM = 108;
     private static final int INITIAL_HAND = 7;
     private static final int INITAL_HAND_CAPACITY = 10;
+    public ArrayList<UnoCardInDeck> pickedCard= new ArrayList<UnoCardInDeck>();
 
     //The unoCard object and how many of it there are in the deck
     private HashMap<String, UnoCardInDeck> cards;
@@ -48,6 +51,7 @@ public class UnoDeck {
         cards.put(changeColourCard.getCardID(), changeColourCard);
         cards.put(plusFourCard.getCardID(), plusFourCard);
         lastDiscardedCard = drawCard();
+        System.out.println(cards.size());
     }
 
     public UnoCard getLastDiscardedCard(){
@@ -66,8 +70,13 @@ public class UnoDeck {
         UnoCardInDeck randomCard = cards.get(randomKey);
         //update howMany value in the deck
         randomCard.setHowMany(randomCard.getHowMany()-1);
-        cards.put(randomCard.getCardID(), randomCard);
+       // cards.put(randomCard.getCardID(), randomCard);
+        pickedCard.add(randomCard);
+        if(randomCard.getHowMany()<1){
+            cards.remove(randomCard.getCardID());
+        }
         return randomCard;
+
     }
 
     public ArrayList<UnoCard> drawHand(){
@@ -75,6 +84,20 @@ public class UnoDeck {
         for(int i=0; i<INITIAL_HAND; i++)
             hand.add(drawCard());
         return hand;
+    }
+
+    public void resetPickedCard(){
+        this.pickedCard.clear();
+    };
+
+    public void removeCardFromDeck(ArrayList<UnoCardInDeck> justPicked){
+        for (int i = 0; i < justPicked.size(); i++) {
+            justPicked.get(i).setHowMany(justPicked.get(i).getHowMany()-1);
+            if(justPicked.get(i).getHowMany()<1){
+                cards.remove(justPicked.get(i).getCardID());
+            }
+        }
+        System.out.println(cards.size());
     }
 
     //For debugging purposes
@@ -87,7 +110,8 @@ public class UnoDeck {
         }
     }
 
-    public class UnoCardInDeck extends UnoCard{
+
+    public class UnoCardInDeck extends UnoCard implements Serializable{
         private int howMany;
 
         public UnoCardInDeck(Color color, Number number, int howMany){
