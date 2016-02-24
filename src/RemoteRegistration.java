@@ -10,7 +10,7 @@ public interface RemoteRegistration extends Remote {
     public int getNewPlayerID() throws RemoteException;
 
     // function to register new player in the registration server
-    public PlayerReady[] playerRegistration(int id, String addr) throws RemoteException, NotBoundException;
+    public PlayerReady[] playerRegistration(int id, String playerAddr) throws RemoteException, NotBoundException;
 
     // returns an array with all players id
     public int[] getPlayersID() throws RemoteException;
