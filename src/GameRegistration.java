@@ -10,9 +10,6 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Created by michele on 16/02/16.
- */
 public class GameRegistration implements RemoteRegistration {
     private static final String RMI_REG_OBJ_NAME = "RegistrationService";
     private static final String RMI_OBJ_NAME = "RemotePeer";
@@ -70,15 +67,16 @@ public class GameRegistration implements RemoteRegistration {
         syncPlayersLock.lock();
         syncPlayersCondition.signalAll();
         syncPlayersLock.unlock();
+        System.out.println("Game started");
     }
 
-    private PlayerReady[] registerPlayer(int id, String addr) throws  RemoteException, NotBoundException {
+    private PlayerReady[] registerPlayer(int id, String playerAddr) throws  RemoteException, NotBoundException {
         // insert player in "play room"
-        Registry registry = LocateRegistry.getRegistry(addr);
+        Registry registry = LocateRegistry.getRegistry(playerAddr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
 
         if(id > 0) {
-            playersHashMap.put(id, new PlayerReady(addr, remotePeer, false));
+            playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
         }
 
         Integer[] playersId = (Integer[]) playersHashMap.keySet().toArray();
@@ -112,8 +110,8 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     @Override
-    public PlayerReady[] playerRegistration(int id, String addr) throws RemoteException, NotBoundException {
-        return registerPlayer(id, addr);
+    public PlayerReady[] playerRegistration(int id, String playerAddr) throws RemoteException, NotBoundException {
+        return registerPlayer(id, playerAddr);
     }
 
     @Override
@@ -127,10 +125,10 @@ public class GameRegistration implements RemoteRegistration {
         }
         else {
             if(playersReadyCounter >= MIN_START_PLAYERS)
-            // todo controlla se timeout già partito else fallo partire
                 setGameStartTimer(START_GAME_TIMEOUT);
 
             // todo blocca esecuzione in attesa dello start
+            System.out.println("Player "+playerID+"waiting...");
             waitGameStart();
         }
     }
@@ -145,7 +143,6 @@ public class GameRegistration implements RemoteRegistration {
             RemoteRegistration stub = (RemoteRegistration) UnicastRemoteObject.exportObject(registrationService, 0);
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind(RMI_REG_OBJ_NAME, stub);
-
             System.out.println(RMI_REG_OBJ_NAME+" bound");
         }
         catch (Exception e) {

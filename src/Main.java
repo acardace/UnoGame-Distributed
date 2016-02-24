@@ -1,14 +1,16 @@
+import java.net.Inet4Address;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 //TESTING
 public class Main {
-    private static final String REGISTRATION_SERVICE = "RegistryService";
+    private static final String REGISTRATION_SERVICE = "RegistrationService";
 
     public static void main(String[] args){
         int myPlayerID = -1;
-        String addr = "XXX ADDRESS DA METTERE QUELLO VERO";
+        String serverAddr = args[0];
+        GamePeer p1;
         // start
 
         if (System.getSecurityManager() == null) {
@@ -16,14 +18,17 @@ public class Main {
         }
 
         try {
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(serverAddr);
             RemoteRegistration regService = (RemoteRegistration) registry.lookup(REGISTRATION_SERVICE);
             myPlayerID = regService.getNewPlayerID();
 
             //Main peerID remotePeer
-            GamePeer p1 = new GamePeer(myPlayerID, true , true);
+            if(myPlayerID == 1)
+                p1 = new GamePeer(myPlayerID, true , true);
+            else
+                p1 = new GamePeer(myPlayerID, false , false);
 
-            PlayerReady[] allActualPlayers = regService.playerRegistration(myPlayerID, addr);
+            PlayerReady[] allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 
             for(int i=0;i<allActualPlayers.length;i++) {
                 String playerAddr = allActualPlayers[i].addr;
