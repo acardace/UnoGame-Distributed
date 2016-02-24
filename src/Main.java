@@ -1,6 +1,7 @@
 import java.net.Inet4Address;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //TESTING
@@ -28,10 +29,9 @@ public class Main {
             else
                 p1 = new GamePeer(myPlayerID, false , false);
 
-            PlayerReady[] allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
+            ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 
-            for(int i=0;i<allActualPlayers.length;i++) {
-                String playerAddr = allActualPlayers[i].addr;
+            for(String playerAddr: allActualPlayers) {
                 p1.addRemotePeer(playerAddr);
 
                 System.out.println(playerAddr + " added!");

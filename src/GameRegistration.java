@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,7 +71,7 @@ public class GameRegistration implements RemoteRegistration {
         System.out.println("Game started");
     }
 
-    private PlayerReady[] registerPlayer(int id, String playerAddr) throws  RemoteException, NotBoundException {
+    private ArrayList<String> registerPlayer(int id, String playerAddr) throws  RemoteException, NotBoundException {
         // insert player in "play room"
         Registry registry = LocateRegistry.getRegistry(playerAddr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
@@ -79,13 +80,9 @@ public class GameRegistration implements RemoteRegistration {
             playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
         }
 
-        Integer[] playersId = (Integer[]) playersHashMap.keySet().toArray();
-        PlayerReady[] playersAll = new PlayerReady[playersId.length];
-
-        for(int i=0;i<playersId.length;i++) {
-            if (playersId[i] != null) {
-                playersAll[i] = playersHashMap.get(playersId[i]);
-            }
+        ArrayList<String> playersAll = new ArrayList<>();
+        for (Integer key: playersHashMap.keySet()){
+            playersAll.add(playersHashMap.get(key).addr);
         }
 
         return playersAll;
@@ -110,7 +107,7 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     @Override
-    public PlayerReady[] playerRegistration(int id, String playerAddr) throws RemoteException, NotBoundException {
+    public ArrayList<String> playerRegistration(int id, String playerAddr) throws RemoteException, NotBoundException {
         return registerPlayer(id, playerAddr);
     }
 
