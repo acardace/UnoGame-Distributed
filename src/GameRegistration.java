@@ -116,15 +116,11 @@ public class GameRegistration implements RemoteRegistration {
         playersHashMap.get(playerID).playerReady = true;
         playersReadyCounter++;
 
-        if(playersReadyCounter == playersCounter) {
-            // todo sblocca tutti e lancia il gioco
+        if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == playersCounter)
             gameStart();
-        }
         else {
             if(playersReadyCounter >= MIN_START_PLAYERS)
                 setGameStartTimer(START_GAME_TIMEOUT);
-
-            // todo blocca esecuzione in attesa dello start
             System.out.println("Player "+playerID+"waiting...");
             waitGameStart();
         }
