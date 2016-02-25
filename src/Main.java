@@ -35,14 +35,13 @@ public class Main {
                 p1.addRemotePeer(playerAddr);
 
                 System.out.println(playerAddr + " added!");
-                p1.startFTTokenPassing();
             }
 
             // todo send broadcast to all others players
 
             // declare ready and wait
             regService.playerReady(myPlayerID);
-
+            p1.startFTTokenPassing();
         } catch (Exception e) {
             System.err.println(REGISTRATION_SERVICE + " exception:");
             e.printStackTrace();

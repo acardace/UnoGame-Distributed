@@ -76,13 +76,13 @@ public class GameRegistration implements RemoteRegistration {
         Registry registry = LocateRegistry.getRegistry(playerAddr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
 
-        if(id > 0) {
-            playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
-        }
-
         ArrayList<String> playersAll = new ArrayList<>();
         for (Integer key: playersHashMap.keySet()){
             playersAll.add(playersHashMap.get(key).addr);
+        }
+
+        if(id > 0) {
+            playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
         }
 
         return playersAll;
@@ -121,7 +121,7 @@ public class GameRegistration implements RemoteRegistration {
         else {
             if(playersReadyCounter >= MIN_START_PLAYERS)
                 setGameStartTimer(START_GAME_TIMEOUT);
-            System.out.println("Player "+playerID+"waiting...");
+            System.out.println("Player "+playerID+" waiting...");
             waitGameStart();
         }
     }

@@ -53,7 +53,6 @@ public class GamePeer implements RemotePeer{
         tokenHoldTime = 1000;
         expectedTransmissionTime = 100;
         ftTimeout = tokenHoldTime*expectedTransmissionTime;
-
     }
 
     public void setTokenHoldTime(int tokenHoldTime) {
