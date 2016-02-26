@@ -65,10 +65,29 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     private void gameStart() {
+        announcePlayers();
         syncPlayersLock.lock();
         syncPlayersCondition.signalAll();
         syncPlayersLock.unlock();
         System.out.println("Game started");
+    }
+
+    //broadcast to all the players the complete list
+    private void announcePlayers(){
+        HashMap<Integer, String> allPlayers = new HashMap<>();
+        for (Integer key: playersHashMap.keySet())
+            allPlayers.put(key, playersHashMap.get(key).addr);
+
+        for (Integer key: playersHashMap.keySet()) {
+            try {
+                HashMap<Integer, String> players = (HashMap<Integer,String>) allPlayers.clone();
+                players.remove(key);
+                playersHashMap.get(key).playerRef.addPlayers(players);
+            } catch (RemoteException e) {
+                System.err.println("announcePlayers(): Failed communications with player at " + playersHashMap.get(key).addr);
+                e.printStackTrace();
+            }
+        }
     }
 
     private ArrayList<String> registerPlayer(int id, String playerAddr) throws  RemoteException, NotBoundException {

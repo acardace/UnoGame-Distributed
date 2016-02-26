@@ -33,8 +33,6 @@ public class Main {
 
             for(String playerAddr: allActualPlayers) {
                 p1.addRemotePeer(playerAddr);
-
-                System.out.println(playerAddr + " added!");
             }
 
             // todo send broadcast to all others players

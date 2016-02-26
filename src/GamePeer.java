@@ -1,3 +1,6 @@
+import java.awt.image.AreaAveragingScaleFilter;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -93,6 +96,7 @@ public class GamePeer implements RemotePeer{
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
         remotePeerHashMap.put(remotePeer.getID(), remotePeer);
         updateFTTimeout();
+        System.out.println(addr + " added!");
     }
 
     public void sendGameToken(int peerID) throws RemoteException{
@@ -103,15 +107,18 @@ public class GamePeer implements RemotePeer{
     }
 
     //RemotePeer Interface implementation
+    @Override
     public int getID(){
         return this.ID;
     }
 
+    @Override
     public void getGameToken(){
         hasGameToken = true;
         System.out.println("ID: "+this.ID+" Game token received!");
     }
 
+    @Override
     public void getFTToken(){
         ftTokenRecvLock.lock();
         ftTokenRecv = true;
@@ -123,6 +130,21 @@ public class GamePeer implements RemotePeer{
         System.out.println("FTToken received");
     }
 
+    @Override
+    public void addPlayers(HashMap<Integer, String> peers){
+        for (Integer key: peers.keySet()){
+            try {
+                if (!remotePeerHashMap.containsKey(key))
+                    addRemotePeer(peers.get(key));
+            }catch(NotBoundException e){
+                System.err.println("addPlayers(): Player at "+peers.get(key)+" not bound");
+            }catch (RemoteException e){
+                System.err.println("addPlayers(): Failed communication with player at "+peers.get(key));
+            }
+        }
+    }
+
+    @Override
     public void reconfigureRing(ArrayList<Integer> crashedPeers){
         //reconfigure the logical ring
         System.out.println("reconfigureRing(): reconfiguring the ring");
@@ -131,19 +153,13 @@ public class GamePeer implements RemotePeer{
         }
     }
 
-    private void scheduleFTTimer(int timeout){
-        ftTimer.cancel();
-        ftTimer = null;
-        ftTimer = new Timer();
-        ftTimer.schedule(new FaultToleranceThread(), timeout);
-    }
-
     //isAlive procedure in a challenge&response way
     //the process to be considered alive and correct must answer
     //with the correct size of the ring
     //in addition to what described above, it has the role
     //of cancelling any pending timer and setting a new one in case
     //the process doing the recovery procedure fails as well
+    @Override
     public int isAlive(int ringSize){
         //cancel scheduled local failure detector
         System.out.println("isAlive(): stopping local failure detector");
@@ -152,8 +168,16 @@ public class GamePeer implements RemotePeer{
         return remotePeerHashMap.size();
     }
 
+    @Override
     public boolean hasGToken(){
         return hasGameToken;
+    }
+
+    private void scheduleFTTimer(int timeout){
+        ftTimer.cancel();
+        ftTimer = null;
+        ftTimer = new Timer();
+        ftTimer.schedule(new FaultToleranceThread(), timeout);
     }
 
 
