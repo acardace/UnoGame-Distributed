@@ -3,12 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by michele on 27/02/16.
- */
-public class StartFrame extends JFrame {
+public class StartFrame extends JFrame{
 
-    public StartFrame(Main startObj) {
+    public StartFrame() {
         super("Distributed UNO");
 
         Container testC = this.getContentPane();
@@ -17,7 +14,13 @@ public class StartFrame extends JFrame {
         JLabel unoLabel = new JLabel("Press play button to start the game");
         JButton startPlayBtn = new JButton("Play");
 
-        startPlayBtn.addActionListener(startObj);
+        ActionListener startPlayBtnListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("Button Clicked");
+            }
+        };
+        startPlayBtn.addActionListener(startPlayBtnListener);
 
         this.add(unoLabel);
         this.add(startPlayBtn);
