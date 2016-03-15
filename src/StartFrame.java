@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class StartFrame extends JFrame{
 
-    public StartFrame() {
+    public StartFrame(final RemoteRegistration regService, final int playerId) {
         super("Distributed UNO");
 
         Container testC = this.getContentPane();
@@ -17,6 +17,13 @@ public class StartFrame extends JFrame{
         ActionListener startPlayBtnListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                   regService.playerReady(playerId);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println("Button Clicked");
             }
         };

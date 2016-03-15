@@ -11,6 +11,8 @@ public class GUI{
     private static final String REGISTRATION_SERVICE = "RegistrationService";
 
     public static void main(String[] args) {
+        RemoteRegistration regService = null;
+
         // start
         if (args.length < 1){
             System.err.println("no command line argument for the server address");
@@ -27,7 +29,7 @@ public class GUI{
 
         try {
             Registry registry = LocateRegistry.getRegistry(serverAddr);
-            RemoteRegistration regService = (RemoteRegistration) registry.lookup(REGISTRATION_SERVICE);
+            regService = (RemoteRegistration) registry.lookup(REGISTRATION_SERVICE);
             myPlayerID = regService.getNewPlayerID();
 
             //Main peerID remotePeer
@@ -53,7 +55,7 @@ public class GUI{
         }
 
         // start GUI with play button
-        StartFrame startGUIFrame = new StartFrame();
+        StartFrame startGUIFrame = new StartFrame(regService, myPlayerID);
     }
 
 }
