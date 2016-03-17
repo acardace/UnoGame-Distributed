@@ -9,6 +9,6 @@ public interface RemotePeer extends Remote{
     int isAlive(int ringSize) throws RemoteException;
     void reconfigureRing(ArrayList<Integer> crashedPeers) throws RemoteException;
     boolean hasGToken() throws RemoteException;
-    void getGlobalState(int sender, int hand_cnt, ArrayList<UnoDeck.UnoCardInDeck> removedCards) throws RemoteException;
-    void setGlobalState(int sender, int hand_cnt, ArrayList<UnoDeck.UnoCardInDeck> removedCards) throws RemoteException;
+    void getGlobalState(int sender, int hand_cnt, int howManyPicked) throws RemoteException;
+    void setGlobalState() throws RemoteException;
 }

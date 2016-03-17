@@ -1,65 +1,31 @@
-import java.net.Inet4Address;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.ArrayList;
+import GUI.Table;
+
 import java.util.Scanner;
+import java.util.Timer;
 
 //TESTING
 public class Main {
-    private static final String REGISTRATION_SERVICE = "RegistrationService";
-
     public static void main(String[] args){
-        int myPlayerID = -1;
-        String serverAddr = args[0];
-        GamePeer p1;
-        // start
-
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
-
-        try {
-            Registry registry = LocateRegistry.getRegistry(serverAddr);
-            RemoteRegistration regService = (RemoteRegistration) registry.lookup(REGISTRATION_SERVICE);
-            myPlayerID = regService.getNewPlayerID();
-
-            //Main peerID remotePeer
-            if(myPlayerID == 1)
-                p1 = new GamePeer(myPlayerID, true , true);
-            else
-                p1 = new GamePeer(myPlayerID, false , false);
-
-            ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
-
-            for(String playerAddr: allActualPlayers) {
-                p1.addRemotePeer(playerAddr);
-
-                System.out.println(playerAddr + " added!");
-                p1.startFTTokenPassing();
-            }
-
-            // todo send broadcast to all others players
-
-            // declare ready and wait
-            regService.playerReady(myPlayerID);
-
-        } catch (Exception e) {
-            System.err.println(REGISTRATION_SERVICE + " exception:");
-            e.printStackTrace();
-        }
-        ////
-
-
-
-
-        /*Scanner scanner = new Scanner(System.in);
+        //Main peerID remotePeer
+        UnoPlayer player =new UnoPlayer();
+        long seed= 5;
+        UnoDeck deck =new UnoDeck(seed);
+        GamePeer p1 = new GamePeer(Integer.parseInt(args[0]),
+                Integer.parseInt(args[0]) == 1 , ( Integer.parseInt(args[0]) == 1 ), player, deck );
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Input something to go on");
         scanner.next();
-        System.out.println("Adding remote peer "+args[1]);
+        Table newTable=new Table();
+        newTable.setSize(640,420);
         try {
-
+            p1.addRemotePeer(args[1]);
+            p1.startFTTokenPassing();
+            if (!player.getHasInitialHand() && p1.getID()==1){
+                p1.initGT();
+                p1.initialHand();
+            }
         }catch (Exception e){
             System.out.println("Connection refused");
-        }*/
+        }
     }
 }
