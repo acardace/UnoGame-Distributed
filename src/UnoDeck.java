@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class UnoDeck implements Serializable{
     public static final int UNOCARDS_NUM = 108;
-    private static final int INITIAL_HAND = 50;
+    private static final int INITIAL_HAND = 7;
     private static final int INITAL_HAND_CAPACITY = 10;
     private int howManyPicked=0;
 
