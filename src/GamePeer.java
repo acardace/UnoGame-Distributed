@@ -17,12 +17,17 @@ public class GamePeer implements RemotePeer{
     public HashMap<Integer, RemotePeer> remotePeerHashMap;
     public ReentrantLock ftTokenRecvLock;
     public boolean ftTokenRecv;
+    public int[] vectorClock;
 
     private boolean hasGameToken;
     private boolean hasFTToken;
     private int ID;
     private Timer ftTimer;
+    private Timer gameTimer;
     private FTTokenPasserThread ftTokenPasserThread;
+    private int tmp_hand_cnt;
+    private UnoPlayer unoPlayer;
+    private UnoDeck unoDeck;
 
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int FT_RING_DIRECTION = 1;
@@ -30,20 +35,26 @@ public class GamePeer implements RemotePeer{
     private int ftTimeout; //in ms
     private int tokenHoldTime = 1000; //in ms
     private int expectedTransmissionTime = 100; //in ms
+    private static final int gTimeout = 1000; //in ms
 
     public GamePeer(int id){
         this.ID = id;
         hasGameToken = false;
         remotePeerHashMap = new HashMap<>();
+        vectorClock= new int[8];
         initRMIServer();
         initFT();
     }
 
-    public GamePeer(int id, boolean hasGameToken, boolean hasFTToken){
+    public GamePeer(int id, boolean hasGameToken, boolean hasFTToken, UnoPlayer unoPlayer, UnoDeck unoDeck){
         this.ID = id;
         this.hasGameToken = hasGameToken;
         this.hasFTToken = hasFTToken;
+        this.unoPlayer = unoPlayer;
+        this.unoDeck = unoDeck;
         remotePeerHashMap = new HashMap<>();
+        vectorClock= new int[8];
+        //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
         initFT();
     }
@@ -56,6 +67,12 @@ public class GamePeer implements RemotePeer{
         tokenHoldTime = 1000;
         expectedTransmissionTime = 100;
         ftTimeout = tokenHoldTime*expectedTransmissionTime;
+    }
+
+    public void initGT(){ //for testing purpose it is public
+        if(hasGameToken){
+            getGameToken();
+        }
     }
 
     public void setTokenHoldTime(int tokenHoldTime) {
@@ -99,13 +116,6 @@ public class GamePeer implements RemotePeer{
         System.out.println(addr + " added!");
     }
 
-    public void sendGameToken(int peerID) throws RemoteException{
-        if(hasGameToken){
-            hasGameToken = false;
-            remotePeerHashMap.get(peerID).getGameToken();
-        }
-    }
-
     //RemotePeer Interface implementation
     @Override
     public int getID(){
@@ -115,7 +125,20 @@ public class GamePeer implements RemotePeer{
     @Override
     public void getGameToken(){
         hasGameToken = true;
-        System.out.println("ID: "+this.ID+" Game token received!");
+        System.out.println("\n\n\n\n\nID: " + this.ID + " Game token received!");
+
+    }
+
+    public void sendGameToken() throws RemoteException{
+        if(hasGameToken){
+            int peerID=getNextInRing(1);//prendere la direzione
+            vectorClock[this.ID-1]=tmp_hand_cnt+1;
+            System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
+            hasGameToken = false;
+            remotePeerHashMap.get(peerID).getGameToken();
+            setGlobalState();
+            killGameTimer();
+        }
     }
 
     @Override
@@ -127,7 +150,7 @@ public class GamePeer implements RemotePeer{
         hasFTToken = true;
         ftTokenPasserThread.recvdFTToken.signal();
         ftTokenPasserThread.lock.unlock();
-        System.out.println("FTToken received");
+        //System.out.println("FTToken received");
     }
 
     @Override
@@ -246,6 +269,56 @@ public class GamePeer implements RemotePeer{
         return true;
     }
 
+
+    public void getGlobalState(int sender, int hand_cnt, int howManyPicked){
+        vectorClock[sender-1]=hand_cnt;
+        tmp_hand_cnt=hand_cnt;
+        unoDeck.setHowManyPicked(0);
+        System.out.println("Initial:"+unoDeck.getHowManyPicked()+
+                "\nRemovedFromOther:"+howManyPicked);
+
+        unoDeck.removeCardFromDeck(howManyPicked);
+        if(hasGameToken){
+            if(!unoPlayer.getHasInitialHand()){
+                initialHand();
+            }
+            else{
+                gameTimer = new Timer();
+                gameTimer.schedule(new GameTimerThread(), gTimeout);
+            }
+        }
+
+    }
+
+    public void setGlobalState() throws RemoteException{
+        int hand_cnt = tmp_hand_cnt+1;
+        int pickedCnt=unoDeck.getHowManyPicked();
+        for(Integer peerID: remotePeerHashMap.keySet()){
+            try{
+                if(peerID!=this.ID)
+                remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt);
+            }catch (RemoteException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void initialHand(){
+        unoPlayer.drawInitialHand(this.unoDeck);
+        System.out.println("Draw Hand");
+        try {
+            this.sendGameToken();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void killGameTimer(){
+        gameTimer.cancel();
+        gameTimer=null;
+    }
+
+
     public class FaultToleranceThread extends TimerTask{
 
          public void run(){
@@ -254,7 +327,7 @@ public class GamePeer implements RemotePeer{
                  //internal ACK
                  ftTokenRecv = false;
                  ftTokenRecvLock.unlock();
-                 System.out.println("FT_Thread: Token received");
+                 //System.out.println("FT_Thread: Token received");
              }
              else {
                  ftTokenRecvLock.unlock();
@@ -307,7 +380,7 @@ public class GamePeer implements RemotePeer{
                 try {
                     //Pass token
                     remotePeerHashMap.get(nextPeer).getFTToken();
-                    System.out.println("FTToken passed");
+                    //System.out.println("FTToken passed");
                     lock.lock();
                     hasFTToken = false;
                     lock.unlock();
@@ -325,6 +398,25 @@ public class GamePeer implements RemotePeer{
             }
             System.out.println("passFTToken(): Empty ring");
             return false;
+        }
+    }
+
+
+
+
+    public class GameTimerThread extends TimerTask{
+
+        public void run(){
+
+            //Sei un coglione che hai fatto scadere il tempo
+            //beccati sta carta, e neanche la butti così la prossima volta ti sbrighi
+            System.out.println("Hand timeout elapsed! Default step");
+            unoPlayer.getCardfromDeck(unoDeck);
+            try {
+                sendGameToken();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     }
 
