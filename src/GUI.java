@@ -34,9 +34,10 @@ public class GUI{
 
             //Main peerID remotePeer
             if (myPlayerID == 1)
-                p1 = new GamePeer(myPlayerID, true, true);
+                //TODO creare seme da madare al deck e tenere traccia del player e del deck....forse
+                p1 = new GamePeer(myPlayerID, true, true, new UnoPlayer(), new UnoDeck(2));
             else
-                p1 = new GamePeer(myPlayerID, false, false);
+                p1 = new GamePeer(myPlayerID, false, false, new UnoPlayer(), new UnoDeck(2));
 
             ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 

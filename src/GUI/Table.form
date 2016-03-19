@@ -6,15 +6,15 @@
       <xy x="20" y="20" width="1004" height="1042"/>
     </constraints>
     <properties>
-      <maximumSize width="1035" height="800"/>
+      <maximumSize width="1035" height="900"/>
       <opaque value="true"/>
-      <preferredSize width="1035" height="800"/>
+      <preferredSize width="1035" height="900"/>
       <requestFocusEnabled value="true"/>
       <verifyInputWhenFocusTarget value="false"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="404d9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="404d9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="15" left="15" bottom="15" right="15"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -26,10 +26,10 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="5679" binding="tablePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="5679" binding="tablePanel" layout-manager="GridLayoutManager" row-count="6" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="15" left="15" bottom="15" right="15"/>
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="true">
+              <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false">
                 <minimum-size width="960" height="523"/>
                 <preferred-size width="960" height="523"/>
                 <maximum-size width="960" height="523"/>
@@ -43,47 +43,2245 @@
             </properties>
             <border type="none"/>
             <children>
-              <component id="a6f88" class="javax.swing.JButton" binding="play">
+              <grid id="48c7c" binding="player2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="6" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
                 </constraints>
                 <properties>
+                  <opaque value="false"/>
+                  <visible value="true"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="b32db" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="f37" binding="player1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="93b5" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="f9e75" binding="player3" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="1ea6" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="2ad20" binding="scartedDeck" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="2" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="df9d3" class="javax.swing.JLabel" binding="scartedImage">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <focusTraversalPolicyProvider value="false"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
+                      <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="ba6cf" binding="deck" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="3" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="150"/>
+                    <preferred-size width="100" height="150"/>
+                    <maximum-size width="100" height="150"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="f800d" class="javax.swing.JLabel" binding="deckImage">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_MULTI.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="fee75" binding="player6" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="3" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="51afc" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="5f441" binding="player7" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="3" column="5" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="abb1b" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="1e846" binding="player5" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="d25ac" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="bb2f8" binding="player4" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="145"/>
+                    <preferred-size width="100" height="145"/>
+                    <maximum-size width="100" height="145"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="cee0f" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="11"/>
+                      <icon value="GUI/Cards/BACK_SINGLE.png"/>
+                      <iconTextGap value="-100"/>
+                      <opaque value="false"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="ca78c" binding="backgroundPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="d4a37" class="javax.swing.JLabel" binding="background">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-16270583"/>
+                  <icon value="GUI/table_medium.png"/>
+                  <opaque value="false"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <vspacer id="c8b03">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="80"/>
+                    <preferred-size width="-1" height="80"/>
+                    <maximum-size width="-1" height="80"/>
+                  </grid>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+          <grid id="fe4da" binding="infoAndButtonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="a6f88" class="javax.swing.JButton" binding="play">
+                <constraints>
+                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="150" height="50"/>
+                    <preferred-size width="150" height="50"/>
+                    <maximum-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-1182209"/>
                   <enabled value="true"/>
+                  <font size="16"/>
                   <horizontalAlignment value="0"/>
                   <text value="Play Card"/>
                 </properties>
               </component>
+              <component id="fd8b8" class="javax.swing.JLabel" binding="turnCntLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="50"/>
+                    <preferred-size width="-1" height="50"/>
+                    <maximum-size width="-1" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-1114625"/>
+                  <focusTraversalPolicyProvider value="false"/>
+                  <font size="20"/>
+                  <foreground color="-1"/>
+                  <text value="Turn: "/>
+                </properties>
+              </component>
+              <component id="cb42e" class="javax.swing.JLabel" binding="turnCnt">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-1114625"/>
+                  <focusTraversalPolicyProvider value="false"/>
+                  <font size="20"/>
+                  <foreground color="-1"/>
+                  <text value="CNT"/>
+                </properties>
+              </component>
+              <component id="5f668" class="javax.swing.JLabel" binding="sumCards">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="72" style="3"/>
+                  <foreground color="-4482262"/>
+                  <text value="+16"/>
+                </properties>
+              </component>
+              <hspacer id="3a5de">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <hspacer id="a5bf">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
             </children>
           </grid>
-          <component id="d4a37" class="javax.swing.JLabel" binding="background">
+          <scrollpane id="5bc0a">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <foreground color="-16270583"/>
-              <icon value="GUI/table_medium.png"/>
-              <opaque value="true"/>
-              <text value=""/>
-            </properties>
-          </component>
-          <grid id="eba43" binding="myCardsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <minimum-size width="-1" height="100"/>
-                <maximum-size width="-1" height="100"/>
+              <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="200"/>
+                <preferred-size width="-1" height="200"/>
+                <maximum-size width="-1" height="200"/>
               </grid>
             </constraints>
             <properties>
-              <focusCycleRoot value="false"/>
-              <focusTraversalPolicyProvider value="false"/>
-              <focusable value="true"/>
-              <inheritsPopupMenu value="false"/>
-              <visible value="true"/>
+              <background color="-12511211"/>
+              <foreground color="-15654469"/>
+              <opaque value="false"/>
             </properties>
             <border type="none"/>
-            <children/>
-          </grid>
+            <children>
+              <grid id="beb2e" binding="myCartContainer" layout-manager="GridLayoutManager" row-count="1" column-count="50" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints/>
+                <properties>
+                  <background color="-12517370"/>
+                  <foreground color="-16336128"/>
+                  <opaque value="true"/>
+                  <visible value="true"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="c6cb" binding="card50" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="49" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="484f1" class="javax.swing.JLabel" binding="imageCard50">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="bd1ba" binding="card49" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="48" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e7693" class="javax.swing.JLabel" binding="imageCard49">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="33271" binding="card48" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="47" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="f39dc" class="javax.swing.JLabel" binding="imageCard48">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="d65b1" binding="card47" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="46" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e86f" class="javax.swing.JLabel" binding="imageCard47">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="a1971" binding="card46" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="45" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="d7fb8" class="javax.swing.JLabel" binding="imageCard46">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ca2d3" binding="card45" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="44" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="1ff5b" class="javax.swing.JLabel" binding="imageCard45">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="73f72" binding="card44" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="43" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="32365" class="javax.swing.JLabel" binding="imageCard44">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="db941" binding="card43" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="42" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="6458c" class="javax.swing.JLabel" binding="imageCard43">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="25292" binding="card42" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="41" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="f72e5" class="javax.swing.JLabel" binding="imageCard42">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="943c3" binding="card41" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="40" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="4b047" class="javax.swing.JLabel" binding="imageCard41">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="e7ece" binding="card40" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="39" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="6cd98" class="javax.swing.JLabel" binding="imageCard40">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="1363" binding="card39" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="38" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="85bb8" class="javax.swing.JLabel" binding="imageCard39">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="de36c" binding="card38" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="37" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="2ed20" class="javax.swing.JLabel" binding="imageCard38">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="910cd" binding="card37" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="36" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e9350" class="javax.swing.JLabel" binding="imageCard37">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="d9cf0" binding="card36" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="35" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="59e1c" class="javax.swing.JLabel" binding="imageCard36">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="d4e06" binding="card35" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="34" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="a5243" class="javax.swing.JLabel" binding="imageCard35">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="18844" binding="card34" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="33" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="a2e59" class="javax.swing.JLabel" binding="imageCard34">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="31724" binding="card33" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="32" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="43bd1" class="javax.swing.JLabel" binding="imageCard33">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ad7a4" binding="card32" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="31" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="8ea17" class="javax.swing.JLabel" binding="imageCard32">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="804a0" binding="card31" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="30" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="25ef1" class="javax.swing.JLabel" binding="imageCard31">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="305fe" binding="card30" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="29" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="59600" class="javax.swing.JLabel" binding="imageCard30">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="bc5e5" binding="card29" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="28" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ded00" class="javax.swing.JLabel" binding="imageCard29">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="da95d" binding="card28" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="27" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="5e77d" class="javax.swing.JLabel" binding="imageCard28">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="18ec0" binding="card27" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="26" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e5f18" class="javax.swing.JLabel" binding="imageCard27">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="718ff" binding="card26" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="25" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="f90f1" class="javax.swing.JLabel" binding="imageCard26">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="4c648" binding="card25" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="24" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="959ab" class="javax.swing.JLabel" binding="imageCard25">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="3cfba" binding="card24" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="23" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e8b9c" class="javax.swing.JLabel" binding="imageCard24">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="6c9e4" binding="card23" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="22" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="4f200" class="javax.swing.JLabel" binding="imageCard23">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ce750" binding="card22" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="21" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="3dca1" class="javax.swing.JLabel" binding="imageCard22">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="74b14" binding="card21" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="20" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ecd39" class="javax.swing.JLabel" binding="imageCard21">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="b4c95" binding="card20" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="19" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="bdc9" class="javax.swing.JLabel" binding="imageCard20">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="21e9" binding="card19" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="18" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e56d9" class="javax.swing.JLabel" binding="imageCard19">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="fc63" binding="card18" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="17" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="f482f" class="javax.swing.JLabel" binding="imageCard18">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="45a4f" binding="card17" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="16" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="aa046" class="javax.swing.JLabel" binding="imageCard17">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="89ac4" binding="card16" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="15" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="c3dac" class="javax.swing.JLabel" binding="imageCard16">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="25b4f" binding="card15" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="14" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ad95e" class="javax.swing.JLabel" binding="imageCard15">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="1ceea" binding="card14" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="13" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="a53b7" class="javax.swing.JLabel" binding="imageCard14">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="89502" binding="card13" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="12" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="efab8" class="javax.swing.JLabel" binding="imageCard13">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="ae5a4" binding="card12" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="11" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="d9bcd" class="javax.swing.JLabel" binding="imageCard12">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="2654e" binding="card11" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="10" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="12fb3" class="javax.swing.JLabel" binding="imageCard11">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="a538f" binding="card10" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="6a11b" class="javax.swing.JLabel" binding="imageCard10">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="6ffab" binding="card09" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="fa983" class="javax.swing.JLabel" binding="imageCard09">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="bb198" binding="card08" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="25854" class="javax.swing.JLabel" binding="imageCard08">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="7f818" binding="card07" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="21ae" class="javax.swing.JLabel" binding="imageCard07">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="428b" binding="card06" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="72143" class="javax.swing.JLabel" binding="imageCard06">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="dc9d9" binding="card05" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="5a5a5" class="javax.swing.JLabel" binding="imageCard05">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="a442e" binding="card04" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="36dc9" class="javax.swing.JLabel" binding="imageCard04">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="726a5" binding="card03" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ed90b" class="javax.swing.JLabel" binding="imageCard03">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="402a8" binding="card02" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="575dc" class="javax.swing.JLabel" binding="imageCard02">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="cee4" binding="card01" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                        <minimum-size width="100" height="145"/>
+                        <preferred-size width="100" height="145"/>
+                        <maximum-size width="100" height="145"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <foreground color="-4516351"/>
+                      <opaque value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ef054" class="javax.swing.JLabel" binding="imageCard01">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="100" height="145"/>
+                            <preferred-size width="100" height="145"/>
+                            <maximum-size width="100" height="145"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <horizontalTextPosition value="0"/>
+                          <icon value="GUI/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                          <iconTextGap value="-100"/>
+                          <opaque value="false"/>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>
