@@ -1,10 +1,14 @@
 package GUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.text.AttributedCharacterIterator;
 
 /**
@@ -33,6 +37,7 @@ public class Table extends JFrame{
 
 
         pack();
+        background.add(tablePanel);
         setVisible(true);
     }
 
