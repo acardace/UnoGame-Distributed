@@ -1,5 +1,7 @@
 package unogame;
 
+import unogame.game.*;
+import unogame.game.Number;
 import unogame.gui.Table;
 
 //TESTING
@@ -14,7 +16,14 @@ public class Main {
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.println("Input something to go on");
 //        scanner.next();
-        Table newTable=new Table();
+        Table table=new Table();
+        UnoPlayer player = new UnoPlayer();
+        UnoDeck deck = new UnoDeck(5);
+        player.drawInitialHand(deck);
+        for (UnoCard card: player.getHand())
+            table.addCard(card);
+        table.removeCard(player.getHand().get(0));
+
 //        try {
 //            p1.addRemotePeer(args[1]);
 //            p1.startFTTokenPassing();

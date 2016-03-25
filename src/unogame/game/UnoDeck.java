@@ -66,7 +66,6 @@ public class UnoDeck implements Serializable{
         stackDeck.push(changeColourCard);
         stackDiscardDeck.push(drawCard());
         this.howManyPicked=0;
-        System.out.println(stackDeck.size());
         Collections.shuffle(stackDeck,new Random(seed));
 
     }

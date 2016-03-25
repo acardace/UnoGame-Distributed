@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class UnoPlayer {
     private ArrayList<UnoCard> hand;
     private boolean hasInitialHand = false;
+
     public ArrayList<UnoCard> getHand() {
         return hand;
     }
