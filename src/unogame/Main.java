@@ -22,7 +22,6 @@ public class Main {
         player.drawInitialHand(deck);
         for (UnoCard card: player.getHand())
             table.addCard(card);
-        table.removeCard(player.getHand().get(0));
 
 //        try {
 //            p1.addRemotePeer(args[1]);
