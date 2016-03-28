@@ -1,18 +1,13 @@
 package unogame.gui;
 
-import unogame.game.Number;
-import unogame.game.Color;
 import unogame.game.UnoCard;
 
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Table extends JFrame{
     private static final String CARD_IMG_PATH = "unogame/gui/images/Cards/";
@@ -21,15 +16,16 @@ public class Table extends JFrame{
 
     private JButton play;
     private JPanel rootPanel, tablePanel, backgroundPanel;
-    private JPanel player2, player4, player3;
-    private JPanel mainPanel, discardedDeck, infoAndButtonPanel, deck;
+    private JPanel mainPanel, infoAndButtonPanel;
     private JLabel turnCnt, turnCntLabel, background;
-    private JLabel sumCards, discardedImage, deckImage;
-    private JLabel player2Label;
-    private JLabel player3Label;
-    private JLabel player4Label;
+    private JLabel sumCards;
+    private int cardsNum;
+    private JLabel discardsDeckLabel;
     private JScrollPane scrollPanel;
-    private ArrayList<JLabel> players;
+    private JLabel player2Label;
+    private JLabel player4Label;
+    private JLabel player3Label;
+    private JLabel deckLabel;
     private JPanel cardPanel;
     private JPanel selectedPanel;
     private UnoCard selectedCard;
@@ -41,17 +37,11 @@ public class Table extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(rootPanel);
 
-        players = new ArrayList<JLabel>();
-        players.add(player2Label);
-        players.add(player3Label);
-        players.add(player4Label);
-//        for (JLabel player: players){
-//            player.setIcon(null);
-//        }
-
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                cardsNum--;
+                setSumCards(cardsNum);
                 setDiscardedDeckFront();
                 removeCard();
                 selectedCard = null;
@@ -135,6 +125,15 @@ public class Table extends JFrame{
         cardPanel.validate();
     }
 
+    public void setSumCards(int n){
+        cardsNum = n;
+        sumCards.setText("+"+Integer.toString(n));
+    }
+
+    public void setTurnLabel(String s){
+        turnCnt.setText(s);
+    }
+
     public void removeCard() {
         if (selectedPanel != null){
             selectedPanel.setVisible(false);
@@ -145,8 +144,8 @@ public class Table extends JFrame{
 
     public void setDiscardedDeckFront(){
         if (selectedPanel != null){
-            discardedImage.setIcon(selectedCardImage.getIcon());
-            discardedImage.validate();
+            discardsDeckLabel.setIcon(selectedCardImage.getIcon());
+            discardsDeckLabel.validate();
         }
     }
 

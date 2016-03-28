@@ -14,7 +14,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="404d9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="404d9" binding="mainPanel" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="15" left="15" bottom="15" right="15"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -26,10 +26,10 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="5679" binding="tablePanel" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="15" left="15" bottom="15" right="15"/>
+          <grid id="5679" binding="tablePanel" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false">
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false">
                 <minimum-size width="960" height="523"/>
                 <preferred-size width="960" height="523"/>
                 <maximum-size width="960" height="523"/>
@@ -43,178 +43,77 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="f37" binding="player2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+              <component id="f149a" class="javax.swing.JLabel" binding="player2Label">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                    <minimum-size width="100" height="145"/>
-                    <preferred-size width="100" height="145"/>
-                    <maximum-size width="100" height="145"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="14"/>
+                  <foreground color="-1540"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <text value="&lt;html&gt;&lt;font color='white'&gt;Player 2&lt;/font&gt;&lt;/html&gt;"/>
+                  <verticalAlignment value="1"/>
+                  <verticalTextPosition value="1"/>
+                </properties>
+              </component>
+              <component id="3bf" class="javax.swing.JLabel" binding="player4Label">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="14"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <text value="&lt;html&gt;&lt;font color='white'&gt;Player 4&lt;/font&gt;&lt;/html&gt;"/>
+                  <verticalAlignment value="1"/>
+                  <verticalTextPosition value="1"/>
+                </properties>
+              </component>
+              <component id="ff626" class="javax.swing.JLabel" binding="player3Label">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="134" height="164"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <opaque value="false"/>
+                  <font size="14"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <text value="&lt;html&gt;&lt;font color='white'&gt;Player 3&lt;/font&gt;&lt;/html&gt;"/>
+                  <verticalAlignment value="1"/>
+                  <verticalTextPosition value="1"/>
                 </properties>
-                <border type="none"/>
-                <children>
-                  <component id="93b5" class="javax.swing.JLabel" binding="player2Label">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                        <minimum-size width="100" height="145"/>
-                        <preferred-size width="100" height="145"/>
-                        <maximum-size width="100" height="145"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalAlignment value="0"/>
-                      <horizontalTextPosition value="11"/>
-                      <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
-                      <iconTextGap value="-100"/>
-                      <opaque value="false"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="2ad20" binding="discardedDeck" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+              </component>
+              <component id="7b0b3" class="javax.swing.JLabel" binding="deckLabel">
                 <constraints>
-                  <grid row="1" column="1" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="100" height="145"/>
-                    <preferred-size width="100" height="145"/>
-                    <maximum-size width="100" height="145"/>
-                  </grid>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <opaque value="false"/>
+                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <text value=""/>
                 </properties>
-                <border type="none"/>
-                <children>
-                  <component id="df9d3" class="javax.swing.JLabel" binding="discardedImage">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <minimum-size width="100" height="145"/>
-                        <preferred-size width="100" height="145"/>
-                        <maximum-size width="100" height="145"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <focusTraversalPolicyProvider value="false"/>
-                      <horizontalAlignment value="0"/>
-                      <horizontalTextPosition value="0"/>
-                      <icon value="unogame/gui/images/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
-                      <iconTextGap value="-100"/>
-                      <opaque value="false"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="ba6cf" binding="deck" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+              </component>
+              <component id="396a2" class="javax.swing.JLabel" binding="discardsDeckLabel">
                 <constraints>
-                  <grid row="1" column="2" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="100" height="150"/>
-                    <preferred-size width="100" height="150"/>
-                    <maximum-size width="100" height="150"/>
-                  </grid>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <opaque value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <icon value="unogame/gui/images/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                  <text value=""/>
                 </properties>
-                <border type="none"/>
-                <children>
-                  <component id="f800d" class="javax.swing.JLabel" binding="deckImage">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                        <minimum-size width="100" height="145"/>
-                        <preferred-size width="100" height="145"/>
-                        <maximum-size width="100" height="145"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalAlignment value="0"/>
-                      <horizontalTextPosition value="11"/>
-                      <icon value="unogame/gui/images/Cards/BACK_MULTI.png"/>
-                      <iconTextGap value="-100"/>
-                      <opaque value="false"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="1e846" binding="player3" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="100" height="145"/>
-                    <preferred-size width="100" height="145"/>
-                    <maximum-size width="100" height="145"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <opaque value="false"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="d25ac" class="javax.swing.JLabel" binding="player3Label">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                        <minimum-size width="100" height="145"/>
-                        <preferred-size width="100" height="145"/>
-                        <maximum-size width="100" height="145"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalAlignment value="0"/>
-                      <horizontalTextPosition value="11"/>
-                      <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
-                      <iconTextGap value="-100"/>
-                      <opaque value="false"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="bb2f8" binding="player4" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="100" height="145"/>
-                    <preferred-size width="100" height="145"/>
-                    <maximum-size width="100" height="145"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <opaque value="false"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="cee0f" class="javax.swing.JLabel" binding="player4Label">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                        <minimum-size width="100" height="145"/>
-                        <preferred-size width="100" height="145"/>
-                        <maximum-size width="100" height="145"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalAlignment value="0"/>
-                      <horizontalTextPosition value="11"/>
-                      <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
-                      <iconTextGap value="-100"/>
-                      <opaque value="false"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
+              </component>
             </children>
           </grid>
           <grid id="ca78c" binding="backgroundPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <opaque value="false"/>
@@ -236,7 +135,7 @@
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                     <minimum-size width="-1" height="80"/>
-                    <preferred-size width="-1" height="80"/>
+                    <preferred-size width="11" height="39"/>
                     <maximum-size width="-1" height="80"/>
                   </grid>
                 </constraints>
@@ -321,7 +220,7 @@
           </grid>
           <scrollpane id="5bc0a" binding="scrollPanel" custom-create="true">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="200"/>
                 <preferred-size width="-1" height="200"/>
                 <maximum-size width="-1" height="200"/>

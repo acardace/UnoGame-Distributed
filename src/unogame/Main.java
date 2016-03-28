@@ -22,7 +22,8 @@ public class Main {
         player.drawInitialHand(deck);
         for (UnoCard card: player.getHand())
             table.addCard(card);
-
+        table.setSumCards(player.getHand().size());
+        table.setTurnLabel("My Turn");
 //        try {
 //            p1.addRemotePeer(args[1]);
 //            p1.startFTTokenPassing();
