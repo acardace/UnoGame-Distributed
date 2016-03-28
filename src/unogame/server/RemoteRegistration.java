@@ -20,4 +20,7 @@ public interface RemoteRegistration extends Remote {
 
     // set player status to ready, lock waiting for game start
     public void playerReady(int playerID) throws RemoteException;
+
+    public int generateSeed() throws RemoteException;
 }
+

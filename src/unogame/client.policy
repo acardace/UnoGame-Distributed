@@ -1,0 +1,3 @@
+grant codeBase "file:./UnoGame_Client_jar/*" {
+    permission java.security.AllPermission;
+};

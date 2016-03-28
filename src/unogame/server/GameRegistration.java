@@ -7,10 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -113,6 +110,12 @@ public class GameRegistration implements RemoteRegistration {
     @Override
     public int getNewPlayerID() throws RemoteException {
         return newPlayerID();
+    }
+
+    @Override
+    public int generateSeed() throws RemoteException {
+        Random random = new Random();
+        return random.nextInt();
     }
 
     @Override

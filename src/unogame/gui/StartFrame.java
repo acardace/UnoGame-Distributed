@@ -6,10 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class StartFrame extends JFrame{
+    private ReentrantLock startLock;
+    private Condition startCondition;
 
-    public StartFrame(final RemoteRegistration regService, final int playerId) {
+    public StartFrame(final int playerId) {
         super("Distributed UNO");
 
         Container testC = this.getContentPane();
@@ -21,14 +25,9 @@ public class StartFrame extends JFrame{
         ActionListener startPlayBtnListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                   regService.playerReady(playerId);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                System.out.println("Button Clicked");
+                startLock.lock();
+                startCondition.signal();
+                startLock.unlock();
             }
         };
         startPlayBtn.addActionListener(startPlayBtnListener);
@@ -40,5 +39,10 @@ public class StartFrame extends JFrame{
         this.setLocation(760, 340);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+
+    public void setStartTrigger(ReentrantLock lock, Condition condition){
+        this.startLock = lock;
+        this.startCondition = condition;
     }
 }
