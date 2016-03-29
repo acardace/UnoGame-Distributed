@@ -30,6 +30,7 @@ public class GamePeer implements RemotePeer{
     private UnoDeck unoDeck;
 
     private static final String RMI_OBJ_NAME = "RemotePeer";
+    private static final int RMI_PORT = 1099;
     private static final int FT_RING_DIRECTION = 1;
 
     private int ftTimeout; //in ms
@@ -57,6 +58,14 @@ public class GamePeer implements RemotePeer{
         //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
         initFT();
+    }
+
+    public UnoPlayer getUnoPlayer() {
+        return unoPlayer;
+    }
+
+    public UnoDeck getUnoDeck() {
+        return unoDeck;
     }
 
     private void initFT(){
@@ -95,7 +104,7 @@ public class GamePeer implements RemotePeer{
         }
         try {
             RemotePeer stub = (RemotePeer) UnicastRemoteObject.exportObject(this, 0);
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(RMI_PORT);
             registry.rebind(RMI_OBJ_NAME, stub);
             System.out.println(RMI_OBJ_NAME+" bound");
         } catch (Exception e) {

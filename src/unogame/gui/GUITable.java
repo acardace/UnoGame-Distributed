@@ -1,6 +1,9 @@
 package unogame.gui;
 
 import unogame.game.UnoCard;
+import unogame.game.UnoDeck;
+import unogame.game.UnoPlayer;
+import unogame.peer.GamePeer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Table extends JFrame{
+public class GUITable extends JFrame{
     private static final String CARD_IMG_PATH = "unogame/gui/images/Cards/";
     private static final String CARD_IMG_EXT = ".png";
     private static final String CARD_SELECTED = "Selected";
@@ -31,9 +34,13 @@ public class Table extends JFrame{
     private UnoCard selectedCard;
     private JLabel selectedCaption;
     private JLabel selectedCardImage;
+    private GamePeer gamePeer;
+    private UnoPlayer unoPlayer;
+    private UnoDeck unoDeck;
 
-    public Table() {
+    public GUITable(GamePeer gamePeer) {
         super("UnoGame");
+        this.gamePeer = gamePeer;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(rootPanel);
 
@@ -125,7 +132,7 @@ public class Table extends JFrame{
         cardPanel.validate();
     }
 
-    public void setSumCards(int n){
+    private void setSumCards(int n){
         cardsNum = n;
         sumCards.setText("+"+Integer.toString(n));
     }
@@ -134,7 +141,7 @@ public class Table extends JFrame{
         turnCnt.setText(s);
     }
 
-    public void removeCard() {
+    private void removeCard() {
         if (selectedPanel != null){
             selectedPanel.setVisible(false);
             cardPanel.remove(selectedPanel);
@@ -142,11 +149,20 @@ public class Table extends JFrame{
         }
     }
 
-    public void setDiscardedDeckFront(){
+    private void setDiscardedDeckFront(){
         if (selectedPanel != null){
             discardsDeckLabel.setIcon(selectedCardImage.getIcon());
             discardsDeckLabel.validate();
         }
+    }
+
+    public void initGame(){
+        unoPlayer = gamePeer.getUnoPlayer();
+        unoDeck = gamePeer.getUnoDeck();
+        unoPlayer.drawInitialHand(unoDeck);
+        for (UnoCard card: unoPlayer.getHand())
+            addCard(card);
+        setSumCards(unoPlayer.getHand().size());
     }
 
 }

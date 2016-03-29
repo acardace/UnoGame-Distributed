@@ -13,7 +13,7 @@ import unogame.gui.StartFrame;
 import unogame.peer.GamePeer;
 import unogame.server.RemoteRegistration;
 
-import unogame.gui.Table;
+import unogame.gui.GUITable;
 
 //REAL MAIN
 public class Main {
@@ -23,7 +23,7 @@ public class Main {
         ReentrantLock startFrameLock = new ReentrantLock();
         Condition startFrameCondition = startFrameLock.newCondition();
         RemoteRegistration regService = null;
-        Table gameTable;
+        GUITable gameGUITable;
 
         // start
         if (args.length < 1){
@@ -69,7 +69,8 @@ public class Main {
             p1.startFTTokenPassing();
             //From here on we start the Uno Game as we know it
             System.out.println("Starting Game GUI");
-            gameTable = new Table();
+            gameGUITable = new GUITable(p1);
+            gameGUITable.initGame();
         } catch (Exception e) {
             System.err.println(REGISTRATION_SERVICE + " exception:");
             e.printStackTrace();

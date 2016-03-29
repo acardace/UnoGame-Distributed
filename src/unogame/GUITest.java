@@ -1,38 +1,38 @@
 package unogame;
 
 import unogame.game.*;
-import unogame.game.Number;
-import unogame.gui.Table;
+import unogame.gui.GUITable;
+import unogame.peer.GamePeer;
+
+import java.util.Scanner;
 
 //TESTING
 public class GUITest {
     public static void main(String[] args){
+        if (args.length < 2){
+            System.err.println("usage: <appname> <playerID> <remote-addr>");
+            System.exit(1);
+        }
+        String playerAddr = args[1];
         //GUITest peerID remotePeer
-//        UnoPlayer player = new UnoPlayer();
-//        long seed = 5;
-//        int arg = Integer.parseInt(args[0]);
-//        UnoDeck deck = new UnoDeck(seed);
-//        GamePeer p1 = new GamePeer(arg, arg == 1 , arg == 1, player, deck );
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Input something to go on");
-//        scanner.next();
-        Table table=new Table();
         UnoPlayer player = new UnoPlayer();
-        UnoDeck deck = new UnoDeck(5);
-        player.drawInitialHand(deck);
-        for (UnoCard card: player.getHand())
-            table.addCard(card);
-        table.setSumCards(player.getHand().size());
-        table.setTurnLabel("My Turn");
-//        try {
-//            p1.addRemotePeer(args[1]);
-//            p1.startFTTokenPassing();
-//            if (!player.getHasInitialHand() && p1.getID()==1){
-//                p1.initGT();
-//                p1.initialHand();
-//            }
-//        }catch (Exception e){
-//            System.out.println("Connection refused");
-//        }
+        long seed = 5;
+        int arg = Integer.parseInt(args[0]);
+        UnoDeck deck = new UnoDeck(seed);
+        GamePeer p1 = new GamePeer(arg, arg == 1 , arg == 1, player, deck );
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input something to go on");
+        scanner.next();
+
+        try{
+            p1.addRemotePeer(playerAddr);
+            p1.startFTTokenPassing();
+        }catch(Exception e){}
+
+
+        GUITable guiTable =new GUITable(p1);
+        guiTable.initGame();
+        System.out.println("Game Started");
     }
 }

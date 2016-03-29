@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class GameRegistration implements RemoteRegistration {
     private static final String RMI_REG_OBJ_NAME = "RegistrationService";
     private static final String RMI_OBJ_NAME = "RemotePeer";
+    private static final int RMI_PORT = 1099;
     private static final int MAX_PLAYERS = 8;
     private static final int MIN_START_PLAYERS = 4;
     private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 minuti
@@ -157,7 +158,7 @@ public class GameRegistration implements RemoteRegistration {
         try{
             GameRegistration registrationService = new GameRegistration();
             RemoteRegistration stub = (RemoteRegistration) UnicastRemoteObject.exportObject(registrationService, 0);
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.createRegistry(RMI_PORT);
             registry.rebind(RMI_REG_OBJ_NAME, stub);
             System.out.println(RMI_REG_OBJ_NAME+" bound");
         }
