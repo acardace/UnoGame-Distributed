@@ -52,7 +52,7 @@
                   <foreground color="-1540"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <icon value="images/Cards/BACK_SINGLE.png"/>
                   <text value="&lt;html&gt;&lt;font color='white'&gt;Player 2&lt;/font&gt;&lt;/html&gt;"/>
                   <verticalAlignment value="1"/>
                   <verticalTextPosition value="1"/>
@@ -66,7 +66,7 @@
                   <font size="14"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <icon value="images/Cards/BACK_SINGLE.png"/>
                   <text value="&lt;html&gt;&lt;font color='white'&gt;Player 4&lt;/font&gt;&lt;/html&gt;"/>
                   <verticalAlignment value="1"/>
                   <verticalTextPosition value="1"/>
@@ -82,7 +82,7 @@
                   <font size="14"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <icon value="images/Cards/BACK_SINGLE.png"/>
                   <text value="&lt;html&gt;&lt;font color='white'&gt;Player 3&lt;/font&gt;&lt;/html&gt;"/>
                   <verticalAlignment value="1"/>
                   <verticalTextPosition value="1"/>
@@ -93,7 +93,7 @@
                   <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="unogame/gui/images/Cards/BACK_SINGLE.png"/>
+                  <icon value="images/Cards/BACK_SINGLE.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -104,7 +104,7 @@
                 <properties>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
-                  <icon value="unogame/gui/images/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
+                  <icon value="images/Cards/BLACK_NONE_CHANGECOLOUR.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -126,7 +126,7 @@
                 </constraints>
                 <properties>
                   <foreground color="-16270583"/>
-                  <icon value="unogame/gui/images/table_medium.png"/>
+                  <icon value="images/table_medium.png"/>
                   <opaque value="false"/>
                   <text value=""/>
                 </properties>

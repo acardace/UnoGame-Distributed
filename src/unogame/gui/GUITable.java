@@ -11,9 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 
 public class GUITable extends JFrame{
-    private static final String CARD_IMG_PATH = "unogame/gui/images/Cards/";
+    private static final String CARD_IMG_PATH = "/images/Cards/";
     private static final String CARD_IMG_EXT = ".png";
     private static final String CARD_SELECTED = "Selected";
 
@@ -41,7 +42,7 @@ public class GUITable extends JFrame{
     public GUITable(GamePeer gamePeer) {
         super("UnoGame");
         this.gamePeer = gamePeer;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(rootPanel);
 
         play.addActionListener(new ActionListener() {
@@ -74,8 +75,8 @@ public class GUITable extends JFrame{
         cardPanel.add(Box.createRigidArea(new Dimension(5, 0)));
     }
 
-    public void addCard(final UnoCard card) {
-        String cardImagePath = CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT;
+    private void addCard(final UnoCard card) {
+        URL cardImagePath = getClass().getResource(CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT);
         final JLabel cardImage = new JLabel(new ImageIcon(cardImagePath));
         final JPanel cardContainer = new JPanel();
         final JLabel cardCaption = new JLabel();
@@ -160,9 +161,9 @@ public class GUITable extends JFrame{
         unoPlayer = gamePeer.getUnoPlayer();
         unoDeck = gamePeer.getUnoDeck();
         unoPlayer.drawInitialHand(unoDeck);
+        setSumCards(unoPlayer.getHand().size());
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
-        setSumCards(unoPlayer.getHand().size());
     }
 
 }
