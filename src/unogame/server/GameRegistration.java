@@ -15,7 +15,7 @@ public class GameRegistration implements RemoteRegistration {
     private static final String RMI_REG_OBJ_NAME = "RegistrationService";
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int MAX_PLAYERS = 8;
-    private static final int MIN_START_PLAYERS = 3;
+    private static final int MIN_START_PLAYERS = 4;
     private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 minuti
 
     private HashMap<Integer, PlayerReady> playersHashMap;
@@ -52,15 +52,13 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     private void waitGameStart() {
-        while(true) {
-            try {
-                syncPlayersLock.lock();
-                syncPlayersCondition.await();
-            } catch (InterruptedException e) {
-                // do nothing
-            } finally {
-                syncPlayersLock.unlock();
-            }
+        try {
+            syncPlayersLock.lock();
+            syncPlayersCondition.await();
+        } catch (InterruptedException e) {
+            // do nothing
+        } finally {
+            syncPlayersLock.unlock();
         }
     }
 
