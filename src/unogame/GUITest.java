@@ -1,6 +1,7 @@
 package unogame;
 
 import unogame.game.*;
+import unogame.game.Number;
 import unogame.gui.GUITable;
 import unogame.peer.GamePeer;
 
@@ -31,7 +32,7 @@ public class GUITest {
         }catch(Exception e){}
 
 
-        GUITable guiTable =new GUITable(p1);
+        GUITable guiTable = new GUITable(p1);
         guiTable.initGame();
         System.out.println("Game Started");
     }
