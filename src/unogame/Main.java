@@ -45,11 +45,7 @@ public class Main {
             myPlayerID = regService.getNewPlayerID();
             int seed = regService.generateSeed();
 
-            //GUITest peerID remotePeer
-            if (myPlayerID == 1)
-                p1 = new GamePeer(myPlayerID, true, true, new UnoPlayer(), new UnoDeck(seed));
-            else
-                p1 = new GamePeer(myPlayerID, false, false, new UnoPlayer(), new UnoDeck(seed));
+            p1 = new GamePeer(myPlayerID, myPlayerID == 1, myPlayerID == 1, new UnoPlayer(), new UnoDeck(seed));
 
             ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 
@@ -72,6 +68,7 @@ public class Main {
             regService.playerReady(myPlayerID);
             p1.startFTTokenPassing();
             //From here on we start the Uno Game as we know it
+            System.out.println("Starting Game GUI");
             gameTable = new Table();
         } catch (Exception e) {
             System.err.println(REGISTRATION_SERVICE + " exception:");

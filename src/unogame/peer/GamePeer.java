@@ -401,9 +401,6 @@ public class GamePeer implements RemotePeer{
         }
     }
 
-
-
-
     public class GameTimerThread extends TimerTask{
 
         public void run(){
