@@ -7,6 +7,9 @@ import java.util.ArrayList;
  * if you want to play you've got to stick with what's below here
  */
 public class UnoRules {
+    private static final int FORWARD = 1;
+    private static final int BACKWARDS = -1;
+
     private static UnoDeck deckInUse;
     private static Color currentColor;
     private static Number currentNumber;
@@ -23,10 +26,6 @@ public class UnoRules {
 
     public static int getDirection() {
         return direction;
-    }
-
-    public static void setDirection(int direction) {
-        UnoRules.direction = direction;
     }
 
     public static UnoDeck getDeckInUse() {
@@ -55,6 +54,13 @@ public class UnoRules {
         return playableCards;
     }
 
+    public static void changeDirection(){
+        if( direction == FORWARD)
+            direction = BACKWARDS;
+        else
+            direction = FORWARD;
+    }
+
     public static boolean isPlayable(UnoCard card){
         updateStatus(); //redundant?? depends on how we're going to use it once we implement the TableGUI
         //this only happens when the first discarded card is a special one
@@ -73,6 +79,10 @@ public class UnoRules {
                 return true;
         }
         return false;
+    }
+
+    public static boolean isChangingDirection(UnoCard card){
+        return card.getType() == SpecialType.REVERSE;
     }
 
     private static void updateStatus(){
