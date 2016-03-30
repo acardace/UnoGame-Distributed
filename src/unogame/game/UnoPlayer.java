@@ -19,10 +19,13 @@ public class UnoPlayer {
     public boolean playCard(UnoCard card, UnoDeck deck){
         //TODO add plus card counter and direction
         if(UnoRules.isPlayable(card)){
+            if(UnoRules.isChangingDirection(card))
+                UnoRules.changeDirection();
             deck.setLastDiscardedCard(card);
             hand.remove(card);
             return true;
         }
+
         return false;
     }
 
