@@ -156,10 +156,11 @@ public class GUITable extends JFrame{
     public void initGame(){
         unoPlayer = gamePeer.getUnoPlayer();
         unoDeck = gamePeer.getUnoDeck();
-        unoPlayer.drawInitialHand(unoDeck);
+        gamePeer.initialHand();
         sumCards.setVisible(false);
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
+
     }
 
 }
