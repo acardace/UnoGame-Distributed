@@ -48,7 +48,7 @@ public class GUITable extends JFrame{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (gamePeer.hasGToken()) {
+                if (gamePeer.hasGToken() && selectedCard != null) {
                     setDiscardedDeckFront(null);
                     removeCard();
                     playCard(selectedCard);
