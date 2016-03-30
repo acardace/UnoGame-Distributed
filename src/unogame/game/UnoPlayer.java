@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class UnoPlayer {
     private ArrayList<UnoCard> hand;
-    private boolean hasInitialHand = false;
 
     public ArrayList<UnoCard> getHand() {
         return hand;
@@ -15,10 +14,10 @@ public class UnoPlayer {
 
     public void drawInitialHand(UnoDeck deck){
         hand = deck.drawHand();
-        this.hasInitialHand=true;
     }
 
     public boolean playCard(UnoCard card, UnoDeck deck){
+        //TODO add plus card counter and direction
         if(UnoRules.isPlayable(card)){
             deck.setLastDiscardedCard(card);
             hand.remove(card);
@@ -32,17 +31,9 @@ public class UnoPlayer {
         hand.add(card);
     }
 
-    public void PlayHand(GamePeer gamePeer){
-        try {
-            gamePeer.sendGameToken(); //e il mazzo etc
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void emptyHand(){
+        this.hand.clear();
     }
-
-    public boolean getHasInitialHand(){return hasInitialHand;}
-
-    public void setHasInitialHand(boolean hasOrNot){ this.hasInitialHand=hasOrNot;}
 
     //Debugging purposes
     public void listHand(){

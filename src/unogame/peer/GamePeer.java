@@ -36,7 +36,7 @@ public class GamePeer implements RemotePeer{
     private int ftTimeout; //in ms
     private int tokenHoldTime = 1000; //in ms
     private int expectedTransmissionTime = 100; //in ms
-    private static final int gTimeout = 1000; //in ms
+    private static final int gTimeout = 15000; //in ms
 
     public GamePeer(int id){
         this.ID = id;
@@ -140,7 +140,7 @@ public class GamePeer implements RemotePeer{
 
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
-            int peerID=getNextInRing(1);//prendere la direzione
+            int peerID=getNextInRing(UnoRules.getDirection());
             vectorClock[this.ID-1]=tmp_hand_cnt+1;
             System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
             hasGameToken = false;
@@ -287,16 +287,10 @@ public class GamePeer implements RemotePeer{
                 "\nRemovedFromOther:"+howManyPicked);
 
         unoDeck.removeCardFromDeck(howManyPicked);
-        if(hasGameToken){
-            if(!unoPlayer.getHasInitialHand()){
-                initialHand();
-            }
-            else{
-                gameTimer = new Timer();
-                gameTimer.schedule(new GameTimerThread(), gTimeout);
-            }
+        if (hasGameToken) {
+            gameTimer = new Timer();
+            gameTimer.schedule(new GameTimerThread(), gTimeout);
         }
-
     }
 
     public void setGlobalState() throws RemoteException{
@@ -313,18 +307,18 @@ public class GamePeer implements RemotePeer{
     }
 
     public void initialHand(){
-        unoPlayer.drawInitialHand(this.unoDeck);
-        System.out.println("Draw Hand");
-        try {
-            this.sendGameToken();
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        for (int i=0; i<ID; i++){
+            unoPlayer.drawInitialHand(unoDeck);
+            unoPlayer.emptyHand();
         }
+        unoPlayer.drawInitialHand(unoDeck);
     }
 
     public void killGameTimer(){
-        gameTimer.cancel();
-        gameTimer=null;
+        if (gameTimer != null) {
+            gameTimer.cancel();
+            gameTimer = null;
+        }
     }
 
 
