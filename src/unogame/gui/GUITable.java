@@ -23,7 +23,6 @@ public class GUITable extends JFrame{
     private JPanel mainPanel, infoAndButtonPanel;
     private JLabel turnCnt, turnCntLabel, background;
     private JLabel sumCards;
-    private int cardsNum;
     private JLabel discardsDeckLabel;
     private JScrollPane scrollPanel;
     private JLabel player2Label;
@@ -48,8 +47,6 @@ public class GUITable extends JFrame{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                cardsNum--;
-                setSumCards(cardsNum);
                 setDiscardedDeckFront();
                 removeCard();
                 selectedCard = null;
@@ -133,8 +130,7 @@ public class GUITable extends JFrame{
         cardPanel.validate();
     }
 
-    private void setSumCards(int n){
-        cardsNum = n;
+    private void setPlusEventLabel(int n){
         sumCards.setText("+"+Integer.toString(n));
     }
 
@@ -161,7 +157,7 @@ public class GUITable extends JFrame{
         unoPlayer = gamePeer.getUnoPlayer();
         unoDeck = gamePeer.getUnoDeck();
         unoPlayer.drawInitialHand(unoDeck);
-        setSumCards(unoPlayer.getHand().size());
+        sumCards.setVisible(false);
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
     }
