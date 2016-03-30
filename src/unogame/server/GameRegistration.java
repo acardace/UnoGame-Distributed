@@ -24,11 +24,20 @@ public class GameRegistration implements RemoteRegistration {
     private int playersCounter;
     private Timer startGameTimer;
 
+    public ReentrantLock playersReadyLock;
+    public ReentrantLock playersCounterLock;
+    public ReentrantLock playersHashMapLock;
+    public ReentrantLock startGameTimerLock;
+
     public ReentrantLock syncPlayersLock;
     public Condition syncPlayersCondition;
 
     public GameRegistration() {
         syncPlayersLock = new ReentrantLock();
+        playersReadyLock = new ReentrantLock();
+        playersCounterLock = new ReentrantLock();
+        playersHashMapLock = new ReentrantLock();
+        startGameTimerLock = new ReentrantLock();
         syncPlayersCondition = syncPlayersLock.newCondition();
 
         playersReadyCounter = 0;
@@ -37,18 +46,36 @@ public class GameRegistration implements RemoteRegistration {
     }
 
     private int newPlayerID() {
-        if(playersCounter < MAX_PLAYERS)
-            playersCounter++;
-        else
-            playersCounter = -1;
+        int localPlayersCounter;
 
-        return playersCounter;
+        playersCounterLock.lock();
+
+        try {
+            if(playersCounter < MAX_PLAYERS)
+                playersCounter++;
+            else
+                playersCounter = -1;
+
+            localPlayersCounter = playersCounter;
+        }
+        finally {
+            playersCounterLock.unlock();
+        }
+
+        return localPlayersCounter;
     }
 
     private void setGameStartTimer(int timeout) {
-        if(startGameTimer == null) {
-            startGameTimer = new Timer();
-            startGameTimer.schedule(new startGameThread(), timeout);
+        startGameTimerLock.lock();
+
+        try{
+            if(startGameTimer == null) {
+                startGameTimer = new Timer();
+                startGameTimer.schedule(new startGameThread(), timeout);
+            }
+        }
+        finally {
+            startGameTimerLock.unlock();
         }
     }
 
@@ -74,18 +101,26 @@ public class GameRegistration implements RemoteRegistration {
     //broadcast to all the players the complete list
     private void announcePlayers(){
         HashMap<Integer, String> allPlayers = new HashMap<>();
-        for (Integer key: playersHashMap.keySet())
-            allPlayers.put(key, playersHashMap.get(key).addr);
 
-        for (Integer key: playersHashMap.keySet()) {
-            try {
-                HashMap<Integer, String> players = (HashMap<Integer,String>) allPlayers.clone();
-                players.remove(key);
-                playersHashMap.get(key).playerRef.addPlayers(players);
-            } catch (RemoteException e) {
-                System.err.println("announcePlayers(): Failed communications with player at " + playersHashMap.get(key).addr);
-                e.printStackTrace();
+        playersHashMapLock.lock();
+
+        try {
+            for (Integer key: playersHashMap.keySet())
+                allPlayers.put(key, playersHashMap.get(key).addr);
+
+            for (Integer key: playersHashMap.keySet()) {
+                try {
+                    HashMap<Integer, String> players = (HashMap<Integer,String>) allPlayers.clone();
+                    players.remove(key);
+                    playersHashMap.get(key).playerRef.addPlayers(players);
+                } catch (RemoteException e) {
+                    System.err.println("announcePlayers(): Failed communications with player at " + playersHashMap.get(key).addr);
+                    e.printStackTrace();
+                }
             }
+        }
+        finally {
+            playersHashMapLock.unlock();
         }
     }
 
@@ -93,14 +128,21 @@ public class GameRegistration implements RemoteRegistration {
         // insert player in "play room"
         Registry registry = LocateRegistry.getRegistry(playerAddr);
         RemotePeer remotePeer = (RemotePeer) registry.lookup(RMI_OBJ_NAME);
-
         ArrayList<String> playersAll = new ArrayList<>();
-        for (Integer key: playersHashMap.keySet()){
-            playersAll.add(playersHashMap.get(key).addr);
-        }
 
-        if(id > 0) {
-            playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
+        playersHashMapLock.lock();
+
+        try {
+            for (Integer key: playersHashMap.keySet()){
+                playersAll.add(playersHashMap.get(key).addr);
+            }
+
+            if(id > 0) {
+                playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
+            }
+        }
+        finally {
+            playersHashMapLock.unlock();
         }
 
         return playersAll;
@@ -119,7 +161,17 @@ public class GameRegistration implements RemoteRegistration {
 
     @Override
     public int[] getPlayersID() throws RemoteException {
-        Integer[] playersId = (Integer[]) playersHashMap.keySet().toArray();
+        Integer[] playersId = null;
+
+        playersHashMapLock.lock();
+        try{
+            playersId = (Integer[]) playersHashMap.keySet().toArray();
+        }
+        finally {
+            playersHashMapLock.unlock();
+        }
+
+
         int[] playersIntID = new int[playersId.length];
 
         for(int i=0;i<playersId.length;i++) {
@@ -137,16 +189,33 @@ public class GameRegistration implements RemoteRegistration {
 
     @Override
     public void playerReady(int playerID) throws RemoteException {
-        playersHashMap.get(playerID).playerReady = true;
-        playersReadyCounter++;
+        playersHashMapLock.lock();
 
-        if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == playersCounter)
-            gameStart();
-        else {
-            if(playersReadyCounter >= MIN_START_PLAYERS)
-                setGameStartTimer(START_GAME_TIMEOUT);
-            System.out.println("Player "+playerID+" waiting...");
-            waitGameStart();
+        try{
+            playersHashMap.get(playerID).playerReady = true;
+        }
+        finally {
+            playersHashMapLock.unlock();
+        }
+
+        playersReadyLock.lock();
+        playersCounterLock.lock();
+
+        try{
+            playersReadyCounter++;
+
+            if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == playersCounter)
+                gameStart();
+            else {
+                if(playersReadyCounter >= MIN_START_PLAYERS)
+                    setGameStartTimer(START_GAME_TIMEOUT);
+                System.out.println("Player "+playerID+" waiting...");
+                waitGameStart();
+            }
+        }
+        finally {
+            playersCounterLock.unlock();
+            playersReadyLock.unlock();
         }
     }
 
