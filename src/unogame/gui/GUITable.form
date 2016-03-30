@@ -165,7 +165,7 @@
                   <enabled value="true"/>
                   <font size="16"/>
                   <horizontalAlignment value="0"/>
-                  <text value="Play Card"/>
+                  <text resource-bundle="strings/GUILabels" key="playButton"/>
                 </properties>
               </component>
               <component id="fd8b8" class="javax.swing.JLabel" binding="turnCntLabel">
