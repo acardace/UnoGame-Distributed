@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.rmi.RemoteException;
 
 public class GUITable extends JFrame{
     private static final String CARD_IMG_PATH = "/images/Cards/";
@@ -38,7 +39,7 @@ public class GUITable extends JFrame{
     private UnoPlayer unoPlayer;
     private UnoDeck unoDeck;
 
-    public GUITable(GamePeer gamePeer) {
+    public GUITable(final GamePeer gamePeer) {
         super("UnoGame");
         this.gamePeer = gamePeer;
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -47,12 +48,18 @@ public class GUITable extends JFrame{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setDiscardedDeckFront();
-                removeCard();
-                selectedCard = null;
-                selectedPanel = null;
-                selectedCaption = null;
-                selectedCardImage = null;
+                if (gamePeer.hasGToken()) {
+                    setDiscardedDeckFront(null);
+                    removeCard();
+                    playCard(selectedCard);
+                    setTurnLabel("Nope");
+                    selectedCard = null;
+                    selectedPanel = null;
+                    selectedCaption = null;
+                    selectedCardImage = null;
+                }else{
+                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
@@ -63,13 +70,21 @@ public class GUITable extends JFrame{
         setVisible(true);
     }
 
-
     private void createUIComponents() {
         //cardPanel is the container of the player cards
         cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.LINE_AXIS));
         scrollPanel = new JScrollPane(cardPanel);
         cardPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+    }
+
+    private void playCard(UnoCard card){
+        unoPlayer.playCard(card, unoDeck);
+        try {
+            gamePeer.sendGameToken();
+        }catch (RemoteException e){
+            System.err.println("playCard: sendGameToken() failed");
+        }
     }
 
     private void addCard(final UnoCard card) {
@@ -130,7 +145,7 @@ public class GUITable extends JFrame{
         cardPanel.validate();
     }
 
-    private void setPlusEventLabel(int n){
+    public void setPlusEventLabel(int n){
         sumCards.setText("+"+Integer.toString(n));
     }
 
@@ -146,9 +161,13 @@ public class GUITable extends JFrame{
         }
     }
 
-    private void setDiscardedDeckFront(){
-        if (selectedPanel != null){
+    public void setDiscardedDeckFront(UnoCard card){
+        if (selectedPanel != null && card == null){
             discardsDeckLabel.setIcon(selectedCardImage.getIcon());
+            discardsDeckLabel.validate();
+        }else if( card != null){
+            URL cardImagePath = getClass().getResource(CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT);
+            discardsDeckLabel.setIcon(new ImageIcon(cardImagePath));
             discardsDeckLabel.validate();
         }
     }
@@ -156,11 +175,16 @@ public class GUITable extends JFrame{
     public void initGame(){
         unoPlayer = gamePeer.getUnoPlayer();
         unoDeck = gamePeer.getUnoDeck();
+        gamePeer.setCallbackObject(this);
         gamePeer.initialHand();
         sumCards.setVisible(false);
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
-
+        //TODO change the label in something significant
+        if (gamePeer.hasGToken())
+            setTurnLabel("Your Turn");
+        else
+            setTurnLabel("Nope");
     }
 
 }

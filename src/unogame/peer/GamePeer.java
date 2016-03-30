@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import unogame.game.*;
+import unogame.gui.GUITable;
 
 public class GamePeer implements RemotePeer{
     public HashMap<Integer, RemotePeer> remotePeerHashMap;
@@ -38,6 +39,8 @@ public class GamePeer implements RemotePeer{
     private int expectedTransmissionTime = 100; //in ms
     private static final int gTimeout = 15000; //in ms
 
+    private GUITable callbackObject; //its for updating the turn Label
+
     public GamePeer(int id){
         this.ID = id;
         hasGameToken = false;
@@ -58,6 +61,10 @@ public class GamePeer implements RemotePeer{
         //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
         initFT();
+    }
+
+    public void setCallbackObject(GUITable guiTable){
+        callbackObject = guiTable;
     }
 
     public UnoPlayer getUnoPlayer() {
@@ -134,6 +141,8 @@ public class GamePeer implements RemotePeer{
     @Override
     public void getGameToken(){
         hasGameToken = true;
+        if (callbackObject != null)
+            callbackObject.setTurnLabel("Your Turn");
         System.out.println("\n\n\n\n\nID: " + this.ID + " Game token received!");
 
     }
@@ -287,6 +296,10 @@ public class GamePeer implements RemotePeer{
                 "\nRemovedFromOther:"+howManyPicked);
 
         unoDeck.removeCardFromDeck(howManyPicked);
+        //update GUI
+        if (callbackObject != null){
+            callbackObject.setDiscardedDeckFront(unoDeck.getLastDiscardedCard());
+        }
         if (hasGameToken) {
             gameTimer = new Timer();
             gameTimer.schedule(new GameTimerThread(), gTimeout);
