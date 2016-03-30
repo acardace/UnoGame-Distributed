@@ -20,6 +20,7 @@ public class GUITest {
         long seed = 5;
         int arg = Integer.parseInt(args[0]);
         UnoDeck deck = new UnoDeck(seed);
+        UnoRules.setDeckInUse(deck);
         GamePeer p1 = new GamePeer(arg, arg == 1 , arg == 1, player, deck );
 
         Scanner scanner = new Scanner(System.in);
