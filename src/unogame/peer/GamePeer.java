@@ -143,19 +143,22 @@ public class GamePeer implements RemotePeer{
         hasGameToken = true;
         if (callbackObject != null)
             callbackObject.setTurnLabel("Your Turn");
-        System.out.println("\n\n\n\n\nID: " + this.ID + " Game token received!");
+        System.out.println("\n\n\n\n\nID" + this.ID + " : Game token received!");
 
     }
 
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
-            int peerID=getNextInRing(UnoRules.getDirection());
-            vectorClock[this.ID-1]=tmp_hand_cnt+1;
-            System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
-            hasGameToken = false;
-            remotePeerHashMap.get(peerID).getGameToken();
-            setGlobalState();
             killGameTimer();
+            int peerID=getNextInRing(UnoRules.getDirection());
+            if( peerID != -1) {
+                vectorClock[this.ID - 1] = tmp_hand_cnt + 1;
+                System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID - 1]);
+                hasGameToken = false;
+                remotePeerHashMap.get(peerID).getGameToken();
+                setGlobalState();
+            }else
+                System.err.println("sendGameToken(): no other peer in game");
         }
     }
 
@@ -224,7 +227,7 @@ public class GamePeer implements RemotePeer{
 
     //get the next peerID the ring
     //if it return -1 it means there are no neighbours
-    public int getNextInRing(int direction){
+    private int getNextInRing(int direction){
         int peers = remotePeerHashMap.size()+1;
         try {
             for (int i = getID()+direction; i != getID(); i = i+direction) {
@@ -312,7 +315,7 @@ public class GamePeer implements RemotePeer{
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 if(peerID!=this.ID)
-                remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt);
+                    remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt);
             }catch (RemoteException e){
                 e.printStackTrace();
             }
