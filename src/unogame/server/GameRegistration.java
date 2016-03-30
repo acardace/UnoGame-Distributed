@@ -23,6 +23,7 @@ public class GameRegistration implements RemoteRegistration {
     private int playersReadyCounter;
     private int playersCounter;
     private Timer startGameTimer;
+    private Random randomGenerator;
 
     public ReentrantLock syncPlayersLock;
     public Condition syncPlayersCondition;
@@ -34,6 +35,7 @@ public class GameRegistration implements RemoteRegistration {
         playersReadyCounter = 0;
         playersCounter = 0;
         playersHashMap = new HashMap<>();
+        randomGenerator = new Random();
     }
 
     private int newPlayerID() {
@@ -113,8 +115,7 @@ public class GameRegistration implements RemoteRegistration {
 
     @Override
     public int generateSeed() throws RemoteException {
-        Random random = new Random();
-        return random.nextInt();
+        return randomGenerator.nextInt();
     }
 
     @Override
