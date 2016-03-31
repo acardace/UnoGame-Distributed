@@ -104,6 +104,14 @@ public class UnoRules {
         return false;
     }
 
+    public static boolean hasSomethingPlayable(ArrayList<UnoCard> cards){
+        for(UnoCard card: cards){
+            if (isPlayable(card))
+                return true;
+        }
+        return false;
+    }
+
     private static void updateStatus(){
         currentColor = deckInUse.getLastDiscardedCard().getColor();
         currentNumber = deckInUse.getLastDiscardedCard().getNumber();

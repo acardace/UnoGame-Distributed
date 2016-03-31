@@ -137,19 +137,23 @@ public class GamePeer implements RemotePeer{
         SpecialType lastCardType = unoDeck.getLastDiscardedCard().getType();
         //check if you have received a PLUS card and if you can contest it
         unoPlayer.setCardsToPick(cardsToPick);
-        if( UnoRules.isSpecialPlayable(unoPlayer.getHand()) ) {
-            unoPlayer.setRecvSpecial(true);
-        } else
-            for(int i = 0; i < cardsToPick; i++)
-                callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
         //update GUI
         if (callbackObject != null) {
+            callbackObject.allowDrawing();
+            callbackObject.allowPlaying();
             callbackObject.setTurnLabel("Your Turn");
             if (unoPlayer.getCardsToPick() > 0){
-                callbackObject.setPlusEventLabel(2);
+                callbackObject.setPlusEventLabel(cardsToPick);
             }
             else
                 callbackObject.clearPlusEventLabel();
+        }
+        if( UnoRules.isSpecialPlayable(unoPlayer.getHand()) ) {
+            unoPlayer.setRecvSpecial(true);
+        } else {
+            for(int i = 0; i < cardsToPick; i++)
+                callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
+            unoPlayer.setCardsToPick(0);
         }
         System.out.println("\n\n\n\n\nID" + this.ID + " : Game token received!");
     }

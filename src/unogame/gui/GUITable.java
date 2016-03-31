@@ -52,15 +52,16 @@ public class GUITable extends JFrame{
             public void actionPerformed(ActionEvent actionEvent) {
                 if (selectedCard == null) {
                     JOptionPane.showMessageDialog(rootPanel, "Select a card!", "Fool", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!gamePeer.hasGToken()) {
-                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!UnoRules.isPlayable(selectedCard)){
                     JOptionPane.showMessageDialog(rootPanel, "Card not playable!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }else{
+                    play.setEnabled(false);
+                    draw.setEnabled(false);
                     unoPlayer.setPlayedCard(true);
                     setDiscardedDeckFront(null);
                     removeCard();
                     setTurnLabel("Nope");
+                    clearPlusEventLabel();
                     playCard(selectedCard);
                     selectedCard = null;
                     selectedPanel = null;
@@ -73,15 +74,16 @@ public class GUITable extends JFrame{
         draw.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(!gamePeer.hasGToken()){
-                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
-                }else{
+                draw.setEnabled(false);
+                addCard(unoPlayer.getCardfromDeck(unoDeck));
+                if (!UnoRules.hasSomethingPlayable(unoPlayer.getHand())) {
                     unoPlayer.setPlayedCard(false);
-                    addCard(unoPlayer.getCardfromDeck(unoDeck));
                     setTurnLabel("Nope");
-                    try{
+                    play.setEnabled(false);
+                    clearPlusEventLabel();
+                    try {
                         gamePeer.sendGameToken();
-                    }catch (RemoteException e){
+                    } catch (RemoteException e) {
                         System.err.println("playCard: sendGameToken() failed");
                     }
                 }
@@ -105,12 +107,19 @@ public class GUITable extends JFrame{
 
     private void playCard(UnoCard card){
         unoPlayer.playCard(card, unoDeck);
-        System.out.println("Discard Deck");
         try {
             gamePeer.sendGameToken();
         }catch (RemoteException e){
             System.err.println("playCard: sendGameToken() failed");
         }
+    }
+
+    public void allowDrawing(){
+        draw.setEnabled(true);
+    }
+
+    public void allowPlaying(){
+        play.setEnabled(true);
     }
 
     public void addCard(final UnoCard card) {
@@ -214,10 +223,13 @@ public class GUITable extends JFrame{
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
         //TODO change the label in something significant
-        if (gamePeer.hasGToken())
+        if (gamePeer.hasGToken()) {
             setTurnLabel("Your Turn");
-        else
+        }else {
             setTurnLabel("Nope");
+            draw.setEnabled(false);
+            play.setEnabled(false);
+        }
     }
 
 }
