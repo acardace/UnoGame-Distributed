@@ -57,6 +57,7 @@ public class GUITable extends JFrame{
                 } else if (!UnoRules.isPlayable(selectedCard)){
                     JOptionPane.showMessageDialog(rootPanel, "Card not playable!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }else{
+                    unoPlayer.setPlayedCard(true);
                     setDiscardedDeckFront(null);
                     removeCard();
                     setTurnLabel("Nope");
@@ -75,6 +76,7 @@ public class GUITable extends JFrame{
                 if(!gamePeer.hasGToken()){
                     JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }else{
+                    unoPlayer.setPlayedCard(false);
                     addCard(unoPlayer.getCardfromDeck(unoDeck));
                     setTurnLabel("Nope");
                     try{
@@ -111,7 +113,7 @@ public class GUITable extends JFrame{
         }
     }
 
-    private void addCard(final UnoCard card) {
+    public void addCard(final UnoCard card) {
         URL cardImagePath = getClass().getResource(CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT);
         final JLabel cardImage = new JLabel(new ImageIcon(cardImagePath));
         final JPanel cardContainer = new JPanel();
@@ -171,6 +173,12 @@ public class GUITable extends JFrame{
 
     public void setPlusEventLabel(int n){
         sumCards.setText("+"+Integer.toString(n));
+        sumCards.validate();
+    }
+
+    public void clearPlusEventLabel(){
+        sumCards.setText("");
+        sumCards.validate();
     }
 
     public void setTurnLabel(String s){
@@ -202,7 +210,7 @@ public class GUITable extends JFrame{
         gamePeer.setCallbackObject(this);
         gamePeer.initialHand();
         unoDeck.setHowManyPicked(0);
-        sumCards.setVisible(false);
+        clearPlusEventLabel();
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
         //TODO change the label in something significant

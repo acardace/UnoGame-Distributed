@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface RemotePeer extends Remote{
-    void getGameToken() throws RemoteException;
+    void getGameToken(int cardsToPick) throws RemoteException;
     void getFTToken() throws RemoteException;
     int getID() throws RemoteException;
     int isAlive(int ringSize) throws RemoteException;

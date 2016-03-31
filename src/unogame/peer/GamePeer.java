@@ -84,12 +84,6 @@ public class GamePeer implements RemotePeer{
         ftTimeout = tokenHoldTime*expectedTransmissionTime;
     }
 
-    public void initGT(){ //for testing purpose it is public
-        if(hasGameToken){
-            getGameToken();
-        }
-    }
-
     public void setTokenHoldTime(int tokenHoldTime) {
         this.tokenHoldTime = tokenHoldTime;
         updateFTTimeout();
@@ -138,30 +132,57 @@ public class GamePeer implements RemotePeer{
     }
 
     @Override
-    public void getGameToken(){
+    public void getGameToken(int cardsToPick){
         hasGameToken = true;
-        if (callbackObject != null)
+        SpecialType lastCardType = unoDeck.getLastDiscardedCard().getType();
+        //check if you have received a PLUS card and if you can contest it
+        unoPlayer.setCardsToPick(cardsToPick);
+        if( UnoRules.isSpecialPlayable(unoPlayer.getHand()) ) {
+            unoPlayer.setRecvSpecial(true);
+        } else
+            for(int i = 0; i < cardsToPick; i++)
+                callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
+        //update GUI
+        if (callbackObject != null) {
             callbackObject.setTurnLabel("Your Turn");
+            if (unoPlayer.getCardsToPick() > 0){
+                callbackObject.setPlusEventLabel(2);
+            }
+            else
+                callbackObject.clearPlusEventLabel();
+        }
         System.out.println("\n\n\n\n\nID" + this.ID + " : Game token received!");
-
     }
 
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
             killGameTimer();
+            //check if you have not contested a PLUS card
+            //in that case draw the correct amount from the deck
+            if( unoPlayer.hasRecvSpecial() && ( !unoPlayer.hasPlayedCard() || !unoDeck.getLastDiscardedCard().isPlus() ) ){
+                for(int i = 0; i < unoPlayer.getCardsToPick(); i++)
+                    callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
+            }
+            unoPlayer.setRecvSpecial(false);
             int peerID=getNextInRing(UnoRules.getDirection());
             if( peerID != -1) {
                 vectorClock[this.ID - 1] = tmp_hand_cnt + 1;
                 System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID - 1]);
+                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
                 if( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE && remotePeerHashMap.size() == 1 ){
-                    getGameToken();
+                    getGameToken(unoPlayer.getCardsToPick());
                 }else {
                     hasGameToken = false;
-                    remotePeerHashMap.get(peerID).getGameToken();
+                    if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 )
+                        remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+2);
+                    else if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4 )
+                        remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+4);
+                    else
+                        remotePeerHashMap.get(peerID).getGameToken(0);
                 }
-                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             }else
                 System.err.println("sendGameToken(): no other peer in game");
+            unoPlayer.setCardsToPick(0);
         }
     }
 

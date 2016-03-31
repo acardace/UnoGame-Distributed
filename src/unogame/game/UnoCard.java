@@ -52,6 +52,10 @@ public class UnoCard implements Serializable{
         return this.special;
     }
 
+    public boolean isPlus() {
+        return type == SpecialType.PLUS2 || type == SpecialType.PLUS4;
+    }
+
     public Color getColor() {
         return color;
     }

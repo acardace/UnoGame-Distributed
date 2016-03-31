@@ -66,8 +66,7 @@ public class UnoRules {
     }
 
     public static boolean isPlayable(UnoCard card){
-        updateStatus(); //redundant?? depends on how we're going to use it once we implement the TableGUI
-        //this only happens when the first discarded card is a special one
+        updateStatus();
         if(currentColor.equals(Color.BLACK)){
             return true;
         }
@@ -87,6 +86,22 @@ public class UnoRules {
 
     public static boolean isChangingDirection(UnoCard card){
         return card.getType() == SpecialType.REVERSE;
+    }
+
+    public static boolean isSpecialPlayable(ArrayList<UnoCard> cards){
+        updateStatus();
+        if( currentType == SpecialType.PLUS2){
+            for(UnoCard card: cards){
+                if (card.getType() == currentType && card.getColor() == currentColor)
+                    return true;
+            }
+        }else if(currentType == SpecialType.PLUS4){
+            for(UnoCard card: cards){
+                if (card.getType() == currentType)
+                    return true;
+            }
+        }
+        return false;
     }
 
     private static void updateStatus(){

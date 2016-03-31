@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class UnoPlayer {
     private ArrayList<UnoCard> hand;
+    private boolean recvSpecial = false;
+    private int cardsToPick = 0; //when you recv a plus card, the count is here
+    private boolean playedCard = false; //the player has played a card in this turn
 
     public ArrayList<UnoCard> getHand() {
         return hand;
@@ -28,10 +31,34 @@ public class UnoPlayer {
         return false;
     }
 
+    public boolean hasRecvSpecial() {
+        return recvSpecial;
+    }
+
+    public void setRecvSpecial(boolean recvSpecial) {
+        this.recvSpecial = recvSpecial;
+    }
+
+    public int getCardsToPick() {
+        return cardsToPick;
+    }
+
+    public void setCardsToPick(int cardsToPick) {
+        this.cardsToPick = cardsToPick;
+    }
+
     public UnoCard getCardfromDeck(UnoDeck deck){
         UnoCard card=deck.drawCard();
         hand.add(card);
         return card;
+    }
+
+    public boolean hasPlayedCard() {
+        return playedCard;
+    }
+
+    public void setPlayedCard(boolean playedCard) {
+        this.playedCard = playedCard;
     }
 
     public void emptyHand(){
