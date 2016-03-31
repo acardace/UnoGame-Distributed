@@ -153,8 +153,12 @@ public class GamePeer implements RemotePeer{
             if( peerID != -1) {
                 vectorClock[this.ID - 1] = tmp_hand_cnt + 1;
                 System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID - 1]);
-                hasGameToken = false;
-                remotePeerHashMap.get(peerID).getGameToken();
+                if( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE && remotePeerHashMap.size() == 1 ){
+                    getGameToken();
+                }else {
+                    hasGameToken = false;
+                    remotePeerHashMap.get(peerID).getGameToken();
+                }
                 setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             }else
                 System.err.println("sendGameToken(): no other peer in game");

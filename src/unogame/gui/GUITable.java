@@ -104,8 +104,6 @@ public class GUITable extends JFrame{
     private void playCard(UnoCard card){
         unoPlayer.playCard(card, unoDeck);
         System.out.println("Discard Deck");
-        for (UnoCard cardinDeck: unoDeck.stackDiscardDeck)
-            System.out.println(cardinDeck.getCardID());
         try {
             gamePeer.sendGameToken();
         }catch (RemoteException e){
