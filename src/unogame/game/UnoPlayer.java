@@ -28,9 +28,10 @@ public class UnoPlayer {
         return false;
     }
 
-    public void getCardfromDeck(UnoDeck deck){
+    public UnoCard getCardfromDeck(UnoDeck deck){
         UnoCard card=deck.drawCard();
         hand.add(card);
+        return card;
     }
 
     public void emptyHand(){

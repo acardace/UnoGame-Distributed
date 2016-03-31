@@ -31,6 +31,7 @@ public class GUITable extends JFrame{
     private JLabel player4Label;
     private JLabel player3Label;
     private JLabel deckLabel;
+    private JButton draw;
     private JPanel cardPanel;
     private JPanel selectedPanel;
     private UnoCard selectedCard;
@@ -64,6 +65,23 @@ public class GUITable extends JFrame{
                     selectedPanel = null;
                     selectedCaption = null;
                     selectedCardImage = null;
+                }
+            }
+        });
+
+        draw.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(!gamePeer.hasGToken()){
+                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    addCard(unoPlayer.getCardfromDeck(unoDeck));
+                    setTurnLabel("Nope");
+                    try{
+                        gamePeer.sendGameToken();
+                    }catch (RemoteException e){
+                        System.err.println("playCard: sendGameToken() failed");
+                    }
                 }
             }
         });

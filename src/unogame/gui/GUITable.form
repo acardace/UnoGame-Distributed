@@ -120,6 +120,15 @@
             </properties>
             <border type="none"/>
             <children>
+              <vspacer id="c8b03">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="80"/>
+                    <preferred-size width="11" height="39"/>
+                    <maximum-size width="-1" height="80"/>
+                  </grid>
+                </constraints>
+              </vspacer>
               <component id="d4a37" class="javax.swing.JLabel" binding="background">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -131,15 +140,6 @@
                   <text value=""/>
                 </properties>
               </component>
-              <vspacer id="c8b03">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                    <minimum-size width="-1" height="80"/>
-                    <preferred-size width="11" height="39"/>
-                    <maximum-size width="-1" height="80"/>
-                  </grid>
-                </constraints>
-              </vspacer>
             </children>
           </grid>
           <grid id="fe4da" binding="infoAndButtonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -206,16 +206,25 @@
                   <text value="+16"/>
                 </properties>
               </component>
-              <hspacer id="3a5de">
-                <constraints>
-                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
               <hspacer id="a5bf">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
               </hspacer>
+              <component id="c1a8d" class="javax.swing.JButton" binding="draw">
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="150" height="50"/>
+                    <preferred-size width="150" height="50"/>
+                    <maximum-size width="150" height="50"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-1182209"/>
+                  <font size="16"/>
+                  <text value="Draw Card"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <scrollpane id="5bc0a" binding="scrollPanel" custom-create="true">
