@@ -3,6 +3,7 @@ package unogame.gui;
 import unogame.game.UnoCard;
 import unogame.game.UnoDeck;
 import unogame.game.UnoPlayer;
+import unogame.game.UnoRules;
 import unogame.peer.GamePeer;
 
 import javax.swing.*;
@@ -48,17 +49,21 @@ public class GUITable extends JFrame{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (gamePeer.hasGToken() && selectedCard != null) {
+                if (selectedCard == null) {
+                    JOptionPane.showMessageDialog(rootPanel, "Select a card!", "Fool", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!gamePeer.hasGToken()) {
+                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!UnoRules.isPlayable(selectedCard)){
+                    JOptionPane.showMessageDialog(rootPanel, "Card not playable!", "Fool", JOptionPane.INFORMATION_MESSAGE);
+                }else{
                     setDiscardedDeckFront(null);
                     removeCard();
-                    playCard(selectedCard);
                     setTurnLabel("Nope");
+                    playCard(selectedCard);
                     selectedCard = null;
                     selectedPanel = null;
                     selectedCaption = null;
                     selectedCardImage = null;
-                }else{
-                    JOptionPane.showMessageDialog(rootPanel, "It's not your turn!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -80,6 +85,9 @@ public class GUITable extends JFrame{
 
     private void playCard(UnoCard card){
         unoPlayer.playCard(card, unoDeck);
+        System.out.println("Discard Deck");
+        for (UnoCard cardinDeck: unoDeck.stackDiscardDeck)
+            System.out.println(cardinDeck.getCardID());
         try {
             gamePeer.sendGameToken();
         }catch (RemoteException e){
@@ -161,12 +169,12 @@ public class GUITable extends JFrame{
         }
     }
 
-    public void setDiscardedDeckFront(UnoCard card){
-        if (selectedPanel != null && card == null){
+    public void setDiscardedDeckFront(String cardID){
+        if (selectedPanel != null && cardID == null){
             discardsDeckLabel.setIcon(selectedCardImage.getIcon());
             discardsDeckLabel.validate();
-        }else if( card != null){
-            URL cardImagePath = getClass().getResource(CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT);
+        }else if( cardID != null){
+            URL cardImagePath = getClass().getResource(CARD_IMG_PATH+cardID+CARD_IMG_EXT);
             discardsDeckLabel.setIcon(new ImageIcon(cardImagePath));
             discardsDeckLabel.validate();
         }
@@ -177,6 +185,7 @@ public class GUITable extends JFrame{
         unoDeck = gamePeer.getUnoDeck();
         gamePeer.setCallbackObject(this);
         gamePeer.initialHand();
+        unoDeck.setHowManyPicked(0);
         sumCards.setVisible(false);
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);

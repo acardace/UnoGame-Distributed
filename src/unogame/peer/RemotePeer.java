@@ -1,5 +1,7 @@
 package unogame.peer;
 
+import unogame.game.UnoCard;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -13,6 +15,6 @@ public interface RemotePeer extends Remote{
     void reconfigureRing(ArrayList<Integer> crashedPeers) throws RemoteException;
     boolean hasGToken() throws RemoteException;
     void addPlayers(HashMap<Integer, String> peers) throws RemoteException;
-    void getGlobalState(int sender, int hand_cnt, int howManyPicked) throws RemoteException;
-    void setGlobalState() throws RemoteException;
+    void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction) throws RemoteException;
+    void setGlobalState(UnoCard card, int direction) throws RemoteException;
 }

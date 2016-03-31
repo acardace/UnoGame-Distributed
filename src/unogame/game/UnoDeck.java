@@ -17,7 +17,7 @@ public class UnoDeck implements Serializable{
 
     //The unoCard object and how many of it there are in the deck
     private Stack<UnoCard> stackDeck;
-    private Stack<UnoCard> stackDiscardDeck;
+    public Stack<UnoCard> stackDiscardDeck;
 
     //Creation of a standard Uno Deck
     public UnoDeck(long seed){

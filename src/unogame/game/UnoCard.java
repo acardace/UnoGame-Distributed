@@ -1,18 +1,17 @@
 package unogame.game;
 
+import java.io.IOException;
+import java.io.Serializable;
+
 /**
  * A Uno Card
  */
 
-public class UnoCard {
+public class UnoCard implements Serializable{
     private Color color;
     private Number number;
     private boolean special;
     private SpecialType type;
-
-    public UnoCard(){
-
-    }
 
     public UnoCard(Color color, Number number){
         this.color = color;
@@ -26,6 +25,27 @@ public class UnoCard {
         this.type = type;
         this.special = true;
         this.number = Number.NONE;
+    }
+
+    //Serialization implementation
+    private void writeObject(java.io.ObjectOutputStream out){
+        try{
+            out.defaultWriteObject();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void readObject(java.io.ObjectInputStream in){
+        try{
+            in.defaultReadObject();
+        }catch(ClassNotFoundException|IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void readObjectNoData(){
+
     }
 
     public boolean isSpecial(){

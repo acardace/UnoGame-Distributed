@@ -37,7 +37,8 @@ public class GamePeer implements RemotePeer{
     private int ftTimeout; //in ms
     private int tokenHoldTime = 1000; //in ms
     private int expectedTransmissionTime = 100; //in ms
-    private static final int gTimeout = 15000; //in ms
+    //TODO this is a debug value, change it to something significant
+    private static final int gTimeout = 120000; //in ms
 
     private GUITable callbackObject; //its for updating the turn Label
 
@@ -80,8 +81,6 @@ public class GamePeer implements RemotePeer{
         ftTokenPasserThread = new FTTokenPasserThread();
         ftTokenRecvLock = new ReentrantLock();
         ftTokenRecv = false;
-        tokenHoldTime = 1000;
-        expectedTransmissionTime = 100;
         ftTimeout = tokenHoldTime*expectedTransmissionTime;
     }
 
@@ -156,7 +155,7 @@ public class GamePeer implements RemotePeer{
                 System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID - 1]);
                 hasGameToken = false;
                 remotePeerHashMap.get(peerID).getGameToken();
-                setGlobalState();
+                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             }else
                 System.err.println("sendGameToken(): no other peer in game");
         }
@@ -231,7 +230,7 @@ public class GamePeer implements RemotePeer{
         int peers = remotePeerHashMap.size()+1;
         try {
             for (int i = getID()+direction; i != getID(); i = i+direction) {
-                if(i>peers)
+                if(i>peers || i < 0)
                     i = 1;
                 else if(i==0)
                     i = peers;
@@ -255,8 +254,10 @@ public class GamePeer implements RemotePeer{
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 int ringSize = remotePeerHashMap.size();
-                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize )
+                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
+                    System.out.println("recoveryProcedure(): Peer "+peerID+" is alive, but wrong answer");
                     crashedPeers.add(peerID);
+                }
                 //check if the GameToken got lost
                 if( remotePeerHashMap.get(peerID).hasGToken() )
                     gameTokenLost = true;
@@ -291,17 +292,20 @@ public class GamePeer implements RemotePeer{
     }
 
 
-    public void getGlobalState(int sender, int hand_cnt, int howManyPicked){
+    @Override
+    public void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction){
         vectorClock[sender-1]=hand_cnt;
         tmp_hand_cnt=hand_cnt;
         unoDeck.setHowManyPicked(0);
-        System.out.println("Initial:"+unoDeck.getHowManyPicked()+
-                "\nRemovedFromOther:"+howManyPicked);
-
         unoDeck.removeCardFromDeck(howManyPicked);
+        unoDeck.setLastDiscardedCard(card);
+        UnoRules.setDirection(direction);
+        System.out.println("RemovedFromOther:"+howManyPicked);
+        System.out.println("Direction: "+direction);
+        System.out.println("Played Card: "+card.getCardID());
         //update GUI
-        if (callbackObject != null){
-            callbackObject.setDiscardedDeckFront(unoDeck.getLastDiscardedCard());
+        if (callbackObject != null && card != null){
+            callbackObject.setDiscardedDeckFront(card.getCardID());
         }
         if (hasGameToken) {
             gameTimer = new Timer();
@@ -309,13 +313,14 @@ public class GamePeer implements RemotePeer{
         }
     }
 
-    public void setGlobalState() throws RemoteException{
+    @Override
+    public void setGlobalState(UnoCard card, int direction) throws RemoteException{
         int hand_cnt = tmp_hand_cnt+1;
         int pickedCnt=unoDeck.getHowManyPicked();
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 if(peerID!=this.ID)
-                    remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt);
+                    remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt, card, direction);
             }catch (RemoteException e){
                 e.printStackTrace();
             }

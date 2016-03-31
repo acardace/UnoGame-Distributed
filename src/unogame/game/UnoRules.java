@@ -28,6 +28,10 @@ public class UnoRules {
         return direction;
     }
 
+    public static void setDirection(int direction) {
+        UnoRules.direction = direction;
+    }
+
     public static UnoDeck getDeckInUse() {
         return deckInUse;
     }

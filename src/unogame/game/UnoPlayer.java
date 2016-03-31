@@ -25,7 +25,6 @@ public class UnoPlayer {
             hand.remove(card);
             return true;
         }
-
         return false;
     }
 
