@@ -1,9 +1,7 @@
 package unogame.gui;
 
-import unogame.game.UnoCard;
-import unogame.game.UnoDeck;
-import unogame.game.UnoPlayer;
-import unogame.game.UnoRules;
+import unogame.game.*;
+import unogame.game.Color;
 import unogame.peer.GamePeer;
 
 import javax.swing.*;
@@ -55,13 +53,26 @@ public class GUITable extends JFrame{
                 } else if (!UnoRules.isPlayable(selectedCard)){
                     JOptionPane.showMessageDialog(rootPanel, "Card not playable!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }else{
+                    if (selectedCard.isSpecial() && selectedCard.getColor() == Color.BLACK) {
+                        //TESTING
+                        unoPlayer.setSelectedColor(Color.GREEN);
+                        UnoRules.setCurrentColor(Color.GREEN);
+                        if(selectedCard.isPlus()){
+                            if(selectedCard.getType() == SpecialType.PLUS2)
+                                setEventLabel(2, Color.GREEN);
+                            else
+                                setEventLabel(4, Color.GREEN);
+                        }else
+                            setEventLabel(0, Color.GREEN);
+                    }else {
+                        clearEventLabel();
+                    }
                     play.setEnabled(false);
                     draw.setEnabled(false);
                     unoPlayer.setPlayedCard(true);
                     setDiscardedDeckFront(null);
-                    removeCard();
                     setTurnLabel("Nope");
-                    clearPlusEventLabel();
+                    removeCard();
                     playCard(selectedCard);
                     selectedCard = null;
                     selectedPanel = null;
@@ -80,7 +91,7 @@ public class GUITable extends JFrame{
                     unoPlayer.setPlayedCard(false);
                     setTurnLabel("Nope");
                     play.setEnabled(false);
-                    clearPlusEventLabel();
+                    clearEventLabel();
                     try {
                         gamePeer.sendGameToken();
                     } catch (RemoteException e) {
@@ -180,12 +191,31 @@ public class GUITable extends JFrame{
         cardPanel.validate();
     }
 
-    public void setPlusEventLabel(int n){
-        sumCards.setText("+"+Integer.toString(n));
+    public void setEventLabel(int n, Color color){
+        String text = "";
+        if( color != null ) {
+            switch (color) {
+                case GREEN:
+                    text = "Green";
+                    break;
+                case RED:
+                    text = "Red";
+                    break;
+                case BLUE:
+                    text = "Blue";
+                    break;
+                case YELLOW:
+                    text = "Yellow";
+                    break;
+            }
+        }
+        if( n > 0 )
+            text += "+"+Integer.toString(n);
+        sumCards.setText(text);
         sumCards.validate();
     }
 
-    public void clearPlusEventLabel(){
+    public void clearEventLabel(){
         sumCards.setText("");
         sumCards.validate();
     }
@@ -219,7 +249,7 @@ public class GUITable extends JFrame{
         gamePeer.setCallbackObject(this);
         gamePeer.initialHand();
         unoDeck.setHowManyPicked(0);
-        clearPlusEventLabel();
+        clearEventLabel();
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
         //TODO change the label in something significant

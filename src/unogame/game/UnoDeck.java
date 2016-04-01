@@ -25,7 +25,7 @@ public class UnoDeck implements Serializable{
         //to 108 (Uno number of cards) + 2 as to prevent the rehashing of
         //the structure when the structure reaches full capacity
         //the load factor is 1.0
-        stackDiscardDeck= new Stack();
+        stackDiscardDeck= new Stack<>();
         stackDeck = new Stack<>();
         for( Color c: Color.values()){
             if(c != Color.BLACK) {
@@ -94,6 +94,10 @@ public class UnoDeck implements Serializable{
         for(int i=0; i<INITIAL_HAND; i++)
             hand.add(drawCard());
         return hand;
+    }
+
+    public UnoCard previousPlayedCard(){
+        return stackDiscardDeck.get(stackDiscardDeck.size()-2);
     }
 
     public void setHowManyPicked(int n){

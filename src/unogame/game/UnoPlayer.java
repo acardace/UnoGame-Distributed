@@ -10,6 +10,7 @@ public class UnoPlayer {
     private boolean recvSpecial = false;
     private int cardsToPick = 0; //when you recv a plus card, the count is here
     private boolean playedCard = false; //the player has played a card in this turn
+    private Color selectedColor = null;
 
     public ArrayList<UnoCard> getHand() {
         return hand;
@@ -19,16 +20,11 @@ public class UnoPlayer {
         hand = deck.drawHand();
     }
 
-    public boolean playCard(UnoCard card, UnoDeck deck){
-        //TODO add plus card counter and direction
-        if(UnoRules.isPlayable(card)){
-            if(UnoRules.isChangingDirection(card))
-                UnoRules.changeDirection();
-            deck.setLastDiscardedCard(card);
-            hand.remove(card);
-            return true;
-        }
-        return false;
+    public void playCard(UnoCard card, UnoDeck deck){
+        if(UnoRules.isChangingDirection(card))
+            UnoRules.changeDirection();
+        deck.setLastDiscardedCard(card);
+        hand.remove(card);
     }
 
     public boolean hasRecvSpecial() {
@@ -59,6 +55,14 @@ public class UnoPlayer {
 
     public void setPlayedCard(boolean playedCard) {
         this.playedCard = playedCard;
+    }
+
+    public Color getSelectedColor() {
+        return selectedColor;
+    }
+
+    public void setSelectedColor(Color selectedColor) {
+        this.selectedColor = selectedColor;
     }
 
     public void emptyHand(){

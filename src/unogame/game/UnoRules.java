@@ -11,7 +11,7 @@ public class UnoRules {
     private static final int BACKWARDS = -1;
 
     private static UnoDeck deckInUse;
-    private static Color currentColor;
+    private static Color currentColor = Color.BLACK;
     private static Number currentNumber;
     private static SpecialType currentType;
     private static int direction = 1; //1 = FORWARD or  -1 = BACKWARDS
@@ -71,12 +71,13 @@ public class UnoRules {
             return true;
         }
         if (card.getColor().equals(currentColor)
-                || card.getNumber().equals(currentNumber)){
+                || ( card.getNumber().equals(currentNumber) && !currentNumber.equals(Number.NONE)) ){
             return true;
         }
         if (card.getType().equals(SpecialType.CHANGECOLOUR) ||
-                card.getType().equals(SpecialType.PLUS4))
+                card.getType().equals(SpecialType.PLUS4)) {
             return true;
+        }
         if (deckInUse.getLastDiscardedCard().isSpecial() && card.isSpecial()
                 && card.getType().equals(currentType) ){
                 return true;
@@ -92,7 +93,7 @@ public class UnoRules {
         updateStatus();
         if( currentType == SpecialType.PLUS2){
             for(UnoCard card: cards){
-                if (card.getType() == currentType && card.getColor() == currentColor)
+                if (card.getType() == currentType)
                     return true;
             }
         }else if(currentType == SpecialType.PLUS4){
@@ -113,7 +114,8 @@ public class UnoRules {
     }
 
     private static void updateStatus(){
-        currentColor = deckInUse.getLastDiscardedCard().getColor();
+        if( deckInUse.getLastDiscardedCard().getColor() != Color.BLACK)
+            currentColor = deckInUse.getLastDiscardedCard().getColor();
         currentNumber = deckInUse.getLastDiscardedCard().getNumber();
         currentType = deckInUse.getLastDiscardedCard().getType();
     }

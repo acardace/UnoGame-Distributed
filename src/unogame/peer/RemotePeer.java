@@ -1,5 +1,6 @@
 package unogame.peer;
 
+import unogame.game.Color;
 import unogame.game.UnoCard;
 
 import java.rmi.Remote;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface RemotePeer extends Remote{
-    void getGameToken(int cardsToPick) throws RemoteException;
+    void getGameToken(int cardsToPick, Color color) throws RemoteException;
     void getFTToken() throws RemoteException;
     int getID() throws RemoteException;
     int isAlive(int ringSize) throws RemoteException;
