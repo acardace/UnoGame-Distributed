@@ -222,7 +222,7 @@
                 <properties>
                   <background color="-1182209"/>
                   <font size="16"/>
-                  <text value="Draw Card"/>
+                  <text resource-bundle="strings/GUILabels" key="drawButton"/>
                 </properties>
               </component>
               <hspacer id="6d636">
