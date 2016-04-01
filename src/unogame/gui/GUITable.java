@@ -54,16 +54,16 @@ public class GUITable extends JFrame{
                     JOptionPane.showMessageDialog(rootPanel, "Card not playable!", "Fool", JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     if (selectedCard.isSpecial() && selectedCard.getColor() == Color.BLACK) {
-                        //TESTING
-                        unoPlayer.setSelectedColor(Color.GREEN);
-                        UnoRules.setCurrentColor(Color.GREEN);
+                        Color selectedColor = new ColorDialog().selectColor();
+                        unoPlayer.setSelectedColor(selectedColor);
+                        UnoRules.setCurrentColor(selectedColor);
                         if(selectedCard.isPlus()){
                             if(selectedCard.getType() == SpecialType.PLUS2)
-                                setEventLabel(2, Color.GREEN);
+                                setEventLabel(2, selectedColor);
                             else
-                                setEventLabel(4, Color.GREEN);
+                                setEventLabel(4, selectedColor);
                         }else
-                            setEventLabel(0, Color.GREEN);
+                            setEventLabel(0, selectedColor);
                     }else {
                         clearEventLabel();
                     }

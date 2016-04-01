@@ -1,5 +1,7 @@
 package unogame.gui;
 
+import unogame.game.Color;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ ColorDialog extends JDialog {
     private JButton greenButton;
     private JButton redButton;
     private JButton yellowButton;
+    private Color selectedColor;
 
     public ColorDialog() {
         setContentPane(contentPane);
@@ -18,6 +21,7 @@ ColorDialog extends JDialog {
         blueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedColor = Color.BLUE;
                 dispose();
             }
         });
@@ -25,6 +29,7 @@ ColorDialog extends JDialog {
         greenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedColor = Color.GREEN;
                 dispose();
             }
         });
@@ -32,6 +37,7 @@ ColorDialog extends JDialog {
         redButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedColor = Color.RED;
                 dispose();
             }
         });
@@ -39,14 +45,18 @@ ColorDialog extends JDialog {
         yellowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                selectedColor = Color.YELLOW;
                 dispose();
             }
         });
+    }
 
+    public Color selectColor(){
         pack();
         setLocationRelativeTo(null);
         setModal(true);
         setVisible(true);
+        return selectedColor;
     }
 
 }
