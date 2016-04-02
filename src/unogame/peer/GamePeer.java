@@ -27,6 +27,7 @@ public class GamePeer implements RemotePeer{
     private Timer gameTimer;
     private FTTokenPasserThread ftTokenPasserThread;
     private int tmp_hand_cnt;
+    private int turnOfPlayer;
     private UnoPlayer unoPlayer;
     private UnoDeck unoDeck;
 
@@ -59,9 +60,21 @@ public class GamePeer implements RemotePeer{
         this.unoDeck = unoDeck;
         remotePeerHashMap = new HashMap<>();
         vectorClock= new int[8];
+        turnOfPlayer = 0;
         //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
         initFT();
+    }
+
+    public int getTurnOfPlayer() {
+        return turnOfPlayer;
+    }
+
+    public void setTurnOfPlayer(int turnOfPlayer) {
+        this.turnOfPlayer = turnOfPlayer;
+        if (callbackObject != null){
+            callbackObject.setTurnLabel("Player "+turnOfPlayer);
+        }
     }
 
     public void setCallbackObject(GUITable guiTable){
@@ -194,13 +207,16 @@ public class GamePeer implements RemotePeer{
                 peerID = getNextInRing(UnoRules.getDirection());
             vectorClock[ this.ID ] = tmp_hand_cnt + 1;
             System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID ]);
-            setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             if( remotePeerHashMap.size() == 1 &&
                     ( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE ||
                     unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP ) ){
+                setTurnOfPlayer(getID());
+                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
                 getGameToken(unoPlayer.getCardsToPick(), unoPlayer.getSelectedColor());
             }else if( peerID != -1){
                 hasGameToken = false;
+                setTurnOfPlayer(peerID);
+                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
                 if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 ) {
                     remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+2, unoPlayer.getSelectedColor());
                 }
@@ -346,7 +362,7 @@ public class GamePeer implements RemotePeer{
 
 
     @Override
-    public void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction){
+    public void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction, int turnOfPlayer){
         vectorClock[sender]=hand_cnt;
         tmp_hand_cnt=hand_cnt;
         unoDeck.setHowManyPicked(0);
@@ -359,6 +375,7 @@ public class GamePeer implements RemotePeer{
         //update GUI
         if (callbackObject != null && card != null){
             callbackObject.setDiscardedDeckFront(card.getCardID());
+            callbackObject.setTurnLabel("Player "+turnOfPlayer);
         }
         if (hasGameToken) {
             gameTimer = new Timer();
@@ -373,7 +390,7 @@ public class GamePeer implements RemotePeer{
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 if(peerID!=this.ID)
-                    remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt, card, direction);
+                    remotePeerHashMap.get(peerID).getGlobalState(this.ID, hand_cnt,pickedCnt, card, direction, turnOfPlayer);
             }catch (RemoteException e){
                 e.printStackTrace();
             }

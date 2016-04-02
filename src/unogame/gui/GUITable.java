@@ -71,7 +71,6 @@ public class GUITable extends JFrame{
                     draw.setEnabled(false);
                     unoPlayer.setPlayedCard(true);
                     setDiscardedDeckFront(null);
-                    setTurnLabel("Nope");
                     removeCard();
                     playCard(selectedCard);
                     selectedCard = null;
@@ -89,7 +88,6 @@ public class GUITable extends JFrame{
                 addCard(unoPlayer.getCardfromDeck(unoDeck));
                 if (!UnoRules.hasSomethingPlayable(unoPlayer.getHand())) {
                     unoPlayer.setPlayedCard(false);
-                    setTurnLabel("Nope");
                     play.setEnabled(false);
                     clearEventLabel();
                     try {
@@ -269,7 +267,7 @@ public class GUITable extends JFrame{
         if (gamePeer.hasGToken()) {
             setTurnLabel("Your Turn");
         }else {
-            setTurnLabel("Nope");
+            setTurnLabel("Player "+gamePeer.getTurnOfPlayer());
             draw.setEnabled(false);
             play.setEnabled(false);
         }
