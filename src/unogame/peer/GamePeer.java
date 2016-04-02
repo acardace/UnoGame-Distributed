@@ -156,9 +156,20 @@ public class GamePeer implements RemotePeer{
         System.out.println("\n\n\n\n\nID" + this.ID + " : Game token received!");
     }
 
+    @Override
+    public void announceSkip() throws RemoteException {
+        if(callbackObject != null){
+            callbackObject.setEventSkip();
+        }
+    }
+
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
             killGameTimer();
+            //this is to propagate a colour change
+            if( !unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.CHANGECOLOUR
+                    || unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4)
+                unoPlayer.setSelectedColor(UnoRules.getCurrentColor());
             //check if you have not contested a PLUS card
             //in that case draw the correct amount from the deck
             if( unoPlayer.hasRecvSpecial() && ( !unoPlayer.hasPlayedCard() || !unoDeck.getLastDiscardedCard().isSamePlus(unoDeck.previousPlayedCard()) ) ){
@@ -167,26 +178,43 @@ public class GamePeer implements RemotePeer{
                 unoPlayer.setCardsToPick(0);
             }
             unoPlayer.setRecvSpecial(false);
-            int peerID=getNextInRing(UnoRules.getDirection());
-            if( peerID != -1) {
-                vectorClock[this.ID - 1] = tmp_hand_cnt + 1;
-                System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID - 1]);
-                setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
-                if( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE && remotePeerHashMap.size() == 1 ){
-                    getGameToken(unoPlayer.getCardsToPick(), unoPlayer.getSelectedColor());
-                }else {
-                    hasGameToken = false;
-                    if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 )
-                        remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+2, unoPlayer.getSelectedColor());
-                    else if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4 )
-                        remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+4, unoPlayer.getSelectedColor());
-                    else
-                        remotePeerHashMap.get(peerID).getGameToken(0, unoPlayer.getSelectedColor());
+            int peerID = -1;
+            if (unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP) {
+                //notify the other player that he's skipping
+                int skipID = getNextInRing(UnoRules.getDirection());
+                if (skipID != -1){
+                    remotePeerHashMap.get(skipID).announceSkip();
+                }else{
+                    System.err.println("sendGameToken(): no other peer in game");
                 }
-            }else
+                peerID = getNextInRing(UnoRules.getDirection() * 2);
+            }
+            else
+                peerID = getNextInRing(UnoRules.getDirection());
+
+            vectorClock[ this.ID ] = tmp_hand_cnt + 1;
+            System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID ]);
+            setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
+            if( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE
+                    || unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP
+                    && remotePeerHashMap.size() == 1 ){
+                getGameToken(unoPlayer.getCardsToPick(), unoPlayer.getSelectedColor());
+            }else if( peerID != -1){
+                hasGameToken = false;
+                if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 ) {
+                    remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+2, unoPlayer.getSelectedColor());
+                }
+                else if( unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4 ) {
+                    remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+4, unoPlayer.getSelectedColor());
+                }
+                else {
+                    remotePeerHashMap.get(peerID).getGameToken(0, unoPlayer.getSelectedColor());
+                }
+            } else {
                 System.err.println("sendGameToken(): no other peer in game");
-            unoPlayer.setCardsToPick(0);
+            }
             unoPlayer.setSelectedColor(null);
+            unoPlayer.setCardsToPick(0);
         }
     }
 
@@ -223,6 +251,7 @@ public class GamePeer implements RemotePeer{
         for(Integer peerID: crashedPeers){
             remotePeerHashMap.remove(peerID);
         }
+        System.out.println("reconfigureRing(): reconfiguring completed");
     }
 
     //isAlive procedure in a challenge&response way
@@ -257,19 +286,13 @@ public class GamePeer implements RemotePeer{
     //if it return -1 it means there are no neighbours
     private int getNextInRing(int direction){
         int peers = remotePeerHashMap.size()+1;
-        try {
-            for (int i = getID()+direction; i != getID(); i = i+direction) {
-                if(i>peers || i < 0)
-                    i = 1;
-                else if(i==0)
-                    i = peers;
-                if (remotePeerHashMap.containsKey(i))
-                    return i;
-            }
-        }catch (ArithmeticException e){
-            System.out.println("getNextInRing(): no other peers in the ring");
-            return -1;
+        int index = getID();
+        for( int i = 0; i < remotePeerHashMap.size(); i++){
+            index = (index+direction)%peers;
+            if ( remotePeerHashMap.containsKey(index) )
+                return index;
         }
+        System.err.println("getNextInRing(): no other peers in the ring");
         return -1;
     }
 
@@ -323,7 +346,7 @@ public class GamePeer implements RemotePeer{
 
     @Override
     public void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction){
-        vectorClock[sender-1]=hand_cnt;
+        vectorClock[sender]=hand_cnt;
         tmp_hand_cnt=hand_cnt;
         unoDeck.setHowManyPicked(0);
         unoDeck.removeCardFromDeck(howManyPicked);
@@ -387,9 +410,9 @@ public class GamePeer implements RemotePeer{
                  System.out.println("FT_Thread: Failure detected, token not received in "+ftTimeout+"ms");
                  System.out.println("FT_Thread: starting recovery procedure");
                  if( !recoveryProcedure() ){
-                     ftTokenPasserThread.interrupt();
                      System.out.println("FT_Thread: Recovery did not complete");
                      System.out.println("FT_Thread: Terminating tokenPasser thread");
+                     ftTokenPasserThread.interrupt();
                  }else
                      System.out.println("FT_Thread: Recovery completed");
              }
@@ -446,6 +469,7 @@ public class GamePeer implements RemotePeer{
                     if( !recoveryProcedure() ){
                         return false;
                     }
+                    System.out.println("passFTToken(): Recovery completed");
                 }
                 nextPeer = getNextInRing(FT_RING_DIRECTION);
             }
@@ -457,15 +481,16 @@ public class GamePeer implements RemotePeer{
     public class GameTimerThread extends TimerTask{
 
         public void run(){
-
-            //Sei un coglione che hai fatto scadere il tempo
-            //beccati sta carta, e neanche la butti così la prossima volta ti sbrighi
             System.out.println("Hand timeout elapsed! Default step");
-            unoPlayer.getCardfromDeck(unoDeck);
+            callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
+            callbackObject.disallowDrawing();
+            callbackObject.disallowPlaying();
+            callbackObject.setTurnLabel("Nope");
+            callbackObject.clearEventLabel();
             try {
                 sendGameToken();
             } catch (RemoteException e) {
-                e.printStackTrace();
+                System.err.println("GameTimerThread: sendGameToken() failed");
             }
         }
     }

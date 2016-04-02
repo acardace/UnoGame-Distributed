@@ -18,4 +18,5 @@ public interface RemotePeer extends Remote{
     void addPlayers(HashMap<Integer, String> peers) throws RemoteException;
     void getGlobalState(int sender, int hand_cnt, int howManyPicked, UnoCard card, int direction) throws RemoteException;
     void setGlobalState(UnoCard card, int direction) throws RemoteException;
+    void announceSkip() throws RemoteException;
 }

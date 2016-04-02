@@ -133,6 +133,14 @@ public class GUITable extends JFrame{
         play.setEnabled(true);
     }
 
+    public void disallowDrawing(){
+        draw.setEnabled(false);
+    }
+
+    public void disallowPlaying(){
+        play.setEnabled(false);
+    }
+
     public void addCard(final UnoCard card) {
         URL cardImagePath = getClass().getResource(CARD_IMG_PATH+card.getCardID()+CARD_IMG_EXT);
         final JLabel cardImage = new JLabel(new ImageIcon(cardImagePath));
@@ -217,6 +225,11 @@ public class GUITable extends JFrame{
 
     public void clearEventLabel(){
         sumCards.setText("");
+        sumCards.validate();
+    }
+
+    public void setEventSkip(){
+        sumCards.setText("Skip turn");
         sumCards.validate();
     }
 
