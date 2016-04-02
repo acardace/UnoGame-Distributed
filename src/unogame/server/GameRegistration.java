@@ -17,7 +17,8 @@ public class GameRegistration implements RemoteRegistration {
     private static final int RMI_PORT = 1099;
     private static final int MAX_PLAYERS = 8;
     private static final int MIN_START_PLAYERS = 4;
-    private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 minuti
+    private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 mins
+    private static final int ERROR = -1;
 
     private HashMap<Integer, PlayerReady> playersHashMap;
     private int playersReadyCounter;
@@ -42,29 +43,24 @@ public class GameRegistration implements RemoteRegistration {
         syncPlayersCondition = syncPlayersLock.newCondition();
 
         playersReadyCounter = 0;
-        playersCounter = 0;
+        playersCounter = -1;
         playersHashMap = new HashMap<>();
         randomGenerator = new Random();
     }
 
     private int newPlayerID() {
-        int localPlayersCounter;
-
         playersCounterLock.lock();
-
         try {
             if(playersCounter < MAX_PLAYERS)
                 playersCounter++;
             else
-                playersCounter = -1;
-
-            localPlayersCounter = playersCounter;
+                playersCounter = ERROR;
         }
         finally {
             playersCounterLock.unlock();
         }
 
-        return localPlayersCounter;
+        return playersCounter;
     }
 
     private void setGameStartTimer(int timeout) {
@@ -205,7 +201,7 @@ public class GameRegistration implements RemoteRegistration {
         try{
             playersReadyCounter++;
 
-            if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == playersCounter)
+            if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == (playersCounter+1))
                 gameStart();
             else {
                 if(playersReadyCounter >= MIN_START_PLAYERS)

@@ -18,6 +18,7 @@ import unogame.gui.GUITable;
 //REAL MAIN
 public class Main {
     private static final String REGISTRATION_SERVICE = "RegistrationService";
+    private static final int FIRST_PLAYER = 0; //id of the first player
 
     public static void main(String[] args) {
         ReentrantLock startFrameLock = new ReentrantLock();
@@ -45,7 +46,7 @@ public class Main {
             myPlayerID = regService.getNewPlayerID();
             int seed = regService.generateSeed();
 
-            p1 = new GamePeer(myPlayerID, myPlayerID == 1, myPlayerID == 1, new UnoPlayer(), new UnoDeck(seed));
+            p1 = new GamePeer(myPlayerID, myPlayerID == FIRST_PLAYER, myPlayerID == FIRST_PLAYER, new UnoPlayer(), new UnoDeck(seed));
 
             ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 
