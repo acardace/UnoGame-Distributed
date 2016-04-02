@@ -503,7 +503,6 @@ public class GamePeer implements RemotePeer{
             callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
             callbackObject.disallowDrawing();
             callbackObject.disallowPlaying();
-            callbackObject.setTurnLabel("Nope");
             callbackObject.clearEventLabel();
             try {
                 sendGameToken();

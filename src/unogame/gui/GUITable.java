@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.*;
 
 public class GUITable extends JFrame{
     private static final String CARD_IMG_PATH = "/images/Cards/";
@@ -38,6 +39,7 @@ public class GUITable extends JFrame{
     private GamePeer gamePeer;
     private UnoPlayer unoPlayer;
     private UnoDeck unoDeck;
+    private HashMap<Integer, JLabel> playersIcons;
 
     public GUITable(final GamePeer gamePeer) {
         super("UnoGame");
@@ -260,6 +262,7 @@ public class GUITable extends JFrame{
         gamePeer.setCallbackObject(this);
         gamePeer.initialHand();
         unoDeck.setHowManyPicked(0);
+        initLabels();
         clearEventLabel();
         for (UnoCard card: unoPlayer.getHand())
             addCard(card);
@@ -270,6 +273,27 @@ public class GUITable extends JFrame{
             setTurnLabel("Player "+gamePeer.getTurnOfPlayer());
             draw.setEnabled(false);
             play.setEnabled(false);
+        }
+    }
+
+    private void initLabels(){
+        //display correct order of players
+        String contentp1 = "<html><font color='white'>Player ";
+        String contentp2 = "</font></html>";
+        ArrayList<JLabel> playerLabels = new ArrayList<>();
+        playersIcons = new HashMap<>();
+        playerLabels.add(player2Label);
+        playerLabels.add(player3Label);
+        playerLabels.add(player4Label);
+        int n = playerLabels.size()+1;
+        Iterator<JLabel> iterator = playerLabels.iterator();
+        int loopStart = ( (gamePeer.getID()+1) % n + n ) % n ;
+        for(int i = loopStart ; i!=gamePeer.getID(); i = ( (i+1) % n + n ) % n ){
+            if (iterator.hasNext()) {
+                JLabel label = iterator.next();
+                playersIcons.put(i, label);
+                label.setText(contentp1 + Integer.toString(i) + contentp2);
+            }
         }
     }
 
