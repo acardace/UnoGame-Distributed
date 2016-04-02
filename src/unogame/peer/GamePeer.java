@@ -191,13 +191,13 @@ public class GamePeer implements RemotePeer{
             }
             else
                 peerID = getNextInRing(UnoRules.getDirection());
-
+            System.out.println(peerID);
             vectorClock[ this.ID ] = tmp_hand_cnt + 1;
             System.out.println("ID" + this.ID + " : Event" + vectorClock[this.ID ]);
             setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
-            if( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE
-                    || unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP
-                    && remotePeerHashMap.size() == 1 ){
+            if( remotePeerHashMap.size() == 1 &&
+                    unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE ||
+                    unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP ){
                 getGameToken(unoPlayer.getCardsToPick(), unoPlayer.getSelectedColor());
             }else if( peerID != -1){
                 hasGameToken = false;
@@ -288,9 +288,10 @@ public class GamePeer implements RemotePeer{
         int peers = remotePeerHashMap.size()+1;
         int index = getID();
         for( int i = 0; i < remotePeerHashMap.size(); i++){
-            index = (index+direction)%peers;
-            if ( remotePeerHashMap.containsKey(index) )
+            index = ( (index+direction)%peers + peers ) % peers;
+            if ( remotePeerHashMap.containsKey(index) ) {
                 return index;
+            }
         }
         System.err.println("getNextInRing(): no other peers in the ring");
         return -1;

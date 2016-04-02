@@ -32,8 +32,9 @@ public class GUITest {
 
         try{
             p1.addRemotePeer(player1Addr);
-            if(player2Addr != null)
+            if(player2Addr != null){
                 p1.addRemotePeer(player2Addr);
+            }
             p1.startFTTokenPassing();
         }catch(Exception e){}
 
