@@ -13,6 +13,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import unogame.game.*;
 import unogame.gui.GUITable;
+import unogame.gui.WinLoseDialog;
 
 public class GamePeer implements RemotePeer{
     public HashMap<Integer, RemotePeer> remotePeerHashMap;
@@ -176,9 +177,28 @@ public class GamePeer implements RemotePeer{
         }
     }
 
+    @Override
+    public void announceLost() throws RemoteException {
+        ftTokenPasserThread.interrupt();
+        callbackObject.disallowDrawing();
+        callbackObject.disallowPlaying();
+        new WinLoseDialog(callbackObject).showDialog("You Lost!");
+    }
+
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
             killGameTimer();
+            //if player has won display a Dialog
+            //and tell the others
+            if (unoPlayer.getHand().size() == 0 && !unoDeck.getLastDiscardedCard().isPlus()){
+                ftTokenPasserThread.interrupt();
+                for (int id: remotePeerHashMap.keySet()){
+                    remotePeerHashMap.get(id).announceLost();
+                }
+                callbackObject.disallowDrawing();
+                callbackObject.disallowPlaying();
+                new WinLoseDialog(callbackObject).showDialog("You Won!");
+            }
             //this is to propagate a colour change
             if( !unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.CHANGECOLOUR
                     || unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4)

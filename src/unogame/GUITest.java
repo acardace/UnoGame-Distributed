@@ -20,7 +20,7 @@ public class GUITest {
             player2Addr = args[2];
         //GUITest peerID remotePeer
         UnoPlayer player = new UnoPlayer();
-        long seed = 37;
+        long seed = 1;
         int arg = Integer.parseInt(args[0]);
         UnoDeck deck = new UnoDeck(seed);
         UnoRules.setDeckInUse(deck);
