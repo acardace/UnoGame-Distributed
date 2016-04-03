@@ -266,6 +266,9 @@ public class GamePeer implements RemotePeer{
         System.out.println("reconfigureRing(): reconfiguring the ring");
         for(Integer peerID: crashedPeers){
             remotePeerHashMap.remove(peerID);
+            if (callbackObject != null){
+                callbackObject.disablePlayer(peerID);
+            }
         }
         System.out.println("reconfigureRing(): reconfiguring completed");
     }
@@ -340,6 +343,9 @@ public class GamePeer implements RemotePeer{
             for (Integer peerID : crashedPeers) {
                 System.out.println("recoveryProcedure(): reconfiguring the logical ring");
                 remotePeerHashMap.remove(peerID);
+                if (callbackObject != null){
+                    callbackObject.disablePlayer(peerID);
+                }
             }
         }
         if(remotePeerHashMap.size() == 0){

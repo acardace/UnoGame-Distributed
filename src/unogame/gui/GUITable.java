@@ -256,6 +256,10 @@ public class GUITable extends JFrame{
         }
     }
 
+    public void disablePlayer(int id){
+        playersIcons.get(id).setVisible(false);
+    }
+
     public void initGame(){
         unoPlayer = gamePeer.getUnoPlayer();
         unoDeck = gamePeer.getUnoDeck();
