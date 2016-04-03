@@ -20,4 +20,7 @@ public interface RemotePeer extends Remote{
     void setGlobalState(UnoCard card, int direction) throws RemoteException;
     void announceSkip() throws RemoteException;
     void announceLost() throws RemoteException;
+    void announcePlayerAboutToWin(int id) throws RemoteException;
+    void announceWon(int id) throws RemoteException;
+    void playerWon() throws RemoteException;
 }

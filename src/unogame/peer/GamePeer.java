@@ -44,15 +44,6 @@ public class GamePeer implements RemotePeer{
 
     private GUITable callbackObject; //its for updating the turn Label
 
-    public GamePeer(int id){
-        this.ID = id;
-        hasGameToken = false;
-        remotePeerHashMap = new HashMap<>();
-        vectorClock= new int[8];
-        initRMIServer();
-        initFT();
-    }
-
     public GamePeer(int id, boolean hasGameToken, boolean hasFTToken, UnoPlayer unoPlayer, UnoDeck unoDeck){
         this.ID = id;
         this.hasGameToken = hasGameToken;
@@ -98,16 +89,6 @@ public class GamePeer implements RemotePeer{
         ftTimeout = tokenHoldTime*expectedTransmissionTime;
     }
 
-    public void setTokenHoldTime(int tokenHoldTime) {
-        this.tokenHoldTime = tokenHoldTime;
-        updateFTTimeout();
-    }
-
-    public void setExpectedTransmissionTime(int expectedTransmissionTime) {
-        this.expectedTransmissionTime = expectedTransmissionTime;
-        updateFTTimeout();
-    }
-
     private void updateFTTimeout(){
         ftTimeout = (tokenHoldTime*remotePeerHashMap.size())+(expectedTransmissionTime*remotePeerHashMap.size());
     }
@@ -148,7 +129,6 @@ public class GamePeer implements RemotePeer{
     @Override
     public void getGameToken(int cardsToPick, Color color){
         hasGameToken = true;
-        SpecialType lastCardType = unoDeck.getLastDiscardedCard().getType();
         //check if you have received a PLUS card and if you can contest it
         unoPlayer.setCardsToPick(cardsToPick);
         //update GUI
@@ -166,6 +146,17 @@ public class GamePeer implements RemotePeer{
             for(int i = 0; i < cardsToPick; i++)
                 callbackObject.addCard(unoPlayer.getCardfromDeck(unoDeck));
             unoPlayer.setCardsToPick(0);
+        }
+        //if you think you won but your play has been contested
+        if (unoPlayer.getPlayerAboutToWin() == getID() && unoPlayer.getHand().size() > 0){
+            unoPlayer.setPlayerAboutToWin(-1);
+            try {
+                for (int id : remotePeerHashMap.keySet()) {
+                    remotePeerHashMap.get(id).announcePlayerAboutToWin(-1);
+                }
+            } catch (RemoteException e){
+                System.err.println("getGameToken(): Failed communication with a player");
+            }
         }
         System.out.println("\n\n\n\n\nID" + this.ID + " : Game token received!");
     }
@@ -185,19 +176,45 @@ public class GamePeer implements RemotePeer{
         new WinLoseDialog(callbackObject).showDialog("You Lost!");
     }
 
+    @Override
+    public void announcePlayerAboutToWin(int id) throws RemoteException {
+        unoPlayer.setPlayerAboutToWin(id);
+    }
+
+    @Override
+    public void announceWon(int id) throws RemoteException {
+        remotePeerHashMap.get(id).playerWon();
+    }
+
+    @Override
+    public void playerWon() throws RemoteException{
+        ftTokenPasserThread.interrupt();
+        for (int id: remotePeerHashMap.keySet()){
+            remotePeerHashMap.get(id).announceLost();
+        }
+        callbackObject.disallowDrawing();
+        callbackObject.disallowPlaying();
+        new WinLoseDialog(callbackObject).showDialog("You Won!");
+    }
+
     public void sendGameToken() throws RemoteException{
         if(hasGameToken){
             killGameTimer();
+            //if there is a player whom is about to win
+            //and you didn't contest his plus card notify him
+            if (unoPlayer.getPlayerAboutToWin() > -1 &&
+                    (!unoPlayer.hasPlayedCard() || !unoDeck.getLastDiscardedCard().isPlus() ) ){
+                announceWon(unoPlayer.getPlayerAboutToWin());
+            }
             //if player has won display a Dialog
             //and tell the others
             if (unoPlayer.getHand().size() == 0 && !unoDeck.getLastDiscardedCard().isPlus()){
-                ftTokenPasserThread.interrupt();
+                playerWon();
+            } else if (unoPlayer.getHand().size() == 0){
+                unoPlayer.setPlayerAboutToWin(getID());
                 for (int id: remotePeerHashMap.keySet()){
-                    remotePeerHashMap.get(id).announceLost();
+                    remotePeerHashMap.get(id).announcePlayerAboutToWin(getID());
                 }
-                callbackObject.disallowDrawing();
-                callbackObject.disallowPlaying();
-                new WinLoseDialog(callbackObject).showDialog("You Won!");
             }
             //this is to propagate a colour change
             if( !unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.CHANGECOLOUR
@@ -211,7 +228,7 @@ public class GamePeer implements RemotePeer{
                 unoPlayer.setCardsToPick(0);
             }
             unoPlayer.setRecvSpecial(false);
-            int peerID = -1;
+            int peerID;
             if (unoPlayer.hasPlayedCard() && unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP) {
                 //notify the other player that he's skipping
                 int skipID = getNextInRing(UnoRules.getDirection());
@@ -399,7 +416,7 @@ public class GamePeer implements RemotePeer{
         System.out.println("Direction: "+direction);
         System.out.println("Played Card: "+card.getCardID());
         //update GUI
-        if (callbackObject != null && card != null){
+        if (callbackObject != null){
             callbackObject.setDiscardedDeckFront(card.getCardID());
             callbackObject.setTurnLabel("Player "+turnOfPlayer);
         }
@@ -487,7 +504,9 @@ public class GamePeer implements RemotePeer{
                         System.out.println("FTTokenPasserThread: Thread terminated");
                         return;
                     }
-                }catch (InterruptedException e){}
+                }catch (InterruptedException e){
+                    System.out.println("FTTokenPasserThread: Thread terminated");
+                }
                 finally {
                     lock.unlock();
                 }

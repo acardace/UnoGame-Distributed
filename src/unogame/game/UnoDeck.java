@@ -10,8 +10,7 @@ import java.util.Stack;
  * Class representing a Uno Deck
  */
 public class UnoDeck implements Serializable{
-    public static final int UNOCARDS_NUM = 108;
-    private static final int INITIAL_HAND = 2;
+    private static final int INITIAL_HAND = 7;
     private static final int INITAL_HAND_CAPACITY = 10;
     private int howManyPicked=0;
 
@@ -84,8 +83,7 @@ public class UnoDeck implements Serializable{
             SwapAndShakeDeck();
         }
         howManyPicked++;
-        UnoCard picked= stackDeck.pop();
-        return picked;
+        return stackDeck.pop();
 
     }
 

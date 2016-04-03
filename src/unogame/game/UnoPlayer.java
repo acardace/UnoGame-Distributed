@@ -1,8 +1,5 @@
 package unogame.game;
 
-import unogame.peer.GamePeer;
-
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class UnoPlayer {
@@ -11,6 +8,7 @@ public class UnoPlayer {
     private int cardsToPick = 0; //when you recv a plus card, the count is here
     private boolean playedCard = false; //the player has played a card in this turn
     private Color selectedColor = null;
+    private int playerAboutToWin = -1;
 
     public ArrayList<UnoCard> getHand() {
         return hand;
@@ -67,6 +65,14 @@ public class UnoPlayer {
 
     public void emptyHand(){
         this.hand.clear();
+    }
+
+    public int getPlayerAboutToWin() {
+        return playerAboutToWin;
+    }
+
+    public void setPlayerAboutToWin(int playerAboutToWin) {
+        this.playerAboutToWin = playerAboutToWin;
     }
 
     //Debugging purposes
