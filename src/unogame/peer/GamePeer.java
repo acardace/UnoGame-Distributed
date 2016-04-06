@@ -40,7 +40,7 @@ public class GamePeer implements RemotePeer{
     private int tokenHoldTime = 1000; //in ms
     private int expectedTransmissionTime = 100; //in ms
     //TODO this is a debug value, change it to something significant
-    private static final int gTimeout = 120000; //in ms
+    private static final int gTimeout = 30000; //in ms
 
     private GUITable callbackObject; //its for updating the turn Label
 
@@ -306,6 +306,7 @@ public class GamePeer implements RemotePeer{
             if (callbackObject != null){
                 callbackObject.disablePlayer(peerID);
             }
+            updateFTTimeout();
         }
         System.out.println("reconfigureRing(): reconfiguring completed");
     }
@@ -383,6 +384,7 @@ public class GamePeer implements RemotePeer{
                 if (callbackObject != null){
                     callbackObject.disablePlayer(peerID);
                 }
+                updateFTTimeout();
             }
         }
         if(remotePeerHashMap.size() == 0){
