@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import unogame.game.UnoDeck;
 import unogame.game.UnoPlayer;
+import unogame.game.UnoRules;
 import unogame.gui.StartFrame;
 import unogame.peer.GamePeer;
 import unogame.server.RemoteRegistration;
@@ -24,7 +25,6 @@ public class Main {
         ReentrantLock startFrameLock = new ReentrantLock();
         Condition startFrameCondition = startFrameLock.newCondition();
         RemoteRegistration regService = null;
-        GUITable gameGUITable;
 
         // start
         if (args.length < 1){
@@ -35,6 +35,7 @@ public class Main {
         String serverAddr = args[0];
         int myPlayerID = -1;
         GamePeer p1;
+        GUITable gameGUITable;
 
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
@@ -45,8 +46,9 @@ public class Main {
             regService = (RemoteRegistration) registry.lookup(REGISTRATION_SERVICE);
             myPlayerID = regService.getNewPlayerID();
             int seed = regService.generateSeed();
-
-            p1 = new GamePeer(myPlayerID, myPlayerID == FIRST_PLAYER, myPlayerID == FIRST_PLAYER, new UnoPlayer(), new UnoDeck(seed));
+            UnoDeck unoDeck = new UnoDeck(seed);
+            UnoRules.setDeckInUse(unoDeck);
+            p1 = new GamePeer(myPlayerID, myPlayerID == FIRST_PLAYER, myPlayerID == FIRST_PLAYER, new UnoPlayer(), unoDeck);
 
             ArrayList<String> allActualPlayers = regService.playerRegistration(myPlayerID, Inet4Address.getLocalHost().getCanonicalHostName());
 

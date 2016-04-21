@@ -134,10 +134,7 @@ public class GameRegistration implements RemoteRegistration {
             for (Integer key: playersHashMap.keySet()){
                 playersAll.add(playersHashMap.get(key).addr);
             }
-
-            if(id > 0) {
-                playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
-            }
+            playersHashMap.put(id, new PlayerReady(playerAddr, remotePeer, false));
         }
         finally {
             playersHashMapLock.unlock();
@@ -198,21 +195,17 @@ public class GameRegistration implements RemoteRegistration {
         playersReadyLock.lock();
         playersCounterLock.lock();
 
-        try{
-            playersReadyCounter++;
+        playersReadyCounter++;
 
-            if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == (playersCounter+1))
-                gameStart();
-            else {
-                if(playersReadyCounter >= MIN_START_PLAYERS)
-                    setGameStartTimer(START_GAME_TIMEOUT);
-                System.out.println("Player "+playerID+" waiting...");
-                waitGameStart();
-            }
-        }
-        finally {
+        if(playersReadyCounter >= MIN_START_PLAYERS && playersReadyCounter == (playersCounter+1))
+            gameStart();
+        else {
+            if(playersReadyCounter >= MIN_START_PLAYERS)
+                setGameStartTimer(START_GAME_TIMEOUT);
+            System.out.println("Player "+playerID+" waiting...");
             playersCounterLock.unlock();
             playersReadyLock.unlock();
+            waitGameStart();
         }
     }
 
