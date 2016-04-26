@@ -1,0 +1,46 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\title{Relazione Progetto\\Corso Sistemi Distribuiti}
+\author{Antonio Cardace, Michele Cucchi, Federico Fossemò\\Corso Informatica Magistrale\\Università di Bologna}
+\date{Aprile 2016}
+\maketitle
+
+\section{Abstract}
+Il progetto implementa la realizzazione in modalità distribuita multinodo, del gioco di carte da tavolo UNO. \\La relazione descrive in modo particolare i problemi affrontati, le soluzioni proposte, quelle scartate e l'implementazione definitiva.
+
+\section{Introduzione}
+
+
+
+\section{Aspetti progettuali}
+\subsection{Introduzione}
+Il gioco sviluppato rispetta esattamente le regole del gioco da tavolo descritte successivamente, si svolge a turni e per scelta progettuale prevede un minimo di 4 ed un massimo di 8 giocatori, ognuno dei quali si trova in un singolo host separato. \\La presentazione ed il tavolo di gioco sono costruiti graficamente rispecchiando fedelmente forma e simbologia delle carte. La costruzione grafica cerca di approssimare un tavolo da gioco reale.\\Il sistema di gioco prevede due fasi principali di svolgimento in cui il paradigma di comunicazione tra gli host cambia completamente. \\Nella fase di inizializzazione il gioco parte con i nodi dei giocatori attivi in modalità \textbf{client-server}, per sfruttare le funzionalità di registrazione dei giocatori fornite da un nodo server, che genera e distribuisce gli identificativi numerici univoci degli host giocatori. \\Nella fase di gioco principale il paradigma di comunicazione tra i nodi cambia passando ad una modalità completamente \textbf{peer2peer}, in cui ogni host mantiene la visione del gioco per il proprio giocatore e si sincronizza con gli altri per mantenere lo stato consistente, anche nel caso di crash o down di nodi.
+
+\subsection{Descrizione del gioco}
+Un giocatore può vincere una partita di UNO quando rimane senza alcuna carta in mano, quindi l'obiettivo del gioco è perdere più carte possibile nel tempo più breve possibile.\\All'inizio del gioco il mazziere assegna 7 carte a caso a ciascun giocatore, lasciando le restanti carte in un mazzo sul tavolo a dorso coperto.\\ La prima carta della pila viene lasciata visibile, perchè sarà la carta iniziale del gioco, formando la prima della pila scarti. I giocatori procedono a turni, in senso orario, a partire da quello alla sinistra del mazziere, lasciando sul tavolo una carta delle proprie sette, che abbia stesso colore o stesso numero di quella lasciata scoperta. c'è la possibilità di utilizzare una carta speciale, ma se sono colorate devono essere compatibili con quella scoperta. Non è possibile scartare più di una carta per turno e nel caso un giocatore non abbia carte giocabili, deve prenderne una dal mazzo, se è giocabile la dovrà spendere immediatamente altrimenti passerà il turno.\\ Esistono comunque carte speciali che producono vantaggi o svantaggi per il giocatore.\\
+
+\begin{itemize}
+\item \textbf{Carta Divieto} provoca la perdita del turno di gioco al giocatore successivo, nel caso di due soli giocatori il giocatore che trova la carta può rigiocare immediatamente
+\item \textbf{Carta Inversione} provoca l'inversione del senso dei turni di gioco, fino alla prossima uscita della carta
+\item \textbf{Carta +2} impone al giocatore del turno successivo di prendere 2 carte
+\item \textbf{Carta +4} impone al giocatore successivo di prendere 4 carte, chi gioca la carta può scegliere il prossimo colore
+\item \textbf{Carta Jolly} giocabile in ogni momento, consente a chi l'ha giocata di decidere il colore giocabile dal giocatore successivo
+\end{itemize}
+
+\subsection{Implementazione distribuita}
+L'implementazione distribuita del gioco descritto impone l'analisi e la gestione dei problemi che ne derivano, in particolare emergono due problemi specifici:
+\begin{itemize}
+\item \textbf{gestione dei turni}
+\item \textbf{gestione dei crash}
+\end{itemize}
+
+\section{Aspetti implementativi}
+
+\section{Valutazione}
+
+\section{Conclusioni}
+\end{document}
