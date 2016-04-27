@@ -32,11 +32,18 @@ Un giocatore può vincere una partita di UNO quando rimane senza alcuna carta in
 \end{itemize}
 
 \subsection{Implementazione distribuita}
-L'implementazione distribuita del gioco descritto impone l'analisi e la gestione dei problemi che ne derivano, in particolare emergono due problemi specifici:
-\begin{itemize}
-\item \textbf{gestione dei turni}
-\item \textbf{gestione dei crash}
-\end{itemize}
+L'implementazione distribuita del gioco descritto impone l'analisi e la gestione dei problemi che ne derivano, in particolare emergono alcuni problemi specifici:
+
+\subsubsection{Registrazione ed identificazione giocatori}
+Gli host dei giocatori in fase di gioco avviato comunicano tra loro direttamente secondo il paradigma \textbf{peer2peer}, ma prima di avviare il gioco è necessaria una sincronizzazione dei giocatori presso un punto comune, anche per ragioni di identificazione reciproca. La sincronizzazione iniziale viene realizzata tramite un'implementazione temporanea, solo per l'avvio, di un sistema \textbf{client-server}. Il server è l'host comune, presso il quale i nuovi giocatori devono registrarsi, per \textit{iscriversi} al gioco. L'operazione di registrazione restituisce anche un identificativo numerico univoco, che consente di riconoscere inequivocabilmente i giocatori. \\ Al termine delle operazioni di registrazione, una volta soddisfatta la condizione del numero minimo di giocatori, il gioco verrà avviato e di conseguenza gli host si scambieranno informazioni direttamente tra loro, rendendo superflua la presenza del server.
+
+\subsubsection{Gestione dei turni di gioco}
+L'andamento del gioco procede a turni si rende quindi necessario un paradigma di sincronizzazione tra i vari nodi giocatori, per stabilire inequivocabilmente chi è abilitato al gioco in ogni momento.\\ La sincronizzazione avviene grazie ad un \textit{token} che viene fatto passare tra gli host in sequenza, realizzando virtualmente \textit{l'anello} dei partecipanti al gioco. La direzione di partenza è stabilita secondo le regole del gioco.\\ Un giocatore assume il turno quando entra in possesso del token dal nodo che ha appena giocato, al termine del turno spedisce il token al giocatore successivo.\\ 
+La gestione dei turni risulta molto affidabile ed \textit{autogestita} dagli stessi nodi senza bisogno di entità esterne alla rete peer2peer.
+
+\subsubsection{Gestione crash nodi e politica di fault-tolerance}
+L'implementazione distribuita del gioco realizzata tramite nodi che ne eseguono una copia e comunicano tramite una rete utilizzando una sorta di protocollo peer2peer, è vulnerabile, per la natura stessa del sistema, in caso di perdita della comunicazione tra i nodi o al crash di uno o più di essi. \\La perdita di uno più nodi, infatti nel caso specifico del gioco UNO, potrebbe provocare l'impossibilità di proseguire il gioco, ad esempio come nel caso di crash del nodo successivo al termine di un turno oppure dello stesso host attualmente in turno di gioco.\\ La realizzazione di contromisure in grado di rendere trasparenti al resto dei nodi la perdita di uno o più host, risulta quindi obbligatoria. \\ Sono state analizzate due possibili soluzioni:\begin{enumerate}\item \textbf{Leader}: eletto tra i nodi, gestisce il fault tolerance\item \textbf{Token di Fault-Tolerance}: gira tra i nodi per gestire in modo peer2peer, il crash di nodi.\end{enumerate}\\ La realizzazione finale implementa la seconda soluzione 
+
 
 \section{Aspetti implementativi}
 
