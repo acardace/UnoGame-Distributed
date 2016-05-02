@@ -82,7 +82,7 @@ La soluzione scelta per l'implementazione finale è la numero 2, scelta per mant
 \section{Aspetti implementativi}
 \subsection{Scelte implementative}
 Si è scelto di realizzare il gioco UNO perchè è sembrato essere il più adatto e compatibile con le specifiche e vincoli progettuali, inoltre la semplicità del gioco ha consentito di concentrare lo sviluppo sugli aspetti principali, come la progettazione del sistema distribuito, invece che disperdersi sulla realizzazione di aspetti più secondari.\\
-Il sistema rispetta i vincoli di specifica in modo stringente, nello specifico:
+Il sistema rispetta i vincoli di specifica in modo stringente, di seguito sono analizzate le scelte e le specifiche punto per punto:
 
 \subsubsection{Linguaggio Java e RMI}
 Viene utilizzato il linguaggio Java in ogni componente del gioco in particolare per tutte le necessità di elaborazione distribuita sono sfruttate le primitive RMI mentre per l'ambiente grafico si è scelto di utilizzare il toolkit Java Swing.
@@ -105,8 +105,8 @@ Vengono tollerati guasti di tipo \textit{crash} ai nodi di gioco, fino alla pres
 \subsubsection{Numero giocatori}
 Per rispettare la specifica progettuale sul numero dei giocatori è stata modificata la regola del gioco portando il numero dei partecipanti consentiti tra un minimo di 4 ed un massimo di 8. 
 
-\subsection{Scelte implementative fault-tolerance}
-
+\subsubsection{Scelte implementative fault-tolerance}
+Il sistema di fault-tolerance sviluppato implementa una topologia token-ring peer2peer, come quella realizzata per la gestione dei turni, che con  l'utilizzo di comunicazioni broadcast, strutture dati specifiche come gli \textbf{orologi vettoriali} ed il settaggio di timer per l'esecuzione delle procedure di recovery, permette la possibilità di autoriorganizzazione dei nodi senza l'utilizzo di host centralizzati. Questo tipo di implementazione ha vinto, nel confronto con la soluzione del nodo leader, anche se più complessa da realizzare, grazie alla facoltà di mantenere i nodi completamente paritetici e collaborativi tra loro, come da vincolo progettuale.
 
 \section{Valutazione}
 
