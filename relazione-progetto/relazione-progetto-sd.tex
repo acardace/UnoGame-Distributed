@@ -1,6 +1,8 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[italian]{babel}
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
 
 \begin{document}
 
@@ -10,61 +12,101 @@
 \maketitle
 
 \section{Abstract}
-Il progetto implementa la realizzazione in modalità distribuita multinodo, del gioco di carte da tavolo UNO. \\La relazione descrive in modo particolare i problemi affrontati, le soluzioni proposte, quelle scartate e l'implementazione definitiva.
+Il progetto implementa la realizzazione in modalità distribuita multinodo, del gioco di carte da tavolo UNO\footnote{$https://en.wikipedia.org/wiki/Uno\_(card\_game)$}. \\La relazione descrive in modo particolare i problemi affrontati, le possibili soluzioni, quelle scartate e l'implementazione definitiva.
 
 \section{Introduzione}
-L'attività di progetto ha visto la realizzazione di un'implementazione software del gioco da tavolo UNO, sviluppandolo in modalità distribuita sfruttando il paradigma \textit{Distributed Object Computing} ed in particolare i costrutti del linguaggio Java \textbf{RMI} \textit{Remote Method Invocation}.\\ Si è cercato di realizzare il lavoro enfatizzando al massimo la natura distribuita, evitando dove possibile di utilizzare paradigmi centralizzati puramente \textit{client-server}. La maggior parte del lavoro è stata concentrata sull'analisi e lo sviluppo di soluzioni per la gestione dei crash ai nodi distribuiti, evitando failure sicuramente bloccanti per l'andamento del gioco. \\ La relazione è divisa in sotto sezioni: \begin{itemize}\item \textit{Aspetti progettuali}: descrive la struttura del sistema software realizzato, i problemi affrontati insieme alle soluzioni proposte e scartate\item \textit{Aspetti implementativi} descrive le scelte implementative specifiche dell'architettura realizzata, unitamente ai diagrammi delle classi ed interazioni UML\item \textit{Valutazione} confronta le soluzioni realizzate con lo stato dell'arte\item \textit{Conclusioni} commenti conclusivi e possibili miglioramenti\end{itemize}
+L'attività di progetto ha visto la realizzazione di un'implementazione software distribuita su rete, del gioco da tavolo UNO.\\ Si è cercato di sviluppare il software focalizzandosi al massimo sull'architettura distribuita, evitando dove possibile di utilizzare paradigmi centralizzati puramente \textit{client-server}. La maggior parte del lavoro è stata concentrata sull'analisi e lo sviluppo di soluzioni per la gestione dei possibili crash e failures ai nodi del sistema, in funzione di impedire, per quanto possibile, blocchi nell'andamento del gioco. \\ La relazione è divisa in sotto sezioni: \begin{itemize}\item \textit{Aspetti progettuali}: descrive la struttura del sistema software realizzato, i problemi affrontati insieme alle soluzioni proposte e scartate\item \textit{Aspetti implementativi} descrive le scelte implementative specifiche dell'architettura realizzata, unitamente ai diagrammi delle classi ed interazioni UML\item \textit{Valutazione} confronta le soluzioni realizzate con lo stato dell'arte\item \textit{Conclusioni} commenti conclusivi e possibili miglioramenti\end{itemize}
 
 \section{Aspetti progettuali}
 \subsection{Descrizione del gioco}
-Un giocatore può vincere una partita di UNO quando rimane senza alcuna carta in mano, quindi l'obiettivo del gioco è perdere più carte possibile nel tempo più breve possibile.\\All'inizio del gioco il mazziere assegna 7 carte a caso a ciascun giocatore, lasciando le restanti carte in un mazzo sul tavolo a dorso coperto.\\ La prima carta della pila viene lasciata visibile, perchè sarà la carta iniziale del gioco, formando la prima della pila scarti. I giocatori procedono a turni, in senso orario, a partire da quello alla sinistra del mazziere, lasciando sul tavolo una carta delle proprie sette, che abbia stesso colore o stesso numero di quella lasciata scoperta. c'è la possibilità di utilizzare una carta speciale, ma se sono colorate devono essere compatibili con quella scoperta. Non è possibile scartare più di una carta per turno e nel caso un giocatore non abbia carte giocabili, deve prenderne una dal mazzo, se è giocabile la dovrà spendere immediatamente altrimenti passerà il turno.\\ Esistono comunque carte speciali che producono vantaggi o svantaggi per il giocatore.\\
+UNO è un gioco di carte da tavolo che si svolge a turni. Il numero di giocatori può variare da un minimo di 2 ad un massimo di 10. Un giocatore vince una partita quando rimane senza alcuna carta in mano, quindi l'obiettivo del gioco è perdere più carte possibile nel tempo più breve possibile.\\All'inizio del gioco il mazziere assegna 7 carte a caso a ciascun giocatore, lasciando le restanti carte in un mazzo sul tavolo a dorso coperto.\\ La prima carta della pila viene lasciata visibile, perchè è la carta iniziale del gioco, la prima della pila scarti.\\ I giocatori procedono a turni, in senso orario, a partire da quello alla sinistra del mazziere, lasciando sul tavolo una carta delle proprie sette, che abbia stesso colore o stesso numero di quella lasciata scoperta. I giocatori possono spendere anche una carta speciale, ma se è colorata deve essere compatibile con il colore di quella scoperta. Non è possibile scartare più di una carta per turno. Nel caso un giocatore non avesse carte giocabili, dovrebbe prenderne una dal mazzo e se essa fosse giocabile, la dovrà spendere immediatamente, o passare il turno.\\\\ Le carte giocabili sono le seguenti:\\
 
 \begin{itemize}
-\item \textbf{Carta Divieto} provoca la perdita del turno di gioco al giocatore successivo, nel caso di due soli giocatori il giocatore che trova la carta può rigiocare immediatamente
-\item \textbf{Carta Inversione} provoca l'inversione del senso dei turni di gioco, fino alla prossima uscita della carta
-\item \textbf{Carta +2} impone al giocatore del turno successivo di prendere 2 carte
-\item \textbf{Carta +4} impone al giocatore successivo di prendere 4 carte, chi gioca la carta può scegliere il prossimo colore
-\item \textbf{Carta Jolly} giocabile in ogni momento, consente a chi l'ha giocata di decidere il colore giocabile dal giocatore successivo
+\item \textbf{19 Carte di colore Rosso} che vanno dall'1 al 9 (2 serie) più uno 0
+\item \textbf{19 Carte di colore Blu} che vanno dall'1 al 9 (2 serie) più uno 0
+\item \textbf{19 Carte di colore Giallo} che vanno dall'1 al 9 (2 serie) più uno 0
+\item \textbf{19 Carte di colore Verde} che vanno dall'1 al 9 (2 serie) più uno 0
+
+\item \textbf{8  Carte Stop} dei colori citati, provocano la perdita del turno di gioco al giocatore successivo, nel caso di due soli giocatori il giocatore che trova la carta può rigiocare immediatamente
+\item \textbf{8  Carte Cambio Giro} dei colori citati, provocano l'inversione del senso dei turni di gioco, fino alla prossima uscita della carta
+\item \textbf{8  Carte Pesca 2} dei colori citati, impongono al giocatore del turno successivo di prendere 2 carte
+
+\item \textbf{4 Carte Pesca 4} impongono al giocatore successivo di prendere 4 carte, chi gioca la carta può scegliere il prossimo colore
+\item \textbf{4 Carte Cambio Colore} giocabili in ogni momento, consente a chi l'ha giocata di decidere il colore giocabile dal giocatore successivo
 \end{itemize}
 
+
 \subsection{Architettura del sistema}
-Il gioco sviluppato rispetta esattamente le regole descritte precedentemente, si svolge a turni e per scelta progettuale prevede un minimo di 4 ed un massimo di 8 giocatori, ognuno dei quali si trova in un singolo host separato. \\La presentazione ed il tavolo di gioco sono costruiti graficamente rispecchiando fedelmente forme e simbologie delle carte reali. La costruzione grafica cerca di approssimare il tavolo da gioco reale. \\Il sistema è costituito da due tipi di entità software: i \textbf{peer} ed il \textbf{server}, che interagiscono per avviare ed avanzare il gioco.
+
+\subsubsection{Topologia nodi e fasi del gioco}
+Il gioco sviluppato rispetta esattamente le regole descritte precedentemente, si svolge a turni e per scelta progettuale prevede un minimo di 4 ed un massimo di 8 giocatori, ognuno dei quali si trova in un singolo host separato.\\ L'architettura logica del software cambia la sua tipologia a seconda della fase in cui si trova il gioco.\\ Sono previste 2 fasi principali: 
+
+\begin{enumerate}
+\item\textbf{Fase di registrazione} in cui il sistema prevede una topologia \textit{client-server} dove i nodi di gioco, uno per ogni giocatore su host fisici diversi, inoltrano la richiesta di registrazione ad un nodo server centrale, che coordina e sincronizza i nodi giocatori fino all'avvio del gioco.
+
+\item\textbf{Fase di gioco} successiva alla registrazione, in cui il server perde la sua funzione e quindi i nodi creano una rete di comunicazione tra di essi costruendo un link di tipo \textbf{token-ring peer2peer}.
+\end{enumerate}
+ 
 \subsubsection{Server}
-Il server è il componente software che esegue in una sola copia e funge da punto di sincronizzazione e coordinamento iniziale per i nodi dei giocatori. Fornisce delle primitive remote di registrazione per memorizzare i giocatori che intendono partecipare al gioco, ritornando in risposta alla richiesta di registrazione un identificativo numerico univoco. Il server mantiene inoltre, il numero dei giocatori registrati per verificare il realizzarsi della condizione di partenza del gioco, ovvero che il numero dei giocatori in attesa sia compreso tra il numero minimo ed il numero massimo consentiti. Appena viene superato il numero minimo di giocatori, parte un timer, che alla scadenza fa avviare il gioco anche se non è stato raggiunto il numero massimo di giocatori. \\ Il server esaurisce la sua funzione all'avvio del gioco.
+Il modulo server esegue in host singolo con il compito di coordinare e sincronizzare i nodi dei giocatori. Fornisce delle primitive remote di registrazione per memorizzare i giocatori che intendono partecipare al gioco, ritornando in risposta un identificativo numerico univoco. Il server inoltre, controlla che il numero dei giocatori registrati sia compreso tra 4 ed 8 unità, per verificare la possibilità di avviare il gioco. Appena viene superato il numero minimo di giocatori, parte un countdown, che fa avviare il gioco alla scadenza, anche nel caso in cui il numero dei registrati fosse inferiore al massimo. \\ Il server ordina l'avvio del gioco ai nodi e quindi esaurisce la sua funzione.
 
-\subsubsection{Peer}
-I peer sono i nodi client dei giocatori, distribuiti su vari e diversi host, implementano l'ambiente grafico, la logica, gli algoritmi di fault tolerance e gestione distribuita del gioco.\\ I diversi nodi peer eseguono una copia identica del software, varia solo l'identificativo numerico univoco assegnato all'host.
-
-\subsubsection{Fasi di gioco}
-Il sistema di gioco prevede due fasi principali di svolgimento in cui il paradigma di comunicazione tra gli host cambia completamente. \\Nella fase di inizializzazione il gioco parte con i nodi dei giocatori attivi in modalità \textbf{client-server}, per sfruttare le funzionalità di registrazione e sincronizzazione fornite dal server. \\Nella fase di gioco principale il paradigma di comunicazione tra i nodi cambia passando ad una modalità completamente \textbf{peer2peer}, in cui ogni host mantiene la visione del gioco per il proprio giocatore e si sincronizza con gli altri per mantenere lo stato consistente, anche nel caso di crash o down di nodi.
+\subsubsection{Nodi Peer}
+I nodi peer sono i client dei giocatori, distribuiti su vari e diversi host, implementano l'ambiente grafico, la logica, gli algoritmi di fault tolerance e gestione distribuita del gioco.\\ I diversi peer eseguono una copia identica del modulo software, possono essere riconosciuti grazie all'identificativo numerico rilasciatogli dal server durante la registrazione.
 
 \subsection{Implementazione distribuita}
 L'implementazione distribuita del gioco descritto impone l'analisi e la gestione dei problemi che ne derivano, in particolare emergono alcuni problemi specifici:
 
 \subsubsection{Registrazione ed identificazione giocatori}
-Gli host dei giocatori in fase di gioco avviato comunicano tra loro direttamente secondo il paradigma \textbf{peer2peer}, ma prima di avviare il gioco è necessaria una sincronizzazione dei giocatori presso un punto comune, anche per ragioni di identificazione reciproca. La sincronizzazione iniziale viene realizzata tramite un'implementazione temporanea, solo per l'avvio, di un sistema \textbf{client-server}. Il server è l'host comune, presso il quale i nuovi giocatori devono registrarsi, per \textit{iscriversi} al gioco. L'operazione di registrazione restituisce anche un identificativo numerico univoco, che consente di riconoscere inequivocabilmente i giocatori. \\ Al termine delle operazioni di registrazione, una volta soddisfatta la condizione del numero minimo di giocatori, il gioco verrà avviato e di conseguenza gli host si scambieranno informazioni direttamente tra loro, rendendo superflua la presenza del server.\\ Per la realizzazione sono state pensate due soluzioni:
+Gli host dei giocatori in fase di gioco  comunicano tra loro direttamente secondo il paradigma \textbf{token ring peer2peer}, ma prima di avviare il gioco è necessaria una sincronizzazione dei giocatori presso un punto comune, anche per ragioni di identificazione reciproca. La sincronizzazione iniziale viene realizzata tramite un'implementazione temporanea, solo per l'avvio, di un sistema \textbf{client-server}. Il server è l'host comune, presso il quale i nuovi giocatori devono registrarsi, per \textit{iscriversi} al gioco.\\ L'operazione di registrazione restituisce anche un identificativo numerico univoco, che consente di riconoscere inequivocabilmente i giocatori. \\ Al termine delle operazioni di registrazione, appena sarà soddisfatta la condizione sul numero dei giocatori, verrà avviato il gioco e di conseguenza gli host si scambieranno informazioni direttamente tra loro, rendendo superflua la presenza del server.\\ Per la realizzazione sono state pensate due soluzioni:
 \begin{enumerate}
-\item \textbf{Server Esterno}: il server è un programma esterno, scritto in un linguaggio diverso da Java che comunica tramite un protocollo comune, ad esempio \textit{HTTP}, senza usare \textit{RMI}, occupandosi del servizio di registrazione e terminando al verificarsi della condizione di avvio del gioco.
+\item \textbf{Server Esterno}: il server è un programma esterno, che comunica tramite un protocollo condiviso, ad esempio \textit{HTTP}, occupandosi del servizio di registrazione e terminando al verificarsi della condizione di avvio del gioco.
 
-\item \textbf{Server Integrato}: il server è parzialmente integrato con il software che esegue nei nodi di gioco, è un processo sviluppato nello stesso linguaggio ed utilizza sempre le primitive \textit{RMI}. Il processo server è uno solo e può essere in un host fisico separato dai nodi di gioco. Anche in questo tipo di soluzione, il processo server può terminare nel momento in cui si avvia il gioco. 
+\item \textbf{Server Integrato}: il server è parzialmente integrato con il modulo software che esegue nei nodi di gioco, ed utilizza sempre le primitive di comunicazione usate dai nodi peer. Il processo server è uno solo e può essere in un host fisico separato dai nodi di gioco. Anche in questo tipo di soluzione, il processo server termina nel momento in cui si avvia il gioco. 
 \end{enumerate}
-L'implementazione definitiva realizza la seconda soluzione, scelta per mantenere il più possibile concentrato lo sviluppo, senza disperdersi con tecnologie e linguaggi diversi, ed anche per continuare l'applicazione del paradigma RMI nello sviluppo di una soluzione ad un ulteriore problema.
+L'implementazione definitiva realizza \underline{la seconda soluzione}, scelta per mantenere il più possibile concentrato lo sviluppo, senza disperdersi con tecnologie e linguaggi diversi, continuando  l'applicazione del paradigma di comunicazione utilizzato anche nei nodi di gioco.
 
-\subsubsection{Gestione dei turni di gioco}
-L'andamento del gioco procede a turni si rende quindi necessario un paradigma di sincronizzazione tra i vari nodi giocatori, per stabilire inequivocabilmente chi è abilitato al gioco in ogni momento.\\ La sincronizzazione avviene grazie ad un \textit{token} che viene fatto passare tra gli host in sequenza, realizzando virtualmente \textit{l'anello} dei partecipanti al gioco. La direzione di partenza è stabilita secondo le regole del gioco.\\ Un giocatore assume il turno quando entra in possesso del token dal nodo che ha appena giocato, al termine del turno spedisce il token al giocatore successivo.\\ 
+\subsubsection{Gestione dei turni di gioco, su topologia token-ring p2p}
+Come è già stato detto l'andamento del gioco procede a turni si rende quindi necessario un paradigma di sincronizzazione tra i vari nodi giocatori, per stabilire inequivocabilmente chi è abilitato al gioco in ogni momento.\\ La sincronizzazione avviene grazie ad un \textit{token} trasmesso tra gli host dei giocatori in sequenza ad anello. La direzione di partenza è stabilita secondo le regole del gioco.\\ Un giocatore assume il turno quando entra in possesso del token dal nodo che ha appena giocato, al termine del turno spedisce il token al giocatore successivo. Viene quindi riprodotto l'andamento della turnazione del gioco reale.\\ 
 La gestione dei turni risulta molto affidabile ed \textit{autogestita} dagli stessi nodi senza bisogno di entità esterne alla rete peer2peer.
 
 \subsubsection{Gestione crash nodi e politica di fault-tolerance}
-L'implementazione distribuita del gioco realizzata tramite nodi che ne eseguono una copia e comunicano tramite una rete utilizzando una sorta di protocollo peer2peer, è vulnerabile, per la natura stessa del sistema, in caso di perdita della comunicazione tra i nodi o al crash di uno o più di essi. \\La perdita di uno più nodi, infatti nel caso specifico del gioco UNO, potrebbe provocare l'impossibilità di proseguire il gioco, ad esempio come nel caso di crash del nodo successivo al termine di un turno oppure dello stesso host attualmente in turno di gioco.\\ La realizzazione di contromisure in grado di rendere trasparenti al resto dei nodi la perdita di uno o più host, risulta quindi obbligatoria. \\ Sono state analizzate due possibili soluzioni:
+L'implementazione distribuita è vulnerabile, per la natura stessa del sistema, al crash di uno o più nodi. \\La perdita di host, infatti nel caso specifico del gioco UNO, potrebbe provocare l'impossibilità di proseguire il gioco. Nel caso di crash del nodo successivo al termine di un turno, ad esempio, l'anello si bloccherebbe, impedendo di fatto al gioco di continuare. Si avrebbe lo stesso comportamento se fosse interessato da crash l'host attualmente in possesso del token di turno.\\ La realizzazione di contromisure in grado di rendere trasparenti al resto dei nodi la perdita di uno o più host, risulta quindi obbligatoria. \\ Sono state analizzate due possibili soluzioni:
 
 \begin{enumerate}
 \item \textbf{Leader dei nodi}\\ Il leader è eletto tra i nodi con \textit{l'algoritmo del bullo}, gestisce il fault tolerance, ricevendo dai singoli host un messaggio di \textbf{alive} a cui risponde con un \textbf{ACK}, nel caso non riceva il messaggio può considerare il giocatore eliminato facendo proseguire il gioco. Se fosse crashato l'host con il token di turno, il leader ricrea e fa ripartire il token. In caso di crash dello stesso leader, il primo nodo che non riceve l'ACK reindice l'elezione per un nuovo leader. 
 
-\item \textbf{Token di Fault-Tolerance di Turno e orologi vettoriali}\\ Ogni nodo memorizza lo stato del proprio mazzo di carte, lo stato dei mazzi tavolo ed un orologio vettoriale in cui registrare turno e mano di gioco. Queste strutture dati vengono aggiornate ad ogni passaggio di turno, tramite un messaggio broadcast inviato subito dopo la spedizione al nodo successivo del token di turno.\\ Nella fase di gioco avviato i nodi si passano un token di \textit{Fault Tolerance} per confermare la \textit{liveness} di ogni host. \\ Ogni nodo ha un timeout settato a: \\\begin{center}$(TCPU*nNodi)+\sum_{}Dnodo$\end{center} dove \textit{TCPU} è la media del tempo di elaborazione dei singoli nodi, \textit{nNodi} è il numero dei nodi, \textit{Dnodo} è il valore medio del ritardo di comunicazione tra 2 singoli nodi.\\L'intervallo temporale descritto da questa formula è settato in un timer presente in ogni nodo che viene resettato ad ogni ricezione del \textit{Fault Tolerance Token}.\\ Nel caso di non ricezione del token, il primo timer a scadere genererà l'invio, dall'host in cui è scaduto il contatore, di un messaggio broadcast verso tutti i nodi rimasti, per lanciare la riconfigurazione dell'anello. I nodi risponderanno tutti all'host che ha generato l'evento di riconfigurazione, allegando anche il proprio orologio vettoriale, con cui ricostruire la turnazione di gioco, se si fosse perso anche il token di turno. \\ In caso di crash dello stesso nodo generatore della riconfigurazione esiste un ulteriore timeout calcolato in modo da garantire l'impossibilità per due nodi diversi di rilanciare contemporaneamente la riconfigurazione dell'anello.\\ La formula di calcolo del tempo di attesa è la seguente:\begin{center}$Tattesa = timeout +(timeout * IdPeer)$\end{center}dove \textit{Tattesa} è il tempo di attesa calcolato, \textit{timeout} è un valore costante configurato e \textit{IdPeer} è l'identificativo univoco del nodo.\end{enumerate}
+\item \textbf{Token di Fault-Tolerance, token di Turno e orologi vettoriali}\\ Ogni nodo memorizza lo stato del proprio mazzo di carte, lo stato dei mazzi tavolo ed un orologio vettoriale in cui registrare turno e mano di gioco. Queste strutture dati vengono aggiornate ad ogni passaggio di turno, tramite un messaggio broadcast inviato subito dopo la spedizione al nodo successivo del token di turno.\\ Nella fase di gioco avviato i nodi si passano un token di \textit{Fault Tolerance} per confermare la \textit{liveness} di ogni host. \\ Ogni nodo ha un timeout settato a: \\\begin{center}$(TCPU*nNodi)+\sum_{}Dnodo$\end{center} dove \textit{TCPU} è la media del tempo di elaborazione dei singoli nodi, \textit{nNodi} è il numero dei nodi, \textit{Dnodo} è il valore medio del ritardo di comunicazione tra 2 singoli nodi.\\L'intervallo temporale descritto da questa formula è settato in un timer presente in ogni nodo che viene resettato ad ogni ricezione del \textit{Fault Tolerance Token}.\\ Nel caso di non ricezione del token, il primo timer a scadere genererà l'invio, dall'host in cui è scaduto il contatore, di un messaggio broadcast verso tutti i nodi rimasti, per lanciare la riconfigurazione dell'anello. I nodi risponderanno tutti all'host che ha generato l'evento di riconfigurazione, allegando anche il proprio orologio vettoriale, con cui ricostruire la turnazione di gioco, nel caso si fosse perso anche il token di turno. \\ In caso di crash dello stesso nodo generatore della riconfigurazione esiste un ulteriore timeout calcolato in modo da garantire l'impossibilità per due nodi diversi di rilanciare contemporaneamente la riconfigurazione dell'anello.\\ La formula di calcolo del tempo di attesa è la seguente:\begin{center}$Tattesa = timeout +(timeout * IdPeer)$\end{center}dove \textit{Tattesa} è il tempo di attesa calcolato, \textit{timeout} è un valore costante configurato e \textit{IdPeer} è l'identificativo univoco del nodo.\end{enumerate}
 
-L'implementazione realizzata alla fine sviluppa la soluzione numero 2, scelta per evitare il più possibile la centralizzazione di servizi e componenti, mantenendo i nodi paritetici e comunicanti tramite l'astrazione di una rete peer2peer. 
+La soluzione scelta per l'implementazione finale è la numero 2, scelta per mantenere il più possibile i nodi paritetici e per sfruttare ancora la topologia di comunicazione token-ring p2p. 
 
 \section{Aspetti implementativi}
+\subsection{Scelte implementative}
+Si è scelto di realizzare il gioco UNO perchè è sembrato essere il più adatto e compatibile con le specifiche e vincoli progettuali, inoltre la semplicità del gioco ha consentito di concentrare lo sviluppo sugli aspetti principali, come la progettazione del sistema distribuito, invece che disperdersi sulla realizzazione di aspetti più secondari.\\
+Il sistema rispetta i vincoli di specifica in modo stringente, nello specifico:
+
+\subsubsection{Linguaggio Java e RMI}
+Viene utilizzato il linguaggio Java in ogni componente del gioco in particolare per tutte le necessità di elaborazione distribuita sono sfruttate le primitive RMI mentre per l'ambiente grafico si è scelto di utilizzare il toolkit Java Swing.
+
+\subsubsection{Stato condiviso dai giocatori}
+Il gioco UNO prevede come stato condiviso tra i giocatori i due mazzi di carte, \textbf{nuove} e \textbf{scarti} da cui vengono prese e scartate le carte in gioco. Il comportamento è stato riprodotto mantenendo uno stato condiviso come oggetti globali, utilizzando anche gli orologi vettoriali, con cui ricostruire le informazioni sullo stato comune ai giocatori in caso di crash.
+ 
+\subsubsection{Architettura distribuita, registrazione centralizzata}
+L'architettura realizzata è una \textbf{token-ring peer2peer} completamente distribuita, autogestita ed autoriconfigurante in caso di crash ai nodi. L'implementazione realizza l'algoritmo analizzato nel capitolo precedente. L'unica centralizzazione, nel rispetto dei vincoli di specifica, è relativa al servizio di registrazione giocatori iniziale.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=7cm, keepaspectratio]{token-ring.png}
+\end{center}
+\end{figure}
+
+\subsubsection{Tolleranza ai guasti}
+Vengono tollerati guasti di tipo \textit{crash} ai nodi di gioco, fino alla presenza di un unico giocatore che diventa automaticamente il vincitore. La politica di recovery dai crash prevede l'inserimento delle carte appartenenti al nodo eliminato, nel mazzo scarti e la successiva eliminazione dell'host crashato dalle strutture dati comuni. I token di fault tolerance realizzano la gestione dei failure rimanendo in ambiente peer2peer, senza la necessità di host arbitri esterni.  
+
+\subsubsection{Numero giocatori}
+Per rispettare la specifica progettuale sul numero dei giocatori è stata modificata la regola del gioco portando il numero dei partecipanti consentiti tra un minimo di 4 ed un massimo di 8. 
+
+\subsection{Scelte implementative fault-tolerance}
+
 
 \section{Valutazione}
 
