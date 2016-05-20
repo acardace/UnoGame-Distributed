@@ -12,7 +12,7 @@ public interface RemotePeer extends Remote{
     void getGameToken(int cardsToPick, Color color) throws RemoteException;
     void getFTToken() throws RemoteException;
     int getID() throws RemoteException;
-    int isAlive(int ringSize) throws RemoteException;
+    int isAlive() throws RemoteException;
     void reconfigureRing(ArrayList<Integer> crashedPeers) throws RemoteException;
     boolean hasGToken() throws RemoteException;
     void addPlayers(HashMap<Integer, String> peers) throws RemoteException;
@@ -23,4 +23,5 @@ public interface RemotePeer extends Remote{
     void announcePlayerAboutToWin(int id) throws RemoteException;
     void announceWon(int id) throws RemoteException;
     void playerWon() throws RemoteException;
+    void redoStep() throws RemoteException;
 }

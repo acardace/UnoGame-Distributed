@@ -31,6 +31,7 @@ public class GamePeer implements RemotePeer{
     private int turnOfPlayer;
     private UnoPlayer unoPlayer;
     private UnoDeck unoDeck;
+    private UnoCard[][] playerCards;
 
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int RMI_PORT = 1099;
@@ -52,6 +53,7 @@ public class GamePeer implements RemotePeer{
         this.unoDeck = unoDeck;
         remotePeerHashMap = new HashMap<>();
         vectorClock= new int[8];
+        playerCards= new UnoCard[8][];
         turnOfPlayer = 0;
         //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
@@ -318,17 +320,64 @@ public class GamePeer implements RemotePeer{
     //of cancelling any pending timer and setting a new one in case
     //the process doing the recovery procedure fails as well
     @Override
-    public int isAlive(int ringSize){
+    public int isAlive(){
         //cancel scheduled local failure detector
         System.out.println("isAlive(): stopping local failure detector");
         System.out.println("isAlive(): starting recovery timeout");
         scheduleFTTimer(ftTimeout+(ftTimeout*ID));
-        return remotePeerHashMap.size();
+        int max=0;
+        for (int i=0;i<vectorClock.length;i++){
+            if(vectorClock[i]>vectorClock[max])
+                max=i;
+        }
+        return max;
     }
 
     @Override
     public boolean hasGToken(){
         return hasGameToken;
+    }
+
+    @Override
+    public void redoStep() throws RemoteException{
+        int peerID;
+        if (unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP) {
+            //notify the other player that he's skipping
+            int skipID = getNextInRing(UnoRules.getDirection());
+            if (skipID != -1){
+                remotePeerHashMap.get(skipID).announceSkip();
+            }else{
+                System.err.println("sendGameToken(): no other peer in game");
+            }
+            peerID = getNextInRing(UnoRules.getDirection() * 2);
+            System.out.println("Next peer: "+peerID);
+        }
+        else
+            peerID = getNextInRing(UnoRules.getDirection());
+        if( remotePeerHashMap.size() == 1 &&
+                ( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE ||
+                        unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP ) ){
+            setTurnOfPlayer(getID());
+            setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
+            getGameToken(unoPlayer.getCardsToPick(), UnoRules.getCurrentColor());
+        }else if( peerID != -1){
+            setTurnOfPlayer(peerID);
+            setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
+            if( unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 ) {
+                remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+2, UnoRules.getCurrentColor());
+            }
+            else if( unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS4 ) {
+                remotePeerHashMap.get(peerID).getGameToken(unoPlayer.getCardsToPick()+4, UnoRules.getCurrentColor());
+            }
+            else {
+                remotePeerHashMap.get(peerID).getGameToken(0, UnoRules.getCurrentColor());
+            }
+        } else {
+            System.err.println("sendGameToken(): no other peer in game");
+        }
+        unoPlayer.setSelectedColor(null);
+        unoPlayer.setCardsToPick(0);
+//        remotePeerHashMap.
     }
 
     private void scheduleFTTimer(int timeout){
@@ -359,18 +408,23 @@ public class GamePeer implements RemotePeer{
     //we detect a crashed peer
     private boolean recoveryProcedure(){
         ArrayList<Integer> crashedPeers = new ArrayList<>();
-        boolean gameTokenLost = false;
+        boolean gameTokenLost = true;
+        int maxClockPeer=0;
         //discover who has crashed
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 int ringSize = remotePeerHashMap.size();
-                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
-                    System.out.println("recoveryProcedure(): Peer "+peerID+" is alive, but wrong answer");
-                    crashedPeers.add(peerID);
+                if( remotePeerHashMap.get(peerID).isAlive() > maxClockPeer ) {
+                    System.out.println(peerID + " is the most update");
+                    maxClockPeer=peerID;
                 }
+//                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
+//                    System.out.println("recoveryProcedure(): Peer "+peerID+" is alive, but wrong answer");
+//                    crashedPeers.add(peerID);
+//                }
                 //check if the GameToken got lost
                 if( remotePeerHashMap.get(peerID).hasGToken() )
-                    gameTokenLost = true;
+                    gameTokenLost = false;
             }catch (RemoteException e){
                 System.out.println("recoveryProcedure(): Peer "+peerID+" is down, adding to list of crashed peers");
                 crashedPeers.add(peerID);
@@ -378,6 +432,7 @@ public class GamePeer implements RemotePeer{
         }
         //reconfigure the logical ring
         if(crashedPeers.size() > 0) {
+            //TODO inserire le carte dei crashed nel mazzo (nello stesso ordine altrimenti lo shake potrebbe essere disallineato)
             for (Integer peerID : crashedPeers) {
                 System.out.println("recoveryProcedure(): reconfiguring the logical ring");
                 remotePeerHashMap.remove(peerID);
@@ -401,7 +456,13 @@ public class GamePeer implements RemotePeer{
                 }
             }
         }
-        //TODO recreate GameToken and infer who's next based on the peers vector clocks
+        if (gameTokenLost){
+            try {
+                remotePeerHashMap.get(maxClockPeer).redoStep();
+            } catch (RemoteException e) {
+//                System.out.println("recoveryProcedure(): Peer " + maxClockPeer + " is down, the ring will be eventually reconfigured");
+            }
+        }
         return true;
     }
 
