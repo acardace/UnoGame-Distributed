@@ -170,8 +170,8 @@ public class GamePeer implements RemotePeer{
 
     @Override
     public void announceLost() throws RemoteException {
+        killGameTimer();
         ftTokenPasserThread.interrupt();
-        gameTimer.cancel();
         callbackObject.disallowDrawing();
         callbackObject.disallowPlaying();
         new WinLoseDialog(callbackObject).showDialog("You Lost!");
@@ -190,6 +190,7 @@ public class GamePeer implements RemotePeer{
     @Override
     public void playerWon() throws RemoteException{
         ftTokenPasserThread.interrupt();
+        killGameTimer();
         if( remotePeerHashMap.size() > 0 ) {
             for (int id : remotePeerHashMap.keySet()) {
                 remotePeerHashMap.get(id).announceLost();
@@ -543,7 +544,7 @@ public class GamePeer implements RemotePeer{
                      System.out.println("FT_Thread: Recovery did not complete");
                      System.out.println("FT_Thread: Terminating tokenPasser thread");
                      ftTokenPasserThread.interrupt();
-                     gameTimer.cancel();
+                     killGameTimer();
                  }else
                      System.out.println("FT_Thread: Recovery completed");
              }
@@ -571,12 +572,12 @@ public class GamePeer implements RemotePeer{
                         Thread.sleep(tokenHoldTime);
                     }catch (InterruptedException e){System.out.println("Sleep interrupted");}
                     if( !passFTToken() ){
-                        gameTimer.cancel();
+                        killGameTimer();
                         System.out.println("FTTokenPasserThread: Thread terminated");
                         return;
                     }
                 }catch (InterruptedException e){
-                    gameTimer.cancel();
+                    killGameTimer();
                     System.out.println("FTTokenPasserThread: Thread terminated");
                 }
                 finally {
