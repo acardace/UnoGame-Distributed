@@ -375,7 +375,6 @@ public class GamePeer implements RemotePeer{
         }
         unoPlayer.setSelectedColor(null);
         unoPlayer.setCardsToPick(0);
-//        remotePeerHashMap.
     }
 
     private void scheduleFTTimer(int timeout){
@@ -430,7 +429,6 @@ public class GamePeer implements RemotePeer{
         }
         //reconfigure the logical ring
         if(crashedPeers.size() > 0) {
-            //TODO inserire le carte dei crashed nel mazzo (nello stesso ordine altrimenti lo shake potrebbe essere disallineato)
             for (Integer peerID : crashedPeers) {
                 System.out.println("recoveryProcedure(): reconfiguring the logical ring");
                 remotePeerHashMap.remove(peerID);
@@ -458,7 +456,7 @@ public class GamePeer implements RemotePeer{
             try {
                 remotePeerHashMap.get(maxClockPeer).redoStep();
             } catch (RemoteException e) {
-//                System.out.println("recoveryProcedure(): Peer " + maxClockPeer + " is down, the ring will be eventually reconfigured");
+                System.out.println("recoveryProcedure(): Peer " + maxClockPeer + " is down, the ring will be eventually reconfigured");
             }
         }
         return true;
