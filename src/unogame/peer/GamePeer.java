@@ -409,13 +409,13 @@ public class GamePeer implements RemotePeer{
     private boolean recoveryProcedure(){
         ArrayList<Integer> crashedPeers = new ArrayList<>();
         boolean gameTokenLost = true;
-        int maxClockPeer=0;
+        int maxClockPeer=-1;
         //discover who has crashed
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 int ringSize = remotePeerHashMap.size();
                 if( remotePeerHashMap.get(peerID).isAlive() > maxClockPeer ) {
-                    System.out.println(peerID + " is the most update");
+                    System.out.println(peerID + " was the last player with the game token");
                     maxClockPeer=peerID;
                 }
 //                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
@@ -458,7 +458,7 @@ public class GamePeer implements RemotePeer{
                 }
             }
         }
-        if (gameTokenLost && remotePeerHashMap.size() > 0){
+        if ( !hasGToken() && gameTokenLost && maxClockPeer > -1){
             try {
                 remotePeerHashMap.get(maxClockPeer).redoStep();
             } catch (RemoteException e) {
