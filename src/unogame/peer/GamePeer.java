@@ -38,7 +38,7 @@ public class GamePeer implements RemotePeer{
 
     private int ftTimeout; //in ms
     private int tokenHoldTime = 1000; //in ms
-    private int expectedTransmissionTime = 1000; //in ms
+    private int expectedTransmissionTime = 200; //in ms
     //TODO this is a debug value, change it to something significant
     private static final int gTimeout = 30000; //in ms
 
@@ -269,6 +269,7 @@ public class GamePeer implements RemotePeer{
                 }
             } else {
                 System.err.println("sendGameToken(): no other peer in game");
+                playerWon();
             }
             unoPlayer.setSelectedColor(null);
             unoPlayer.setCardsToPick(0);
@@ -306,12 +307,13 @@ public class GamePeer implements RemotePeer{
         //reconfigure the logical ring
         System.out.println("reconfigureRing(): reconfiguring the ring");
         for(Integer peerID: crashedPeers){
+            vectorClock[peerID] = -1; //disable vector clock for this peer
             remotePeerHashMap.remove(peerID);
             if (callbackObject != null){
                 callbackObject.disablePlayer(peerID);
             }
-            updateFTTimeout();
         }
+        updateFTTimeout();
         System.out.println("reconfigureRing(): reconfiguring completed");
     }
 
@@ -322,14 +324,18 @@ public class GamePeer implements RemotePeer{
     //of cancelling any pending timer and setting a new one in case
     //the process doing the recovery procedure fails as well
     @Override
-    public int isAlive(){
+    public void isAlive(){
         //cancel scheduled local failure detector
         System.out.println("isAlive(): stopping local failure detector");
         System.out.println("isAlive(): starting recovery timeout");
         scheduleFTTimer(ftTimeout+(ftTimeout*ID));
+    }
+
+    @Override
+    public int getClock(){
         int max=0;
         for (int i=0;i<vectorClock.length;i++){
-            if(vectorClock[i]>vectorClock[max])
+            if( vectorClock[i] != -1 && vectorClock[i]>vectorClock[max] )
                 max=i;
         }
         return max;
@@ -416,20 +422,7 @@ public class GamePeer implements RemotePeer{
         //discover who has crashed
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
-                int ringSize = remotePeerHashMap.size();
-                clock = remotePeerHashMap.get(peerID).isAlive();
-                if( clock > maxClock ) {
-                    System.out.println(peerID + " was the last player with the game token");
-                    maxClockPeer=peerID;
-                    maxClock = clock;
-                }
-//                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
-//                    System.out.println("recoveryProcedure(): Peer "+peerID+" is alive, but wrong answer");
-//                    crashedPeers.add(peerID);
-//                }
-                //check if the GameToken got lost
-                if( remotePeerHashMap.get(peerID).hasGToken() )
-                    gameTokenLost = false;
+                remotePeerHashMap.get(peerID).isAlive();
             }catch (RemoteException e){
                 System.out.println("recoveryProcedure(): Peer "+peerID+" is down, adding to list of crashed peers");
                 crashedPeers.add(peerID);
@@ -462,6 +455,20 @@ public class GamePeer implements RemotePeer{
                     System.out.println("recoveryProcedure(): Peer " + peerID + " is down, the ring will be eventually reconfigured");
                 }
             }
+        }
+        //get the last alive peerID who had the token
+        for(Integer peerID: remotePeerHashMap.keySet()){
+            try{
+                clock = remotePeerHashMap.get(peerID).getClock();
+                if( clock > maxClock ) {
+                    maxClockPeer = peerID;
+                    maxClock = clock;
+                    System.out.println("ID" + maxClockPeer + "reported event "+maxClock);
+                }
+                //check if the GameToken got lost
+                if( remotePeerHashMap.get(peerID).hasGToken() )
+                    gameTokenLost = false;
+            }catch (RemoteException e){}
         }
         if ( !hasGToken() && gameTokenLost && maxClockPeer > -1){
             try {
