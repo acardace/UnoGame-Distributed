@@ -410,13 +410,17 @@ public class GamePeer implements RemotePeer{
         ArrayList<Integer> crashedPeers = new ArrayList<>();
         boolean gameTokenLost = true;
         int maxClockPeer=-1;
+        int maxClock = -1;
+        int clock;
         //discover who has crashed
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 int ringSize = remotePeerHashMap.size();
-                if( remotePeerHashMap.get(peerID).isAlive() > maxClockPeer ) {
+                clock = remotePeerHashMap.get(peerID).isAlive();
+                if( clock > maxClock ) {
                     System.out.println(peerID + " was the last player with the game token");
                     maxClockPeer=peerID;
+                    maxClock = clock;
                 }
 //                if( remotePeerHashMap.get(peerID).isAlive(ringSize) != ringSize ) {
 //                    System.out.println("recoveryProcedure(): Peer "+peerID+" is alive, but wrong answer");
@@ -567,10 +571,12 @@ public class GamePeer implements RemotePeer{
                         Thread.sleep(tokenHoldTime);
                     }catch (InterruptedException e){System.out.println("Sleep interrupted");}
                     if( !passFTToken() ){
+                        gameTimer.cancel();
                         System.out.println("FTTokenPasserThread: Thread terminated");
                         return;
                     }
                 }catch (InterruptedException e){
+                    gameTimer.cancel();
                     System.out.println("FTTokenPasserThread: Thread terminated");
                 }
                 finally {
