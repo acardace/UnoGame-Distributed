@@ -31,7 +31,6 @@ public class GamePeer implements RemotePeer{
     private int turnOfPlayer;
     private UnoPlayer unoPlayer;
     private UnoDeck unoDeck;
-    private UnoCard[][] playerCards;
 
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int RMI_PORT = 1099;
@@ -53,7 +52,6 @@ public class GamePeer implements RemotePeer{
         this.unoDeck = unoDeck;
         remotePeerHashMap = new HashMap<>();
         vectorClock= new int[8];
-        playerCards= new UnoCard[8][];
         turnOfPlayer = 0;
         //System.out.println("ID"+this.ID+":"+vectorClock[this.ID-1]);
         initRMIServer();
