@@ -87,6 +87,12 @@ Il sistema rispetta i vincoli di specifica in modo stringente, di seguito sono a
 \subsubsection{Linguaggio Java e RMI}
 Viene utilizzato il linguaggio Java in ogni componente del gioco in particolare per tutte le necessità di elaborazione distribuita sono sfruttate le primitive RMI mentre per l'ambiente grafico si è scelto di utilizzare il toolkit Java Swing.
 
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=10cm, keepaspectratio]{Selection_011.png}
+\end{center}
+\end{figure}
+
 \subsubsection{Stato condiviso dai giocatori e consistenza dei dati}
 Il gioco UNO prevede come stato condiviso tra i giocatori i due mazzi di carte, \textbf{nuove} e \textbf{scarti} da cui vengono prese e scartate le carte in gioco. Il comportamento è stato riprodotto mantenendo condivisi tra i nodi gli oggetti globali che rappresentano i due mazzi di carte. L'aggiornamento di questi oggetti condivisi è effettuato sulla base di messaggi broadcast inviati da ogni nodo alla fine del suo turno di gioco. L'implementazione dello stato globale condiviso consente la ricostruzione della consistenza dei dati anche in caso di crash ad uno o più host.
  
@@ -116,4 +122,28 @@ Lo stato dell'arte attuale prevede la tendenza all'abbandono del paradigma clien
 
 \section{Conclusioni}
 Il lavoro di progetto ha visto l'implementazione di un gioco di carte da tavolo, utilizzando la tecnologia middleware \textbf{Distributed Object Computing} fornita dalla libreria Java \textbf{Remote Method Invocation}. L'utilizzo dei servizi Java RMI ha consentito la realizzazione di un sistema distribuito, con topologia ad anello puramente peer2peer. La politica di fault-tolerance è attuata grazie ad autogestione e riconfigurazione automatica dei nodi stessi senza interventi di agenti esterni centralizzati. \\Si può pensare ad un possibile miglioramento ed ottimizzazione futura cercando di sostituire le comunicazioni broadcast tra nodi con qualcosa di più efficiente. Inoltre potrebbe essere studiata una soluzione con sistema di registrazione anch'esso distribuito. \\ Può essere migliorata anche l'interfaccia grafica, realizzata in forma minimale e sintetica.  
+
+\section{Diagrammi}
+
+\subsection{Interazioni}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=22cm, keepaspectratio]{registration.png}
+\end{center}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=30cm, keepaspectratio]{initgame.png}
+\end{center}
+\end{figure}
+
+\subsection{Classi}
+
+\begin{figure}[H]
+
+\includegraphics[width=16cm, keepaspectratio]{unogame-sd.png}
+
+\end{figure}
 \end{document}
