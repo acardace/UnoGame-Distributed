@@ -405,7 +405,6 @@ public class GamePeer implements RemotePeer{
             } else if( index < 0 ){
                 index += GameRegistration.MAX_PLAYERS;
             }
-            System.out.print(index+" ");
             if ( remotePeerHashMap.containsKey(index) ) {
                 return index;
             }

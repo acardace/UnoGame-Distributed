@@ -18,7 +18,7 @@ public class GameRegistration implements RemoteRegistration {
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int RMI_PORT = 1099;
     public static final int MAX_PLAYERS = 4;
-    private static final int MIN_START_PLAYERS = 3;
+    private static final int MIN_START_PLAYERS = 4;
     private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 mins
     private static final int ERROR = -1;
 
