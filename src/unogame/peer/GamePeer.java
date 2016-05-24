@@ -570,13 +570,17 @@ public class GamePeer implements RemotePeer{
                  ftTokenRecvLock.unlock();
                  LOGGER.info("Failure detected, token not received in "+ftTimeout+"ms");
                  LOGGER.info("starting recovery procedure");
+                 killFTTimer();
                  if( !recoveryProcedure() ){
                      LOGGER.warning("Recovery did not complete");
                      LOGGER.warning("Terminating tokenPasser thread");
                      ftTokenPasserThread.interrupt();
                      killGameTimer();
-                 }else
+                 }else {
                      LOGGER.info("Recovery completed");
+                     //recreate the ft token
+                     getFTToken();
+                 }
              }
          }
     }
@@ -616,7 +620,7 @@ public class GamePeer implements RemotePeer{
             }
         }
 
-        private boolean passFTToken(){
+        public boolean passFTToken(){
             int nextPeer = getNextInRing(FT_RING_DIRECTION);
             while(nextPeer != -1 ){
                 try {
