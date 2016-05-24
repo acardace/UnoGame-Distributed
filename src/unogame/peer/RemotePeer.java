@@ -25,5 +25,4 @@ public interface RemotePeer extends Remote{
     void playerWon() throws RemoteException;
     void redoStep() throws RemoteException;
     int getClock() throws RemoteException;
-    void resetTimeout() throws RemoteException;
 }

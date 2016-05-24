@@ -9,14 +9,16 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.locks.Condition;
+import java.util.logging.Logger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class GameRegistration implements RemoteRegistration {
+    private final static Logger LOGGER = Logger.getLogger(GameRegistration.class.getName());
     private static final String RMI_REG_OBJ_NAME = "RegistrationService";
     private static final String RMI_OBJ_NAME = "RemotePeer";
     private static final int RMI_PORT = 1099;
-    private static final int MAX_PLAYERS = 8;
-    private static final int MIN_START_PLAYERS = 4;
+    public static final int MAX_PLAYERS = 4;
+    private static final int MIN_START_PLAYERS = 3;
     private static final int START_GAME_TIMEOUT = 300000; // milliseconds -> 5 mins
     private static final int ERROR = -1;
 
@@ -93,7 +95,7 @@ public class GameRegistration implements RemoteRegistration {
         syncPlayersLock.lock();
         syncPlayersCondition.signalAll();
         syncPlayersLock.unlock();
-        System.out.println("Game started");
+        LOGGER.info("Game started");
     }
 
     //broadcast to all the players the complete list
@@ -202,7 +204,7 @@ public class GameRegistration implements RemoteRegistration {
         else {
             if(playersReadyCounter >= MIN_START_PLAYERS)
                 setGameStartTimer(START_GAME_TIMEOUT);
-            System.out.println("Player "+playerID+" waiting...");
+            LOGGER.info("Player "+playerID+" waiting...");
             playersCounterLock.unlock();
             playersReadyLock.unlock();
             waitGameStart();
@@ -219,10 +221,10 @@ public class GameRegistration implements RemoteRegistration {
             RemoteRegistration stub = (RemoteRegistration) UnicastRemoteObject.exportObject(registrationService, 0);
             Registry registry = LocateRegistry.createRegistry(RMI_PORT);
             registry.rebind(RMI_REG_OBJ_NAME, stub);
-            System.out.println(RMI_REG_OBJ_NAME+" bound");
+            LOGGER.info(RMI_REG_OBJ_NAME+" bound");
         }
         catch (Exception e) {
-            System.err.println("Registration service Exception:");
+            LOGGER.warning("Registration service Exception:");
             e.printStackTrace();
         }
 
@@ -230,7 +232,6 @@ public class GameRegistration implements RemoteRegistration {
 
     public class startGameThread extends TimerTask {
         public void run() {
-            // thread che esegue allo scadere del timeout settato dopo il ready del 3th giocatore
             gameStart();
         }
     }
