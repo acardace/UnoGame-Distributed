@@ -305,15 +305,14 @@ public class GamePeer implements RemotePeer{
     @Override
     public void reconfigureRing(ArrayList<Integer> crashedPeers){
         //reconfigure the logical ring
-        System.out.println("reconfigureRing(): reconfiguring the ring");
         for(Integer peerID: crashedPeers){
             vectorClock[peerID] = -1; //disable vector clock for this peer
             remotePeerHashMap.remove(peerID);
+            updateFTTimeout();
             if (callbackObject != null){
                 callbackObject.disablePlayer(peerID);
             }
         }
-        updateFTTimeout();
         System.out.println("reconfigureRing(): reconfiguring completed");
     }
 
@@ -392,6 +391,12 @@ public class GamePeer implements RemotePeer{
         ftTimer.schedule(new FaultToleranceThread(), timeout);
     }
 
+    @Override
+    public void resetTimeout() {
+        updateFTTimeout();
+        scheduleFTTimer(ftTimeout);
+        System.out.println("resetTimeout: ft timeout reset to normal");
+    }
 
     //get the next peerID the ring
     //if it return -1 it means there are no neighbours
@@ -453,6 +458,15 @@ public class GamePeer implements RemotePeer{
                     System.out.println("recoveryProcedure(): Peer " + peerID + " is down, the ring will be eventually reconfigured");
                 }
             }
+        } else {
+            //just re-adjust all the timeouts
+            for (Integer peerID : remotePeerHashMap.keySet()) {
+                try {
+                    remotePeerHashMap.get(peerID).resetTimeout();
+                } catch (RemoteException e) {
+                    System.out.println("recoveryProcedure(): Peer " + peerID + " is down, the ring will be eventually reconfigured");
+                }
+            }
         }
         //get the last alive peerID who had the token
         for(Integer peerID: remotePeerHashMap.keySet()){
@@ -500,9 +514,9 @@ public class GamePeer implements RemotePeer{
         unoDeck.removeCardFromDeck(howManyPicked);
         unoDeck.setLastDiscardedCard(card);
         UnoRules.setDirection(direction);
-        System.out.println("RemovedFromOther:"+howManyPicked);
-        System.out.println("Direction: "+direction);
-        System.out.println("Played Card: "+card.getCardID());
+//        System.out.println("RemovedFromOther:"+howManyPicked);
+//        System.out.println("Direction: "+direction);
+//        System.out.println("Played Card: "+card.getCardID());
         //update GUI
         if (callbackObject != null){
             callbackObject.setDiscardedDeckFront(card.getCardID());

@@ -111,7 +111,7 @@ public class UnoDeck implements Serializable{
             }
             stackDeck.pop();
         }
-        System.out.println("DeckSize AfterSync:"+stackDeck.size());
+//        System.out.println("DeckSize AfterSync:"+stackDeck.size());
     }
 
     private void SwapAndShakeDeck(){
