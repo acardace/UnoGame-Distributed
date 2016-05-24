@@ -317,18 +317,15 @@ public class GamePeer implements RemotePeer{
         System.out.println("reconfigureRing(): reconfiguring completed");
     }
 
-    //isAlive procedure in a challenge&response way
-    //the process to be considered alive and correct must answer
-    //with the correct size of the ring
-    //in addition to what described above, it has the role
+    //isAlive procedure has the role
     //of cancelling any pending timer and setting a new one in case
     //the process doing the recovery procedure fails as well
     @Override
     public void isAlive(){
         //cancel scheduled local failure detector
-        System.out.println("isAlive(): stopping local failure detector");
-        System.out.println("isAlive(): starting recovery timeout");
-        scheduleFTTimer(ftTimeout+(ftTimeout*ID));
+        System.out.print("isAlive(): stopping local failure detector, ");
+        System.out.println("starting recovery timeout");
+        scheduleFTTimer(ftTimeout+(ftTimeout*(ID+1)));
     }
 
     @Override
@@ -355,13 +352,13 @@ public class GamePeer implements RemotePeer{
             if (skipID != -1){
                 remotePeerHashMap.get(skipID).announceSkip();
             }else{
-                System.err.println("sendGameToken(): no other peer in game");
+                System.err.println("redoStep(): no other peer in game");
             }
             peerID = getNextInRing(UnoRules.getDirection() * 2);
-            System.out.println("Next peer: "+peerID);
-        }
-        else
+            System.out.println("redoStep(): Next peer -> "+peerID);
+        } else {
             peerID = getNextInRing(UnoRules.getDirection());
+        }
         if( remotePeerHashMap.size() == 1 &&
                 ( unoDeck.getLastDiscardedCard().getType() == SpecialType.REVERSE ||
                         unoDeck.getLastDiscardedCard().getType() == SpecialType.SKIP ) ){
@@ -369,6 +366,7 @@ public class GamePeer implements RemotePeer{
             setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             getGameToken(unoPlayer.getCardsToPick(), UnoRules.getCurrentColor());
         }else if( peerID != -1){
+            System.out.println("redoStep(): Next peer -> "+peerID);
             setTurnOfPlayer(peerID);
             setGlobalState(unoDeck.getLastDiscardedCard(), UnoRules.getDirection());
             if( unoDeck.getLastDiscardedCard().getType() == SpecialType.PLUS2 ) {
@@ -381,7 +379,7 @@ public class GamePeer implements RemotePeer{
                 remotePeerHashMap.get(peerID).getGameToken(0, UnoRules.getCurrentColor());
             }
         } else {
-            System.err.println("sendGameToken(): no other peer in game");
+            System.err.println("redoStep(): no other peer in game");
         }
         unoPlayer.setSelectedColor(null);
         unoPlayer.setCardsToPick(0);
@@ -416,8 +414,8 @@ public class GamePeer implements RemotePeer{
     private boolean recoveryProcedure(){
         ArrayList<Integer> crashedPeers = new ArrayList<>();
         boolean gameTokenLost = true;
-        int maxClockPeer=-1;
-        int maxClock = -1;
+        int maxClockPeer = getID();
+        int maxClock = vectorClock[getID()];
         int clock;
         //discover who has crashed
         for(Integer peerID: remotePeerHashMap.keySet()){
@@ -436,8 +434,8 @@ public class GamePeer implements RemotePeer{
                 if (callbackObject != null){
                     callbackObject.disablePlayer(peerID);
                 }
-                updateFTTimeout();
             }
+            updateFTTimeout();
         }
         if(remotePeerHashMap.size() == 0){
             System.out.println("recoveryProcedure(): The ring is empty");
@@ -460,21 +458,34 @@ public class GamePeer implements RemotePeer{
         for(Integer peerID: remotePeerHashMap.keySet()){
             try{
                 clock = remotePeerHashMap.get(peerID).getClock();
-                if( clock > maxClock ) {
+                if( clock != -1 && clock > maxClock ) {
                     maxClockPeer = peerID;
                     maxClock = clock;
-                    System.out.println("ID" + maxClockPeer + "reported event "+maxClock);
+                    System.out.println("recoveryProcedure(): ID " + maxClockPeer + " reported event "+maxClock);
                 }
                 //check if the GameToken got lost
                 if( remotePeerHashMap.get(peerID).hasGToken() )
                     gameTokenLost = false;
-            }catch (RemoteException e){}
+            }catch (RemoteException e){
+                System.err.println("recoveryProcedure(): RemoteException in getClock() or hasGToken()");
+            }
         }
         if ( !hasGToken() && gameTokenLost && maxClockPeer > -1){
-            try {
-                remotePeerHashMap.get(maxClockPeer).redoStep();
-            } catch (RemoteException e) {
-                System.out.println("recoveryProcedure(): Peer " + maxClockPeer + " is down, the ring will be eventually reconfigured");
+            System.out.println("recoveryProcedure(): Game token lost");
+            if (maxClockPeer != getID()) {
+                try {
+                    System.out.println("recoveryProcedure(): request ID " + maxClockPeer + " to redoStep()");
+                    remotePeerHashMap.get(maxClockPeer).redoStep();
+                } catch (RemoteException e) {
+                    System.out.println("recoveryProcedure(): Peer " + maxClockPeer + " is down, the ring will be eventually reconfigured");
+                }
+            } else {
+                System.out.println("recoveryProcedure(): executing redoStep() myself");
+                try {
+                    redoStep();
+                }catch (RemoteException e) {
+                    System.out.println("recoveryProcedure(): RemoteException in redoStep()");
+                }
             }
         }
         return true;
@@ -575,9 +586,10 @@ public class GamePeer implements RemotePeer{
                         recvdFTToken.await();
                     //DO PASSING
                     try{
-                        //Simulating processing of token
                         Thread.sleep(tokenHoldTime);
-                    }catch (InterruptedException e){System.out.println("Sleep interrupted");}
+                    }catch (InterruptedException e){
+                        System.out.println("Sleep interrupted");
+                    }
                     if( !passFTToken() ){
                         killGameTimer();
                         System.out.println("FTTokenPasserThread: Thread terminated");
