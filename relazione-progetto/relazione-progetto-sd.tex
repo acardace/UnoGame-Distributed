@@ -122,13 +122,9 @@ Per garantire la continuità delle operazioni anche in caso di crash, le struttu
 Lo stato dell'arte attuale prevede la tendenza all'abbandono del paradigma client-server in favore di una visione senza coordinazione centralizzata, in cui i nodi, tutti al medesimo livello fungono da \textbf{agenti} utilizzando servizi offerti da altri host o fornendo a loro volta servizi verso altri.\\ Questo tipo di topologia sta evolvendo ulteriormente verso un paradigma, chiamato \textbf{middleware} che prevede l'implementazione di certe soluzioni e l'erogazione di certi servizi, utilizzando componenti distribuite, ma emulando il comportamento di un unico host server. \\ Nell'ambito del progetto realizzato è stato utilizzato il middlware di \textbf{Distributed Object Computing} fornito dalla libreria Java \textbf{Remote Method Invocation} per costruire un sistema peer2peer puro senza coordinazione centralizzata.\\La struttura ad anello della rete dei nodi, rende semplice l'adozione di una politica principale di instradamento delle informazioni basata sul passaggio di un token tra gli host e sull'utilizzo di messaggi broadcast.\\ Durante la fase di recovery da un crash, l'instradamento delle informazioni non è più possibile tramite lo scambio di token, pertanto si attua un fallback ad una strategia di notifica attiva, basata esclusivamente sull'invio di messaggi in broadcast.\\ Soluzioni simili potrebbero prevedere lo scambio di informazioni evitando gli invii in broadcast, molto costosi per il traffico di rete, adottando invece politiche di notifica basati sul calcolo di alberi di copertura tra nodi rimasti attivi, oppure utilizzando protocolli di routing reali adattivi, probabilmente più efficienti su grosse reti. Si è scelto di utilizzare, le comunicazioni broadcast anche se intrinsecamente più costose, perchè la rete dei nodi risulta, anche nel caso peggiore, con dimensione molto limitata.\\ L'obiettivo è stato privilegiare la velocità delle notifiche rispetto all'efficienza della comunicazione. 
 
 
-\section{Conclusioni}
-Il lavoro di progetto ha visto l'implementazione di un gioco di carte da tavolo, utilizzando la tecnologia middleware \textbf{Distributed Object Computing} fornita dalla libreria Java \textbf{Remote Method Invocation}. L'utilizzo dei servizi Java RMI ha consentito la realizzazione di un sistema distribuito, con topologia ad anello puramente peer2peer. La politica di fault-tolerance è attuata grazie ad autogestione e riconfigurazione automatica dei nodi stessi senza interventi di agenti esterni centralizzati. \\Si può pensare ad un possibile miglioramento ed ottimizzazione futura cercando di sostituire le comunicazioni broadcast tra nodi con qualcosa di più efficiente. Inoltre potrebbe essere studiata una soluzione con sistema di registrazione anch'esso distribuito. \\ Può essere migliorata anche l'interfaccia grafica, realizzata in forma minimale e sintetica.  
-
 \section{Diagrammi}
 
 \subsection{Interazioni}
-
 \begin{figure}[H]
 \begin{center}
 \includegraphics[height=20cm, keepaspectratio]{registration.png}
@@ -144,11 +140,15 @@ Il lavoro di progetto ha visto l'implementazione di un gioco di carte da tavolo,
 \end{figure}
 
 \subsection{Classi}
-
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=16cm, keepaspectratio]{unogame-sd.png}
 \caption{Diagramma globale delle classi}
 \end{center}
 \end{figure}
+
+\section{Conclusioni}
+Il lavoro di progetto ha visto l'implementazione di un gioco di carte da tavolo, utilizzando la tecnologia middleware \textbf{Distributed Object Computing} fornita dalla libreria Java \textbf{Remote Method Invocation}. L'utilizzo dei servizi Java RMI ha consentito la realizzazione di un sistema distribuito, con topologia ad anello puramente peer2peer. La politica di fault-tolerance è attuata grazie ad autogestione e riconfigurazione automatica dei nodi stessi senza interventi di agenti esterni centralizzati. \\Si può pensare ad un possibile miglioramento ed ottimizzazione futura cercando di sostituire le comunicazioni broadcast tra nodi con qualcosa di più efficiente. Inoltre potrebbe essere studiata una soluzione con sistema di registrazione anch'esso distribuito. \\ Può essere migliorata anche l'interfaccia grafica, realizzata in forma minimale e sintetica.  
+
+
 \end{document}
